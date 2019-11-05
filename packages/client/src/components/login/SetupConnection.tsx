@@ -22,7 +22,7 @@ interface ConnectProp {
 
 export const SetupConnection = (props: RouteComponentProps) => {
   const [state, setState] = useState(SetupStates.PINGING);
-  const loginContext = useContext(LoginContext)
+  const loginContext = useContext(LoginContext);
 
   const switchState = useMemo(() => {
     switch (state) {
@@ -36,10 +36,10 @@ export const SetupConnection = (props: RouteComponentProps) => {
         return <LoginNoICBINT setNextState={setState} />;
       case SetupStates.FAILED_NO_ICBINT:
         return <Redirect to={`${props.location.pathname}/user`} />;
-        case SetupStates.DONE:
-          loginContext.redirectToReferrer();
+      case SetupStates.DONE:
+        loginContext.redirectToReferrer();
     }
-  }, [state, loginContext, props.location.pathname])
+  }, [state, loginContext, props.location.pathname]);
 
   return (
     <Row>
@@ -81,7 +81,7 @@ const TestIcbint = ({ setNextState }: ConnectProp) => {
         setConfiguration({ icbintKey: data });
         setNextState(SetupStates.LOGIN_ICBINT);
       } else {
-        setNextState(SetupStates.LOGIN_NO_ICBINT)
+        setNextState(SetupStates.LOGIN_NO_ICBINT);
       }
     }
   }, [isLoading, data, error, setNextState, setConfiguration]);
@@ -104,8 +104,8 @@ const LoginNoICBINT = ({ setNextState }: ConnectProp) => {
   useEffect(() => {
     if (!isLoading) {
       if (successful) {
-        setNextState(SetupStates.DONE)
-      } else if (error){
+        setNextState(SetupStates.DONE);
+      } else if (error) {
         setNextState(SetupStates.FAILED_NO_ICBINT);
       }
     }

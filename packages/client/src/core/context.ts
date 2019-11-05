@@ -21,10 +21,10 @@ export interface IConfiguration {
   username?: string;
   password?: string;
   token?: Token;
-  permissions?: Permission[]
+  permissions?: Permission[];
   icbintKey?: string;
   loggedIn: boolean;
-  axios: AxiosInstance
+  axios: AxiosInstance;
 }
 
 export interface IConfigurationContext {

@@ -35,13 +35,13 @@ const api = {
     return request<UserInfo>({
       url: "user",
       method: "GET"
-    })
+    });
   },
   getPlayerState: () => {
     return request<PlayerState>({
       url: "/player",
       method: "GET"
-    })
+    });
   },
   setPlayerState: (action: Action) => {
     return request<PlayerState>({
@@ -50,7 +50,7 @@ const api = {
       data: {
         action: action
       }
-    })
+    });
   }
 };
 

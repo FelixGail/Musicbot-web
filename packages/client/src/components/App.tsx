@@ -40,7 +40,11 @@ const App = () => {
       <ConfigurationContext.Provider value={configurationContext}>
         <RequestContext.Provider value={axios}>
           <Router>
-            <PrivateRoute exact path="/" component={() => <Redirect to="listen" />} />
+            <PrivateRoute
+              exact
+              path="/"
+              component={() => <Redirect to="listen" />}
+            />
             <PrivateRoute path="/listen" component={CurrentlyPlaying} />
             <Route path="/login" component={Login}></Route>
           </Router>

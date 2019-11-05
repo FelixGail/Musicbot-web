@@ -19,28 +19,31 @@ const FormProps = {
     offset: 9,
     span: 6
   }
-}
+};
 
 type FormData = {
-  username: string
-  password: string | null
-}
+  username: string;
+  password: string | null;
+};
 
 export const LForm = (props: FormComponentProps) => {
   const [expectPassword, setExpectPassword] = useState<boolean>(false);
   const [{ successful, error, isLoading }, login] = usePerformLogin();
   const { setError, redirectToReferrer } = useContext(LoginContext);
-  const {configuration} = useContext(ConfigurationContext)
-  const { getFieldDecorator, validateFields } = props.form
+  const { configuration } = useContext(ConfigurationContext);
+  const { getFieldDecorator, validateFields } = props.form;
 
-  const onSubmit = useCallback((event: React.FormEvent) => {
-    event.preventDefault();
-    validateFields((err, values: FormData) => {
-      if (!err && values) {
-        login(values.username, values.password)
-      }
-    })
-  }, [login, validateFields])
+  const onSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      validateFields((err, values: FormData) => {
+        if (!err && values) {
+          login(values.username, values.password);
+        }
+      });
+    },
+    [login, validateFields]
+  );
 
   useEffect(() => {
     if (!isLoading) {
@@ -68,50 +71,73 @@ export const LForm = (props: FormComponentProps) => {
     }
   }, [successful, error, isLoading, setError, redirectToReferrer]);
 
-  return <Row>
-    <Col {...FormProps}>
-      <Form onSubmit={onSubmit}>
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [
-              { required: true, whitespace: true, message: 'Please select a username.' },
-              { max: MAX_USERNAME_LENGTH, message: `max. username length is ${MAX_USERNAME_LENGTH}.` }
-            ]
-          })(
-            <Input
-              autoFocus
-              prefix={<Icon type="user" />}
-              type="text"
-              placeholder="Username"
-            />,
+  return (
+    <Row>
+      <Col {...FormProps}>
+        <Form onSubmit={onSubmit}>
+          <Form.Item>
+            {getFieldDecorator("username", {
+              rules: [
+                {
+                  required: true,
+                  whitespace: true,
+                  message: "Please select a username."
+                },
+                {
+                  max: MAX_USERNAME_LENGTH,
+                  message: `max. username length is ${MAX_USERNAME_LENGTH}.`
+                }
+              ]
+            })(
+              <Input
+                autoFocus
+                prefix={<Icon type="user" />}
+                type="text"
+                placeholder="Username"
+              />
+            )}
+          </Form.Item>
+          {expectPassword && (
+            <Form.Item>
+              {getFieldDecorator("password")(
+                <Input
+                  prefix={<Icon type="lock" />}
+                  type="password"
+                  placeholder="Password"
+                />
+              )}
+            </Form.Item>
           )}
-        </Form.Item>
-        {expectPassword && <Form.Item>
-          {getFieldDecorator('password')(
-            <Input
-              prefix={<Icon type="lock" />}
-              type="password"
-              placeholder="Password"
-            />
+          {!configuration.icbintKey && (
+            <Form.Item help="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.">
+              {getFieldDecorator("icbint", {
+                rules: [
+                  {
+                    validator: (_, value, callback) => {
+                      value
+                        ? callback()
+                        : callback("You need to accept the warning.");
+                    }
+                  }
+                ]
+              })(
+                <Checkbox>
+                  I accept the risks arising from the missing{" "}
+                  <a href="https://bjoernpetersen.github.io/ICBINT/">ICBINT</a>{" "}
+                  protocol.
+                </Checkbox>
+              )}
+            </Form.Item>
           )}
-        </Form.Item>}
-        {!configuration.icbintKey && <Form.Item
-          help='This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.'
-        >
-          {getFieldDecorator('icbint', {
-            rules: [
-              { validator: (_, value, callback) => {value? callback() : callback("You need to accept the warning.")}}
-            ]
-          })(
-            <Checkbox>I accept the risks arising from the missing <a href="https://bjoernpetersen.github.io/ICBINT/">ICBINT</a> protocol.</Checkbox>
-          )}
-        </Form.Item>}
-        <Form.Item>
-          <Button type="primary" htmlType="submit">Log in</Button>
-        </Form.Item>
-      </Form>
-    </Col>
-  </Row>
-}
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
+  );
+};
 
-export const LoginForm = Form.create()(LForm)
+export const LoginForm = Form.create()(LForm);
