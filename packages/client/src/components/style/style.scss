@@ -40,6 +40,17 @@
 }
 
 .Login {
+  background-color: #272c35;
+  min-height: 100vh;
+
+  form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 2px 2px 2px 3px #181b20;
+    margin-top: 25px;
+  }
+
   .image {
     max-width: 75%;
     min-width: 40%;
