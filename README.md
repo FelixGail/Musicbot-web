@@ -1,6 +1,6 @@
 # MusicBot-web project
 
-![](https://github.com/felixgail/musicbot-web/workflows/BUILD/badge.svg)
+![](https://github.com/felixgail/musicbot-web/workflows/BUILD/badge.svg?branch=master)
 
 A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot)  project.
 
