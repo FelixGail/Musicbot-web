@@ -1,0 +1,67 @@
+:root {
+  --combinedheight: 90vh;
+}
+
+.centered,
+.injected-svg {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.vertically-centering {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spanning {
+  width: 100%;
+}
+
+.currently-playing {
+  .album-art {
+    object-fit: contain;
+    width: 95%;
+    height: 95%;
+  }
+
+  .ant-layout-footer {
+    padding: 0;
+    bottom: 0px;
+  }
+
+  .ant-layout {
+    min-height: 100vh;
+    max-height: 100vh;
+    background-color: #272c35;
+  }
+}
+
+.Login {
+  .image {
+    max-width: 75%;
+    min-width: 40%;
+  }
+
+  #loginLogo {
+    position: relative;
+    display: flex;
+    height: calc(var(--combinedheight) / 3);
+
+    svg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+
+      .logoColor2 {
+        fill: #e5e5e5;
+      }
+    }
+  }
+
+  .ant-row {
+    padding-top: 1%;
+  }
+}

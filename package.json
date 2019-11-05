@@ -1,0 +1,26 @@
+{
+  "author": "Felix Gail <felix.clemens.gail@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.13.4",
+    "pkg": "^4.3.8"
+  },
+  "scripts": {
+    "start": "lerna run start --stream",
+    "build": "lerna run build --stream",
+    "lerna": "lerna",
+    "pkg": "pkg",
+    "pkg-cache": "pkg-cache",
+    "bootstrap": "lerna bootstrap"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "name": "musicbot-web",
+  "version": "0.1.0",
+  "main": "index.js",
+  "dependencies": {}
+}
