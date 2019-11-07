@@ -1,4 +1,16 @@
-import { VersionInfo, Token, PlayerState, Action, UserInfo } from "../types";
+import {
+  VersionInfo,
+  Token,
+  PlayerState,
+  Action,
+  UserInfo,
+  NamedPlugin,
+  Song,
+  PasswordChange,
+  SongEntry,
+  QueueEntry,
+  Volume
+} from "../types";
 import { request } from "react-request-hook";
 
 const api = {
@@ -6,6 +18,12 @@ const api = {
     return request<VersionInfo>({
       method: "GET",
       url: "/version"
+    });
+  },
+  exit: () => {
+    return request<void>({
+      url: "/exit",
+      method: "POST"
     });
   },
   getICBINT: () => {
@@ -24,6 +42,24 @@ const api = {
       }
     });
   },
+  getMe: () => {
+    return request<UserInfo>({
+      url: "/user",
+      method: "GET"
+    });
+  },
+  setPassword: () => {
+    return request<PasswordChange>({
+      url: "/user",
+      method: "PUT"
+    });
+  },
+  deleteUser: () => {
+    return request<void>({
+      url: "/user",
+      method: "DELETE"
+    });
+  },
   loginUser: (username: string, password: string) => {
     return request<Token>({
       url: "/token",
@@ -31,26 +67,141 @@ const api = {
       headers: { Authorization: `Basic ${btoa(`${username}:${password}`)}` }
     });
   },
-  getMe: () => {
-    return request<UserInfo>({
-      url: "user",
-      method: "GET"
-    })
+  deleteToken: () => {
+    return request<void>({
+      url: "/token",
+      method: "DELETE"
+    });
   },
   getPlayerState: () => {
     return request<PlayerState>({
       url: "/player",
       method: "GET"
-    })
+    });
   },
   setPlayerState: (action: Action) => {
     return request<PlayerState>({
-      url: "player",
+      url: "/player",
       method: "PUT",
       data: {
         action: action
       }
-    })
+    });
+  },
+  getHistory: () => {
+    return request<SongEntry[]>({
+      url: "/player/queue/history",
+      method: "GET"
+    });
+  },
+  getQueue: () => {
+    return request<QueueEntry[]>({
+      url: "/player/queue",
+      method: "GET"
+    });
+  },
+  enqueue: (song: Song, provider: NamedPlugin) => {
+    return request<QueueEntry[]>({
+      url: "/player/queue",
+      method: "PUT",
+      params: {
+        songId: song.id,
+        providerId: provider.id
+      }
+    });
+  },
+  dequeue: (song: Song, provider: NamedPlugin) => {
+    return request<QueueEntry[]>({
+      url: "/player/queue",
+      method: "DELETE",
+      params: {
+        songId: song.id,
+        providerId: provider.id
+      }
+    });
+  },
+  moveEntry: (index: number, song: Song, provider: NamedPlugin) => {
+    return request<QueueEntry[]>({
+      url: "/player/queue/order",
+      method: "PUT",
+      params: {
+        index: index,
+        song: song.id,
+        provider: provider.id
+      }
+    });
+  },
+  getProviders: () => {
+    return request<NamedPlugin[]>({
+      url: "/provider",
+      method: "GET"
+    });
+  },
+  lookupSong: (songId: string, provider: NamedPlugin) => {
+    return request<Song>({
+      url: `/provider/${provider.id}/${songId}`,
+      method: "GET"
+    });
+  },
+  search: (
+    provider: NamedPlugin,
+    query: string,
+    limit?: number,
+    offset?: number
+  ) => {
+    return request<Song[]>({
+      url: `/provider/${provider.id}`,
+      method: "GET",
+      params: {
+        query: query,
+        limit: limit,
+        offset: offset
+      }
+    });
+  },
+  getSuggesters: () => {
+    return request<NamedPlugin>({
+      url: "/suggester",
+      method: "GET"
+    });
+  },
+  getSuggestions: (suggester: NamedPlugin, max?: number) => {
+    return request<Song[]>({
+      url: `/suggester/${suggester.id}`,
+      method: "GET",
+      params: {
+        max: max
+      }
+    });
+  },
+  removeSuggestion: (
+    suggester: NamedPlugin,
+    song: Song,
+    provider: NamedPlugin
+  ) => {
+    return request<void>({
+      url: `/suggester/${suggester.id}`,
+      method: "DELETE",
+      params: {
+        songId: song.id,
+        providerId: provider.id
+      }
+    });
+  },
+  getVolume: () => {
+    return request<Volume>({
+      url: "/volume",
+      method: "GET"
+    });
+  },
+  setVolume: (volume: number) => {
+    return request<Volume>({
+      url: "/volume",
+      method: "PUT",
+      params: {
+        value: volume
+      }
+    });
   }
 };
 

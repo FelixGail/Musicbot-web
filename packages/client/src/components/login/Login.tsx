@@ -19,9 +19,8 @@ export const Login = (props: RouteComponentProps) => {
     [setErrorMessage]
   );
   const redirect = useCallback(() => {
-    setRedirectToReferrer(true)}, [
-    setRedirectToReferrer
-  ]);
+    setRedirectToReferrer(true);
+  }, [setRedirectToReferrer]);
 
   const { from } = useMemo(
     () => props.location.state || { from: { pathname: "/" } },
@@ -31,7 +30,7 @@ export const Login = (props: RouteComponentProps) => {
   const provider = useMemo(() => {
     return {
       setError: error,
-      redirectToReferrer: redirect,
+      redirectToReferrer: redirect
     };
   }, [error, redirect]);
 
