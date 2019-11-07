@@ -104,6 +104,7 @@ export const LForm = (props: FormComponentProps) => {
                   prefix={<Icon type="lock" />}
                   type="password"
                   placeholder="Password"
+                  autoFocus
                 />
               )}
             </Form.Item>
