@@ -8,11 +8,12 @@ import {
   PlayerState,
   Permission
 } from "../../core/types";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, Route } from "react-router";
 import { AlbumArt } from "./AlbumArt";
 import { ConfigurationContext } from "../../core/context";
 import moment from "moment";
 import "moment-duration-format";
+import { Search } from "./Search";
 
 const { Meta } = Card;
 const { Content, Footer } = Layout;
