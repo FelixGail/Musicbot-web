@@ -76,3 +76,26 @@
     padding-top: 1%;
   }
 }
+
+.search {
+  padding-top: 10px;
+
+  .album-art {
+    width: 50px;
+    height: auto;
+  }
+
+  .ant-list-item {
+    padding: 5px;
+
+    &:hover {
+      background-color: #525c70;
+      cursor: pointer;
+
+      h4,
+      .ant-list-item-meta-description {
+        color: #e5e5e5;
+      }
+    }
+  }
+}

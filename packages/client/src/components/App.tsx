@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./util/PrivateRoute";
 import { Login } from "./login/Login";
-import { CurrentlyPlaying } from "./playing/CurrentlyPlaying";
 import {
   ConfigurationContext,
   IConfiguration,
@@ -12,6 +11,7 @@ import Axios from "axios";
 import { RequestContext } from "react-request-hook";
 import { useSetState } from "react-use";
 import "./style/style.scss";
+import { PlayRouter } from "./playing/PlayRouter";
 
 const App = () => {
   const axios = useMemo(
@@ -45,7 +45,7 @@ const App = () => {
               path="/"
               component={() => <Redirect to="listen" />}
             />
-            <PrivateRoute path="/listen" component={CurrentlyPlaying} />
+            <PrivateRoute path="/listen" component={PlayRouter} />
             <Route path="/login" component={Login}></Route>
           </Router>
         </RequestContext.Provider>
