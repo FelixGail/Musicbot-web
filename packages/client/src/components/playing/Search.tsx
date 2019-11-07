@@ -1,14 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Row, Col, Input, Tabs, List, BackTop } from "antd";
+import { Row, Col, Input, Tabs, List, BackTop, Icon } from "antd";
 import { RouteComponentProps } from "react-router";
 import { useResource } from "react-request-hook";
 import api from "../../core/api/model";
 import { NamedPlugin, Song } from "../../core/types";
 import { AlbumArt } from "./AlbumArt";
+import { useDebounce } from "react-use";
+import moment from "moment";
+import "moment-duration-format";
 
 export const Search = (props: RouteComponentProps) => {
   const [providers, getProviders] = useResource(api.getProviders);
   const [query, setQuery] = useState<string>("");
+  const [undebouncedQuery, setUndebounced] = useState<string>("");
 
   const handleEscape = useCallback(
     (event: KeyboardEvent) => {
@@ -17,6 +21,14 @@ export const Search = (props: RouteComponentProps) => {
       }
     },
     [props.history]
+  );
+
+  useDebounce(
+    () => {
+      setQuery(undebouncedQuery);
+    },
+    500,
+    [setQuery, undebouncedQuery]
   );
 
   useEffect(() => {
@@ -30,11 +42,19 @@ export const Search = (props: RouteComponentProps) => {
   return (
     <div className="search">
       <BackTop />
-      <Col offset={1} span={22}>
+      <Col span={3}>
+        <Icon
+          className="close-search"
+          type="double-left"
+          onClick={props.history.goBack}
+        />
+      </Col>
+      <Col span={19}>
         <Row>
           <Input.Search
             placeholder="Search"
             onSearch={value => setQuery(value)}
+            onChange={value => setUndebounced(value.target.value)}
             enterButton="Search"
             size="large"
           />
@@ -57,10 +77,12 @@ export const Search = (props: RouteComponentProps) => {
 
 const ProviderPane = (props: { query: string; provider: NamedPlugin }) => {
   const [searchResult, search] = useResource(api.search);
-  const [_, enqueue] = useResource(api.enqueue);
+  const [, enqueue] = useResource(api.enqueue);
 
   useEffect(() => {
-    search(props.provider, props.query);
+    if (props.query.length > 0) {
+      search(props.provider, props.query);
+    }
   }, [props.query, props.provider, search]);
 
   const enqueueWrapper = useCallback(
@@ -77,7 +99,11 @@ const ProviderPane = (props: { query: string; provider: NamedPlugin }) => {
     <List
       dataSource={searchResult.data}
       renderItem={item => (
-        <List.Item key={item.title} onClick={() => enqueueWrapper(item)}>
+        <List.Item
+          key={item.title}
+          onClick={() => enqueueWrapper(item)}
+          extra={moment.duration(item.duration, "s").format("h:mm:ss")}
+        >
           <List.Item.Meta
             title={item.title}
             description={item.description.substr(0, 50)}

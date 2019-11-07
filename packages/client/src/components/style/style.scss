@@ -89,12 +89,27 @@
     padding: 5px;
 
     &:hover {
-      background-color: #525c70;
+      background-color: #1890ff;
       cursor: pointer;
 
       h4,
       .ant-list-item-meta-description {
         color: #e5e5e5;
+      }
+    }
+  }
+
+  .close-search {
+    width: 100%;
+
+    svg {
+      height: auto;
+      width: 100%;
+      max-width: 42px;
+      color: #999999;
+
+      &:hover {
+        color: #1890ff;
       }
     }
   }
