@@ -22,13 +22,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, build, and package
-        run: |
-          yarn
-          yarn bootstrap
-          yarn build
-          yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
-      - name: build arm
+      - name: install dependencies
+        run: yarn
+      - name: Bootstrap
+        run: yarn bootstrap
+      - name: Build
+        run: yarn build
+      - name: package
+        run: yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
+      - name: Build arm
         if: matrix.os == 'ubuntu-latest'
         run: |
           yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
