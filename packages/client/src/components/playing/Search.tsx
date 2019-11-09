@@ -1,20 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useContext,
-  useMemo
-} from "react";
-import { Row, Col, Input, Tabs, List, BackTop, Icon } from "antd";
+import React, { useEffect, useState, useCallback } from "react";
+import { Row, Col, Input, Tabs, BackTop, Icon } from "antd";
 import { RouteComponentProps } from "react-router";
 import { useResource } from "react-request-hook";
 import api from "../../core/api/model";
 import { NamedPlugin, Song } from "../../core/types";
-import { AlbumArt } from "./AlbumArt";
 import { useDebounce } from "react-use";
-import moment from "moment";
-import "moment-duration-format";
-import { LikedSongContext } from "../../core/context/LikedSongsContext";
+import { SongList } from "./SongList";
 
 export const Search = (props: RouteComponentProps) => {
   const [providers, getProviders] = useResource(api.getProviders);
@@ -109,60 +100,5 @@ const ProviderPane = (props: { query: string; provider: NamedPlugin }) => {
     [props.provider, enqueue, searchResult.data]
   );
 
-  return (
-    <List
-      dataSource={searchResult.data}
-      renderItem={item => (
-        <List.Item
-          key={item.title}
-          onClick={() => enqueueWrapper(item)}
-          extra={<SongItemExtra song={item} />}
-          actions={[<SongItemAction song={item} />]}
-        >
-          <List.Item.Meta
-            title={item.title}
-            description={item.description.substr(0, 50)}
-            avatar={<AlbumArt song={item} />}
-          />
-        </List.Item>
-      )}
-    />
-  );
-};
-
-const SongItemExtra = (props: { song: Song }) => (
-  <div className="ant-list-item-meta-description">
-    {moment.duration(props.song.duration, "s").format("h:mm:ss")}
-  </div>
-);
-
-const SongItemAction = (props: { song: Song }) => {
-  const likedSongs = useContext(LikedSongContext);
-  const [isLiked, setLiked] = useState<boolean>(false);
-  useEffect(() => {
-    setLiked(likedSongs.contains(props.song));
-    console.log(likedSongs.contains(props.song));
-  }, []);
-  const style = useMemo(() => {
-    if (isLiked) {
-      return {
-        color: "green"
-      };
-    }
-  }, [isLiked]);
-  const click = useCallback(
-    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-      if (isLiked) {
-        likedSongs.removeSong(props.song);
-        setLiked(false);
-      } else {
-        likedSongs.addSong(props.song);
-        setLiked(true);
-      }
-      event.stopPropagation();
-    },
-    [likedSongs, isLiked, setLiked, props.song]
-  );
-
-  return <Icon type="star" theme="filled" onClick={click} style={style} />;
+  return <SongList songs={searchResult.data} onClick={enqueueWrapper} />;
 };
