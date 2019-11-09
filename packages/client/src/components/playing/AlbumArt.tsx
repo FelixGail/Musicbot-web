@@ -1,6 +1,6 @@
 import { Song } from "../../core/types";
 import { useContext } from "react";
-import { ConfigurationContext } from "../../core/context";
+import { ConfigurationContext } from "../../core/context/Configuration";
 import React from "react";
 import unknown_cover from "../../img/unknown_cover.svg";
 

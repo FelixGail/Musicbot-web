@@ -5,7 +5,8 @@ import LinkButton from "../util/LinkButton";
 import { Link } from "react-router-dom";
 import { IdenticonComponent } from "./Identicon";
 import { Fingerprint } from "icbint";
-import { FingerprintContext, ConfigurationContext } from "../../core/context";
+import { FingerprintContext } from "../../core/context/FingerprintContext";
+import { ConfigurationContext } from "../../core/context/Configuration";
 export const VerifyFingerprint = (props: RouteComponentProps) => {
   return (
     <Row>

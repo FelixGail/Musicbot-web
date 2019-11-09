@@ -8,12 +8,12 @@ import {
   PlayerState,
   Permission
 } from "../../core/types";
-import { RouteComponentProps, Route } from "react-router";
+import { RouteComponentProps } from "react-router";
 import { AlbumArt } from "./AlbumArt";
-import { ConfigurationContext } from "../../core/context";
+import { ConfigurationContext } from "../../core/context/Configuration";
 import moment from "moment";
 import "moment-duration-format";
-import { Search } from "./Search";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 const { Content, Footer } = Layout;
@@ -33,7 +33,7 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
       description: (song && song.description) || "",
       duration: moment
         .duration((song && song.duration) || 0, "s")
-        .format("m:ss"),
+        .format("mm:ss"),
       enqueuedBy: (songEntry && songEntry.userName) || "Suggested"
     };
   }, [playerState.data]);
@@ -54,7 +54,7 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
       );
     }
     actions.push(
-      <Icon type="search" onClick={() => props.history.push("listen/search")} />
+      <Icon type="search" onClick={() => props.history.push("listen/add")} />
     );
     return actions;
   }, [
@@ -79,7 +79,11 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
         <Footer>
           <Card className="spanning" actions={actions}>
             <Meta
-              title={songInfo.title}
+              title={
+                <Link to={`listen/add/search?${encodeURI(songInfo.title)}`}>
+                  {songInfo.title}
+                </Link>
+              }
               description={`${songInfo.description.substr(0, 35)} - ${
                 songInfo.enqueuedBy
               } - ${songInfo.duration}`}
