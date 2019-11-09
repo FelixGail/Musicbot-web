@@ -1,6 +1,6 @@
 import React from "react";
 import { IdenticonComponent } from "./Identicon";
-import { FingerprintContext } from "../../core/context";
+import { FingerprintContext } from "../../core/context/FingerprintContext";
 export const IdenticonModal = (match: any, history: any) => {
   return (
     <FingerprintContext.Consumer>

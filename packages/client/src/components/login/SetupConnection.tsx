@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { RouteComponentProps, Redirect } from "react-router";
 import { Row, Col } from "antd";
-import { LoginContext, ConfigurationContext } from "../../core/context";
+import { ConfigurationContext } from "../../core/context/Configuration";
+import { LoginContext } from "../../core/context/LoginContext";
 import api from "../../core/api/model";
 import { usePerformLogin } from "../../core/api/hooks";
 import { useResource } from "react-request-hook";

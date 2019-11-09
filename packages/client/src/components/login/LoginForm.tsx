@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import { usePerformLogin } from "../../core/api/hooks";
-import { LoginContext, ConfigurationContext } from "../../core/context";
+import { ConfigurationContext } from "../../core/context/Configuration";
+import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Icon, Col, Row, Checkbox } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
@@ -104,6 +105,7 @@ export const LForm = (props: FormComponentProps) => {
                   prefix={<Icon type="lock" />}
                   type="password"
                   placeholder="Password"
+                  autoFocus
                 />
               )}
             </Form.Item>

@@ -160,7 +160,7 @@ const api = {
     });
   },
   getSuggesters: () => {
-    return request<NamedPlugin>({
+    return request<NamedPlugin[]>({
       url: "/suggester",
       method: "GET"
     });
