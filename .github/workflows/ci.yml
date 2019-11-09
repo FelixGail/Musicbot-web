@@ -28,15 +28,12 @@ jobs:
         run: yarn bootstrap
       - name: Build
         run: yarn build
-      - name: package
+      - name: Package
         run: yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
       - name: Build arm
         if: matrix.os == 'ubuntu-latest'
         run: |
           yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
-      - name: Change permissions
-        run: |
-          find build -type f -print0 | xargs -0 chmod +x
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
