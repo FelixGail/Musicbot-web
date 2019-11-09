@@ -3,7 +3,7 @@ import { ConfigurationContext } from "../context/Configuration";
 import { useResource, RequestError } from "react-request-hook";
 import { Token } from "../types";
 import api from "./model";
-import Axios, { Canceler, AxiosError } from "axios";
+import { Canceler, AxiosError } from "axios";
 import { useSetState } from "react-use";
 const uuid4 = require("uuid/v4");
 
@@ -46,7 +46,7 @@ export function usePerformLogin(): [LoginResult, LoginRequest] {
         configuration.axios.interceptors.response.use(
           value => value,
           async (error: AxiosError) => {
-            if (error.request && error.code && error.code == "401") {
+            if (error.request && error.code && error.code === "401") {
               performLogin(configuration.username!, configuration.password!);
               const result = await configuration.axios.request(error.request);
               return result;
@@ -60,7 +60,15 @@ export function usePerformLogin(): [LoginResult, LoginRequest] {
         setState({ successful: false, isLoading: false, error: error });
       }
     },
-    [getUser, setConfiguration, setState, configuration.axios]
+    [
+      getUser,
+      setConfiguration,
+      setState,
+      configuration.axios,
+      configuration.username,
+      configuration.password,
+      performLogin
+    ]
   );
 
   useEffect(() => {
