@@ -54,7 +54,7 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
       );
     }
     actions.push(
-      <Icon type="search" onClick={() => props.history.push("listen/search")} />
+      <Icon type="search" onClick={() => props.history.push("listen/add")} />
     );
     return actions;
   }, [
@@ -80,7 +80,7 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
           <Card className="spanning" actions={actions}>
             <Meta
               title={
-                <Link to={`listen/search?${encodeURI(songInfo.title)}`}>
+                <Link to={`listen/add/search?${encodeURI(songInfo.title)}`}>
                   {songInfo.title}
                 </Link>
               }

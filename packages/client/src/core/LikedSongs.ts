@@ -3,7 +3,7 @@ import { Song } from "./types";
 const storageKey = "likedSongs";
 
 class LikedSongs {
-  private songs: Array<Song>;
+  songs: Array<Song>;
 
   constructor() {
     const songString = localStorage.getItem(storageKey);
@@ -35,6 +35,10 @@ class LikedSongs {
       }
     }
     return false;
+  }
+
+  get(): Song[] {
+    return this.songs;
   }
 
   private save() {

@@ -15,15 +15,21 @@ import { Song } from "../../core/types";
 import moment from "moment";
 
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
+import { ListProps } from "antd/lib/list";
 
 interface SongListProps {
   songs?: Song[];
   onClick: (song: Song) => void;
 }
 
-export const SongList = ({ songs, onClick }: SongListProps) => {
+export const SongList = ({
+  songs,
+  onClick,
+  ...props
+}: SongListProps & ListProps<Song>) => {
   return (
     <List
+      {...props}
       dataSource={songs}
       renderItem={item => (
         <List.Item
