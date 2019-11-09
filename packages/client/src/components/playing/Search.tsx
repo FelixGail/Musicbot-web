@@ -18,8 +18,14 @@ import { LikedSongContext } from "../../core/context/LikedSongsContext";
 
 export const Search = (props: RouteComponentProps) => {
   const [providers, getProviders] = useResource(api.getProviders);
-  const [query, setQuery] = useState<string>("");
-  const [undebouncedQuery, setUndebounced] = useState<string>("");
+  const [query, setQuery] = useState<string>(
+    props.location.search.length > 0
+      ? decodeURI(
+          props.location.search.substring(1, props.location.search.length)
+        )
+      : ""
+  );
+  const [undebouncedQuery, setUndebounced] = useState<string>(query);
 
   const handleEscape = useCallback(
     (event: KeyboardEvent) => {
@@ -60,6 +66,7 @@ export const Search = (props: RouteComponentProps) => {
         <Row>
           <Input.Search
             placeholder="Search"
+            defaultValue={query}
             onSearch={value => setQuery(value)}
             onChange={value => setUndebounced(value.target.value)}
             enterButton="Search"

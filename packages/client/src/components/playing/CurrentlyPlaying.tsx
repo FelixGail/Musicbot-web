@@ -13,6 +13,7 @@ import { AlbumArt } from "./AlbumArt";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import moment from "moment";
 import "moment-duration-format";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 const { Content, Footer } = Layout;
@@ -78,7 +79,11 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
         <Footer>
           <Card className="spanning" actions={actions}>
             <Meta
-              title={songInfo.title}
+              title={
+                <Link to={`listen/search?${encodeURI(songInfo.title)}`}>
+                  {songInfo.title}
+                </Link>
+              }
               description={`${songInfo.description.substr(0, 35)} - ${
                 songInfo.enqueuedBy
               } - ${songInfo.duration}`}
