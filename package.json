@@ -3,8 +3,8 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.18.4",
-    "pkg": "^4.4.0"
+    "lerna": "^3.13.4",
+    "pkg": "^4.3.8"
   },
   "scripts": {
     "start": "lerna run start --stream",
