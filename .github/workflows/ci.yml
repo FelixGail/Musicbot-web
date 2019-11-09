@@ -10,32 +10,36 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     name: Build and package
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     if: github.event_name == 'push' || github.event.label.name == 'allow-build'
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and package
-      run: |
-        yarn
-        yarn bootstrap
-        yarn build
-        yarn pkg packages/server -o build/musicbot --targets win-x64,linux-x64,macos-x64
-        yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
-    - name: Change permissions
-      run: |
-        find build -type f -print0 | xargs -0 chmod +x
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: musicbot-executables
-        path: build/
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and package
+        run: |
+          yarn
+          yarn bootstrap
+          yarn build
+          yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
+      - name: build arm
+        if: ${{ matrix.os }} == "ubuntu-latest"
+        run: |
+          yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
+      - name: Change permissions
+        run: |
+          find build -type f -print0 | xargs -0 chmod +x
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: musicbot-executables
+          path: build/
   release:
     name: Create Release
     needs: [build]
