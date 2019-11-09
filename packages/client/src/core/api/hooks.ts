@@ -1,9 +1,9 @@
 import { useContext, useEffect, useCallback } from "react";
-import { ConfigurationContext } from "../context";
+import { ConfigurationContext } from "../context/Configuration";
 import { useResource, RequestError } from "react-request-hook";
 import { Token } from "../types";
 import api from "./model";
-import { Canceler } from "axios";
+import Axios, { Canceler, AxiosError } from "axios";
 import { useSetState } from "react-use";
 const uuid4 = require("uuid/v4");
 
@@ -43,6 +43,16 @@ export function usePerformLogin(): [LoginResult, LoginRequest] {
     (data?: Token, error?: RequestError) => {
       if (data) {
         configuration.axios.defaults.headers.Authorization = `Bearer ${data}`;
+        configuration.axios.interceptors.response.use(
+          value => value,
+          async (error: AxiosError) => {
+            if (error.request && error.code && error.code == "401") {
+              performLogin(configuration.username!, configuration.password!);
+              const result = await configuration.axios.request(error.request);
+              return result;
+            }
+          }
+        );
         setConfiguration({ token: data });
         getUser();
       }

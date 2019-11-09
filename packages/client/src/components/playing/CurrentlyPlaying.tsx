@@ -10,7 +10,7 @@ import {
 } from "../../core/types";
 import { RouteComponentProps } from "react-router";
 import { AlbumArt } from "./AlbumArt";
-import { ConfigurationContext } from "../../core/context";
+import { ConfigurationContext } from "../../core/context/Configuration";
 import moment from "moment";
 import "moment-duration-format";
 
@@ -32,7 +32,7 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
       description: (song && song.description) || "",
       duration: moment
         .duration((song && song.duration) || 0, "s")
-        .format("m:ss"),
+        .format("mm:ss"),
       enqueuedBy: (songEntry && songEntry.userName) || "Suggested"
     };
   }, [playerState.data]);

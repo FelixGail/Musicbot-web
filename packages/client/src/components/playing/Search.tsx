@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+  useMemo
+} from "react";
 import { Row, Col, Input, Tabs, List, BackTop, Icon } from "antd";
 import { RouteComponentProps } from "react-router";
 import { useResource } from "react-request-hook";
@@ -8,6 +14,7 @@ import { AlbumArt } from "./AlbumArt";
 import { useDebounce } from "react-use";
 import moment from "moment";
 import "moment-duration-format";
+import { LikedSongContext } from "../../core/context/LikedSongsContext";
 
 export const Search = (props: RouteComponentProps) => {
   const [providers, getProviders] = useResource(api.getProviders);
@@ -102,7 +109,8 @@ const ProviderPane = (props: { query: string; provider: NamedPlugin }) => {
         <List.Item
           key={item.title}
           onClick={() => enqueueWrapper(item)}
-          extra={moment.duration(item.duration, "s").format("h:mm:ss")}
+          extra={<SongItemExtra song={item} />}
+          actions={[<SongItemAction song={item} />]}
         >
           <List.Item.Meta
             title={item.title}
@@ -113,4 +121,41 @@ const ProviderPane = (props: { query: string; provider: NamedPlugin }) => {
       )}
     />
   );
+};
+
+const SongItemExtra = (props: { song: Song }) => (
+  <div className="ant-list-item-meta-description">
+    {moment.duration(props.song.duration, "s").format("h:mm:ss")}
+  </div>
+);
+
+const SongItemAction = (props: { song: Song }) => {
+  const likedSongs = useContext(LikedSongContext);
+  const [isLiked, setLiked] = useState<boolean>(false);
+  useEffect(() => {
+    setLiked(likedSongs.contains(props.song));
+    console.log(likedSongs.contains(props.song));
+  }, []);
+  const style = useMemo(() => {
+    if (isLiked) {
+      return {
+        color: "green"
+      };
+    }
+  }, [isLiked]);
+  const click = useCallback(
+    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      if (isLiked) {
+        likedSongs.removeSong(props.song);
+        setLiked(false);
+      } else {
+        likedSongs.addSong(props.song);
+        setLiked(true);
+      }
+      event.stopPropagation();
+    },
+    [likedSongs, isLiked, setLiked, props.song]
+  );
+
+  return <Icon type="star" theme="filled" onClick={click} style={style} />;
 };
