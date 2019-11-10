@@ -34,6 +34,21 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
+      - name: Add Nuget PackageSource
+        if: matrix.os == 'windows-latest'
+        run: Register-PackageSource -Name NuGetGallery -Location https://www.nuget.org/api/v2 -ProviderName NuGet -Trusted
+      - name: Install SignTool
+        if: matrix.os == 'windows-latest'
+        run: Install-Package signtool -Source NuGetGallery -Destination signtool -RequiredVersion 10.0.17763.132
+      - name: Create Certificate
+        if: matrix.os == 'windows-latest'
+        run: |
+          $kvSecretBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_CERT }}")
+          [System.IO.File]::WriteAllBytes("cert.pfx", $kvSecretBytes)
+      - name: Sign Executable
+        if: matrix.os == 'windows-latest'
+        run: |
+          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-${{ matrix.os }}.exe
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
