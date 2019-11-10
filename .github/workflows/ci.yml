@@ -48,7 +48,7 @@ jobs:
       - name: Sign Executable
         if: matrix.os == 'windows-latest'
         run: |
-          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-${{ matrix.os }}
+          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-${{ matrix.os }}.exe
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
