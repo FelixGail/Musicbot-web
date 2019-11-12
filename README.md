@@ -43,3 +43,18 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
    `yarn pkg -o <NAME_OF_YOUR_EXECUTABLE>`
 
 6. Start the executable.
+
+## Configuration:
+
+The project can be configured using configuration files or command-line arguments.
+If multiple are available the application will use (in-order from most relevant to least):
+
+- Command-line arguments
+- `config.json`-file in the project folder
+- Configuration file at `~/.config/musicbot.json`
+
+| Config-file key | Command-line key  |                                      Description                                       |                Default |
+| --------------- | :---------------: | :------------------------------------------------------------------------------------: | ---------------------: |
+| localdomain     | -l, --localdomain | Domain to advertise. Default is musicbot, therefore allowing access via musicbot.local |               musicbot |
+| port            |    -p, --port     |                                 Port of the webserver                                  |                   8080 |
+| remote          |   -r, --remote    |     Address of the [MusicBot](https://github.com/BjoernPetersen/MusicBot) instance     | http://localhost:42945 |
