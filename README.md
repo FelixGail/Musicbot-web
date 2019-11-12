@@ -53,8 +53,8 @@ If multiple are available the application will use (in-order from most relevant 
 - `config.json`-file in the project folder
 - Configuration file at `~/.config/musicbot.json`
 
-| Config-file key | Command-line key  |                                      Description                                       |                Default |
-| --------------- | :---------------: | :------------------------------------------------------------------------------------: | ---------------------: |
-| localdomain     | -l, --localdomain | Domain to advertise. Default is musicbot, therefore allowing access via musicbot.local |               musicbot |
-| port            |    -p, --port     |                                 Port of the webserver                                  |                   8080 |
-| remote          |   -r, --remote    |     Address of the [MusicBot](https://github.com/BjoernPetersen/MusicBot) instance     | http://localhost:42945 |
+| Config-file key | Command-line key |                                          Description                                          |                Default |
+| --------------- | :--------------: | :-------------------------------------------------------------------------------------------: | ---------------------: |
+| domain          |   -l, --domain   | .local-domain to advertise. Default is musicbot, therefore allowing access via musicbot.local |               musicbot |
+| port            |    -p, --port    |                                     Port of the webserver                                     |                   8080 |
+| remote          |   -r, --remote   |        Address of the [MusicBot](https://github.com/BjoernPetersen/MusicBot) instance         | http://localhost:42945 |
