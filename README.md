@@ -74,8 +74,7 @@ The project can be configured using configuration files or command-line argument
 If multiple are available the application will use (in-order from most relevant to least):
 
 - Command-line arguments
-- `config.json`-file in the project folder
-- Configuration file at `~/.config/musicbot.json`
+- `config.json`-file in a `config`-folder inside the project. e.g. `${PROJECT_PATH}/config/config.json`
 
 | Config-file key | Command-line key |                                          Description                                          |                Default |
 | --------------- | :--------------: | :-------------------------------------------------------------------------------------------: | ---------------------: |
