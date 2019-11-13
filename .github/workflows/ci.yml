@@ -60,23 +60,6 @@ jobs:
         with:
           name: musicbot-executables
           path: build/
-  upload-zip:
-    name: Upload Zip
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install zip
-        run: sudo apt install zip -y
-      - uses: actions/download-artifact@master
-        with:
-          name: build
-      - name: Zip build artifact
-        run: zip -r musicbot-web.zip build/*
-      - name: Upload musicbot-web.zip
-        uses: actions/upload-artifact@v1
-        with:
-          name: musicbot-web
-          path: musicbot-web.zip
   release:
     name: Create Release
     needs: [build]
@@ -97,7 +80,7 @@ jobs:
         with:
           name: build
       - name: Zip build artifact
-        run: zip -r musicbot-web.zip build/*
+        run: cd build && zip -r ../musicbot-web.zip ./* && cd ..
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "musicbot-executables/*, musicbot-web.zip"

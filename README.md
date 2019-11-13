@@ -6,10 +6,34 @@
 
 A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) project.
 
-## Install:
+# Install:
 
-- Download the latest build for your architecture from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
+## Install executable
+
+- Download the latest executable for your architecture from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
 - Start the executable.
+
+## Install build-files
+
+### Requirements:
+
+- [Node](https://nodejs.org/en/) > 8
+- [npm](https://www.npmjs.com/)
+- [yarn](https://www.npmjs.com/package/yarn)
+
+### Steps:
+
+1. Download the latest `musicbot-web.zip` from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
+2. Extract the zip and enter the directory
+3. Install server dependencies:
+   ```
+   yarn
+   ```
+4. [Configure](#configuration) the application.
+5. Start the application:
+   ```
+   node index.js [options]
+   ```
 
 ## Install from source:
 
@@ -20,7 +44,7 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 - [yarn](https://www.npmjs.com/package/yarn)
 - [git](https://git-scm.com/)
 
-### Step by step:
+### Steps:
 
 1. Clone the repository:
 
