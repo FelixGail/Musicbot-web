@@ -63,7 +63,7 @@ jobs:
   upload-zip:
     name: Upload Zip
     needs: [build]
-    runs-on: ubunut-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Install zip
         run: sudo apt install zip -y
