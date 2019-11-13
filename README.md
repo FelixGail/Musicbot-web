@@ -22,7 +22,7 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 
 ### Steps:
 
-1. Install using scoop
+1. Install using scoop:
    ```
    scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download/scoop-manifest.json
    ```
