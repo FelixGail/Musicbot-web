@@ -85,12 +85,12 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=version_tag::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
-          echo ::set-output name=zip_hash::$(sha512sum musicbot-web.zip)
+          echo ::set-output name=zip_hash::$(sha512sum musicbot-web.zip | awk '{print $1}')
       - name: Create scoop manifest
         run: |
           cp windows/scoop-template.json scoop-manifest.json
-          sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' scoop-manifest.json.json
-          sed -i -e 's/{{hash}}/${{ steps.vars.outputs.zip_hash }}/g' scoop-manifest.json.json
+          sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' scoop-manifest.json
+          sed -i -e 's/{{hash}}/${{ steps.vars.outputs.zip_hash }}/g' scoop-manifest.json
       - name: Upload zip
         uses: actions/upload-artifact@v1
         with:
