@@ -1,0 +1,25 @@
+{
+  "homepage": "https://github.com/FelixGail/Musicbot-web",
+  "description": "Web client for the Musicbot project",
+  "version": "{{version}}",
+  "url": "https://github.com/FelixGail/Musicbot-web/releases/download/{{version}}/musicbot-web.zip",
+  "hash": "sha512:{{hash}}",
+  "installer": {
+    "script": [
+      "mkdir -p $dir\\conf",
+      "New-Item $dir\\config\\config.json",
+      "Push-Location $dir",
+      "./windows/install.ps1",
+      "Pop-Location"
+    ]
+  },
+  "shortcuts": [["./windows/run.ps1", "MusicBot-web", "build/favicon.ico"]],
+  "persist": "config",
+  "license": "MIT",
+  "checkver": {
+    "github": "https://github.com/FelixGail/Musicbot-web"
+  },
+  "autoupdate": {
+    "url": "https://github.com/FelixGail/Musicbot-web/releases/download/$version/musicbot-web.zip"
+  }
+}

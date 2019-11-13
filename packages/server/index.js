@@ -78,11 +78,11 @@ process.on("exit", function() {
 });
 
 const app = express();
-const clientDir = path.join(__dirname, "..", "client");
-app.use(express.static(path.join(clientDir, "build")));
+const buildDir = path.join(__dirname, "build");
+app.use(express.static(buildDir));
 app.use("/api", proxy(nconf.get("remote")));
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(clientDir, "build", "index.html"));
+  res.sendFile(path.join(buildDir, "index.html"));
 });
 app.listen(nconf.get("port"), () => {
   console.log(
