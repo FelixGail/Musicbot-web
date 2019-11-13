@@ -11,7 +11,21 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 ## Install executable
 
 - Download the latest executable for your architecture from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
-- Start the executable.
+- Start the executable.<br>
+  _Since the executable is not signed with a verified certificate. Windows will block its execution. To start click on "More information" and then "Start anyway"_.
+
+## Install with [scoop](https://scoop.sh)
+
+### Requirements:
+
+- [scoop](https://scoop.sh)
+
+### Steps:
+
+1. Install using scoop
+   ```
+   scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download/scoop-manifest.json
+   ```
 
 ## Install build-files
 
@@ -27,7 +41,7 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 2. Extract the zip and enter the directory
 3. Install server dependencies:
    ```
-   yarn
+   yarn install --frozen-lockfile
    ```
 4. [Configure](#configuration) the application.
 5. Start the application:
@@ -74,8 +88,7 @@ The project can be configured using configuration files or command-line argument
 If multiple are available the application will use (in-order from most relevant to least):
 
 - Command-line arguments
-- `config.json`-file in the project folder
-- Configuration file at `~/.config/musicbot.json`
+- `config.json`-file in a `config`-folder inside the project. e.g. `${PROJECT_PATH}/config/config.json`
 
 | Config-file key | Command-line key |                                          Description                                          |                Default |
 | --------------- | :--------------: | :-------------------------------------------------------------------------------------------: | ---------------------: |
