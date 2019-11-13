@@ -28,6 +28,12 @@ jobs:
         run: yarn bootstrap
       - name: Build
         run: yarn build
+      - name: Upload build result
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: packages/server
       - name: Package
         run: yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
       - name: Build arm
