@@ -28,7 +28,7 @@
   },
   "pkg": {
     "assets": [
-      "../client/build/**/*.*"
+      "build/**/*.*"
     ],
     "targets": [
       "node12"

@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: production
-          path: packages/client/build
+          path: packages/server
       - name: Package
         run: yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
       - name: Build arm
@@ -75,9 +75,8 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: production
-      - name: Copy Server files
+      - name: Copy additional Server files
         run: |
-          cp -r packages/server/* production
           cp -r windows production
           cp yarn.lock production/
       - name: Zip build artifact
