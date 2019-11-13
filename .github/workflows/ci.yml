@@ -28,6 +28,12 @@ jobs:
         run: yarn bootstrap
       - name: Build
         run: yarn build
+      - name: Upload build result
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: packages/server
       - name: Package
         run: yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
       - name: Build arm
@@ -68,9 +74,16 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: musicbot-executables
+      - name: Install zip
+        run: sudo apt install zip -y
+      - uses: actions/download-artifact@master
+        with:
+          name: build
+      - name: Zip build artifact
+        run: cd build && zip -r ../musicbot-web.zip ./* && cd ..
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "musicbot-executables/*"
+          artifacts: "musicbot-executables/*, musicbot-web.zip"
           body: ${{ github.event.head_commit.message }}
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.vars.outputs.version_tag }}

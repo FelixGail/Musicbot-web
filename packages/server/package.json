@@ -28,10 +28,10 @@
   },
   "pkg": {
     "assets": [
-      "../client/build/**/*.*"
+      "build/**/*.*"
     ],
     "targets": [
-      "node8"
+      "node12"
     ]
   }
 }
