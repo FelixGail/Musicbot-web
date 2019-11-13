@@ -1,6 +1,6 @@
 {
   "name": "@musicbot-web/server",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "description": "A web client for the MusicBot project (https://github.com/BjoernPetersen/MusicBot)",
   "main": "index.js",
   "bin": "index.js",
@@ -20,18 +20,18 @@
   "homepage": "https://github.com/FelixGail/MusicBot-web#readme",
   "dependencies": {
     "bonjour": "^3.5.0",
-    "commander": "^2.20.0",
     "express": "^4.16.4",
     "express-http-proxy": "^1.5.1",
     "ip": "^1.1.5",
+    "nconf": "^0.10.0",
     "node-ssdp": "^4.0.0"
   },
   "pkg": {
     "assets": [
-      "../client/build/**/*.*"
+      "build/**/*.*"
     ],
     "targets": [
-      "node8"
+      "node12"
     ]
   }
 }

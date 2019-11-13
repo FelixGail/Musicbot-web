@@ -6,10 +6,34 @@
 
 A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) project.
 
-## Install:
+# Install:
 
-- Download the latest build for your architecture from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
+## Install executable
+
+- Download the latest executable for your architecture from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
 - Start the executable.
+
+## Install build-files
+
+### Requirements:
+
+- [Node](https://nodejs.org/en/) > 8
+- [npm](https://www.npmjs.com/)
+- [yarn](https://www.npmjs.com/package/yarn)
+
+### Steps:
+
+1. Download the latest `musicbot-web.zip` from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
+2. Extract the zip and enter the directory
+3. Install server dependencies:
+   ```
+   yarn
+   ```
+4. [Configure](#configuration) the application.
+5. Start the application:
+   ```
+   node index.js [options]
+   ```
 
 ## Install from source:
 
@@ -20,7 +44,7 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 - [yarn](https://www.npmjs.com/package/yarn)
 - [git](https://git-scm.com/)
 
-### Step by step:
+### Steps:
 
 1. Clone the repository:
 
@@ -43,3 +67,18 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
    `yarn pkg -o <NAME_OF_YOUR_EXECUTABLE>`
 
 6. Start the executable.
+
+## Configuration:
+
+The project can be configured using configuration files or command-line arguments.
+If multiple are available the application will use (in-order from most relevant to least):
+
+- Command-line arguments
+- `config.json`-file in the project folder
+- Configuration file at `~/.config/musicbot.json`
+
+| Config-file key | Command-line key |                                          Description                                          |                Default |
+| --------------- | :--------------: | :-------------------------------------------------------------------------------------------: | ---------------------: |
+| domain          |   -l, --domain   | .local-domain to advertise. Default is musicbot, therefore allowing access via musicbot.local |               musicbot |
+| port            |    -p, --port    |                                     Port of the webserver                                     |                   8080 |
+| remote          |   -r, --remote   |        Address of the [MusicBot](https://github.com/BjoernPetersen/MusicBot) instance         | http://localhost:42945 |
