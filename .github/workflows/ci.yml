@@ -60,17 +60,18 @@ jobs:
         with:
           name: musicbot-executables
           path: build/
-  test:
-    name: Test zip creation
+  release:
+    name: Create Release
     needs: [build]
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
+      - name: Install zip
+        run: sudo apt install zip -y
       - uses: actions/checkout@v1
       - uses: actions/download-artifact@master
         with:
           name: musicbot-executables
-      - name: Install zip
-        run: sudo apt install zip -y
       - name: Download client production build
         uses: actions/download-artifact@master
         with:
@@ -81,7 +82,7 @@ jobs:
           cp yarn.lock production/
       - name: Zip build artifact
         run: cd production && zip -r ../musicbot-web.zip ./* && cd ..
-      - name: Calculate zip hash
+      - name: Calculate variables
         id: vars
         run: |
           echo ::set-output name=version_tag::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
@@ -91,46 +92,9 @@ jobs:
           cp windows/scoop-template.json scoop-manifest.json
           sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' scoop-manifest.json
           sed -i -e 's/{{hash}}/${{ steps.vars.outputs.zip_hash }}/g' scoop-manifest.json
-      - name: Upload zip
-        uses: actions/upload-artifact@v1
-        with:
-          name: musicbot-zip
-          path: musicbot-web.zip
-      - name: Upload zip
-        uses: actions/upload-artifact@v1
-        with:
-          name: scoop-manifest
-          path: scoop-manifest.json
-  release:
-    name: Create Release
-    needs: [build]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v1
-      - name: set version variable
-        id: vars
-        run: |
-          echo ::set-output name=version_tag::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
-      - uses: actions/download-artifact@master
-        with:
-          name: musicbot-executables
-      - name: Install zip
-        run: sudo apt install zip -y
-      - name: Download client production build
-        uses: actions/download-artifact@master
-        with:
-          name: production
-      - name: Copy Server files
-        run: |
-          cp -r packages/server/* production
-          cp -r windows production
-          cp yarn.lock production/
-      - name: Zip build artifact
-        run: cd production && zip -r ../musicbot-web.zip ./* && cd ..
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "musicbot-executables/*, musicbot-web.zip"
+          artifacts: "musicbot-executables/*, musicbot-web.zip, scoop-manifest.json"
           body: ${{ github.event.head_commit.message }}
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.vars.outputs.version_tag }}
