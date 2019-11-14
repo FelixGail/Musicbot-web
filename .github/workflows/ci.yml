@@ -26,6 +26,8 @@ jobs:
         run: yarn
       - name: Bootstrap
         run: yarn bootstrap
+      - name: Set server version
+        run: yarn setVersion
       - name: Build
         run: yarn build
       - name: Upload client production build
