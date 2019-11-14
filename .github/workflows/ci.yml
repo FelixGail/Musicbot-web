@@ -35,7 +35,7 @@ jobs:
           name: production
           path: packages/server
       - name: Package
-        run: yarn pkg packages/server -o build/musicbot-${{ matrix.os }}
+        run: yarn pkg packages/server -o build/musicbot-web-${{ matrix.os }}
       - name: Build arm
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -54,7 +54,7 @@ jobs:
       - name: Sign Executable
         if: matrix.os == 'windows-latest'
         run: |
-          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-${{ matrix.os }}.exe
+          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-web-${{ matrix.os }}.exe
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
@@ -86,15 +86,15 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=version_tag::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
-          echo ::set-output name=zip_hash::$(sha512sum musicbot-web.zip | awk '{print $1}')
+          echo ::set-output name=win_hash::$(sha512sum musicbot-executables/musicbot-web-windows-latest.exe | awk '{print $1}')
       - name: Create scoop manifest
         run: |
           cp windows/scoop-template.json scoop-manifest.json
-          sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' scoop-manifest.json
-          sed -i -e 's/{{hash}}/${{ steps.vars.outputs.zip_hash }}/g' scoop-manifest.json
+          sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' musicbot-web.json
+          sed -i -e 's/{{hash}}/${{ steps.vars.outputs.win_hash }}/g' musicbot-web.json
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "musicbot-executables/*, musicbot-web.zip, scoop-manifest.json"
+          artifacts: "musicbot-executables/*, musicbot-web.zip, musicbot-web.json"
           body: ${{ github.event.head_commit.message }}
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.vars.outputs.version_tag }}

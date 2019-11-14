@@ -12,7 +12,7 @@ const nconf = require("nconf");
 nconf
   .argv(
     require("yargs")
-      .version()
+      .version("{{version}}")
       .alias("v", "version")
       .help()
       .alias("h", "help")
@@ -53,8 +53,7 @@ nconf
         }
       })
   )
-  .file("config", { file: "./config.json" })
-  .file("musicbot", { file: "~/.config/musicbot.json" })
+  .file("config", { file: "config/config.json" })
   .defaults({
     port: 8080,
     remote: "http://localhost:42945",
