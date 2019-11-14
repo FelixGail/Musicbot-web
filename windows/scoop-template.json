@@ -11,7 +11,7 @@
 	    "Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/FelixGail/Musicbot-web/master/packages/client/public/favicon.ico\" -OutFile \"$dir\\favicon.ico\""
     ]
   },
-  "shortcuts": [["musicbot-web-windows-latest.exe", "MusicBot-web", "", "favicon.ico"]],
+  "shortcuts": [["musicbot-windows-latest.exe", "MusicBot-web", "", "favicon.ico"]],
   "persist": "config",
   "license": "MIT",
   "checkver": {
