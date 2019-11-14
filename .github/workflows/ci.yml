@@ -91,7 +91,7 @@ jobs:
           echo ::set-output name=win_hash::$(sha512sum musicbot-executables/musicbot-web-windows-latest.exe | awk '{print $1}')
       - name: Create scoop manifest
         run: |
-          cp windows/scoop-template.json scoop-manifest.json
+          cp windows/scoop-template.json musicbot-web.json
           sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' musicbot-web.json
           sed -i -e 's/{{hash}}/${{ steps.vars.outputs.win_hash }}/g' musicbot-web.json
       - uses: ncipollo/release-action@v1
