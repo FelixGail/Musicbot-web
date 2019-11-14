@@ -1,11 +1,12 @@
 {
   "name": "@musicbot-web/server",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A web client for the MusicBot project (https://github.com/BjoernPetersen/MusicBot)",
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "setVersion": "sed -i -e \"s/{{version}}/$(cat ../../package.json | grep version | head -1 | awk -F= \"{ print $2 }\" | sed -E 's/(version)|[:,\\\",]//g' | tr -d '[[:space:]]')/g\" index.js",
     "start": "node index.js"
   },
   "repository": {
@@ -24,7 +25,8 @@
     "express-http-proxy": "^1.5.1",
     "ip": "^1.1.5",
     "nconf": "^0.10.0",
-    "node-ssdp": "^4.0.0"
+    "node-ssdp": "^4.0.0",
+    "yargs": "^14.2.0"
   },
   "pkg": {
     "assets": [

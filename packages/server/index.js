@@ -12,7 +12,7 @@ const nconf = require("nconf");
 nconf
   .argv(
     require("yargs")
-      .version()
+      .version("{{version}}")
       .alias("v", "version")
       .help()
       .alias("h", "help")
