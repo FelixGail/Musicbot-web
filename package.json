@@ -9,6 +9,7 @@
   "scripts": {
     "start": "lerna run start --stream",
     "build": "lerna run build --stream",
+    "setVersion": "lerna run setVersion --stream",
     "lerna": "lerna",
     "pkg": "pkg",
     "pkg-cache": "pkg-cache",
@@ -20,7 +21,7 @@
     ]
   },
   "name": "musicbot-web",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "index.js",
   "dependencies": {}
 }
