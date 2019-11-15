@@ -113,7 +113,7 @@ scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download
   version: "3"
   services:
     server:
-      image: felixgail/musicbot-web
+      image: felixgail/musicbot-web:master
       ports:
         - "8080:8080"
       volumes:
