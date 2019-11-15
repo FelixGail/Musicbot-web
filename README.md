@@ -98,7 +98,7 @@ scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download
 - Using [docker](https://docs.docker.com/install/) directly:
 
   ```
-  docker run -p <PORT>:8080 felixgail/musicbot-web
+  docker run -p <PORT>:8080 felixgail/musicbot-web:latest
   ```
 
   The application is now accessible at `http://musicbot.local:<PORT>`
@@ -113,7 +113,7 @@ scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download
   version: "3"
   services:
     server:
-      image: felixgail/musicbot-web:master
+      image: felixgail/musicbot-web:latest
       ports:
         - "8080:8080"
       volumes:
