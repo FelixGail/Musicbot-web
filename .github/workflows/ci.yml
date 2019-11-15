@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu, windows, macos]
 
     name: Build and package
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     if: github.event_name == 'push' || github.event.label.name == 'allow-build'
 
     steps:
@@ -31,7 +31,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: Upload client production build
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         uses: actions/upload-artifact@v1
         with:
           name: production
@@ -39,22 +39,22 @@ jobs:
       - name: Package
         run: yarn pkg packages/server -o build/musicbot-web-${{ matrix.os }}
       - name: Build arm
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu'
         run: |
           yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
       - name: Add Nuget PackageSource
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows'
         run: Register-PackageSource -Name NuGetGallery -Location https://www.nuget.org/api/v2 -ProviderName NuGet -Trusted
       - name: Install SignTool
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows'
         run: Install-Package signtool -Source NuGetGallery -Destination signtool -RequiredVersion 10.0.17763.132
       - name: Create Certificate
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows'
         run: |
           $kvSecretBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_CERT }}")
           [System.IO.File]::WriteAllBytes("cert.pfx", $kvSecretBytes)
       - name: Sign Executable
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows'
         run: |
           .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-web-${{ matrix.os }}.exe
       - name: Upload artifacts
@@ -88,7 +88,7 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=version_tag::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
-          echo ::set-output name=win_hash::$(sha512sum musicbot-executables/musicbot-web-windows-latest.exe | awk '{print $1}')
+          echo ::set-output name=win_hash::$(sha512sum musicbot-executables/musicbot-web-windows.exe | awk '{print $1}')
       - name: Create scoop manifest
         run: |
           cp windows/scoop-template.json musicbot-web.json
@@ -100,3 +100,23 @@ jobs:
           body: ${{ github.event.head_commit.message }}
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.vars.outputs.version_tag }}
+  docker:
+    name: Publish docker container
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
+    steps:
+      - uses: actions/checkout@v1
+      - name: Download client production build
+        uses: actions/download-artifact@master
+        with:
+          name: production
+      - name: Move into docker directory
+        run: mv production docker
+      - name: Build & Publish
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: felixgail/musicbot-web
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          workdir: docker
