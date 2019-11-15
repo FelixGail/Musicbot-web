@@ -8,26 +8,26 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 
 # Install:
 
-## Install executable
+<details>
+    <summary>Install executable</summary>
+    
+- Download the latest executable for your architecture from the         [release section](https://github.com/FelixGail/MusicBot-web/releases).
 
-- Download the latest executable for your architecture from the [release section](https://github.com/FelixGail/MusicBot-web/releases).
 - Start the executable.<br>
   _Since the executable is not signed with a verified certificate. Windows will block its execution. To start click on "More information" and then "Start anyway"_.
+  </details>
 
-## Install with [scoop](https://scoop.sh)
+<details>
+    <summary>Install with <a href="https://scoop.sh">scoop</a></summary>
 
-### Requirements:
+```
+scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download/scoop-manifest.json
+```
 
-- [scoop](https://scoop.sh)
+</details>
 
-### Steps:
-
-1. Install using scoop:
-   ```
-   scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download/scoop-manifest.json
-   ```
-
-## Install build-files
+<details>
+    <summary>Install using pre-build-files</summary>
 
 ### Requirements:
 
@@ -48,8 +48,10 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
    ```
    node index.js [options]
    ```
+   </details>
 
-## Install from source:
+<details>
+    <summary>Install from source</summary>
 
 ### Requirements:
 
@@ -76,11 +78,53 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 
    `yarn build`
 
-5. Create the executable. _Exchange the tag `<NAME_OF_YOUR_EXECUTABLE>` with a name of your liking_:
+5. Start directly:
 
-   `yarn pkg -o <NAME_OF_YOUR_EXECUTABLE>`
+   `yarn start`
 
-6. Start the executable.
+6. OR Build a executable
+
+   1. Create the executable. _Exchange the tag `<NAME_OF_YOUR_EXECUTABLE>` with a name of your liking_:
+
+      `yarn pkg -o <NAME_OF_YOUR_EXECUTABLE>`
+
+   2. Start the executable.
+
+</details>
+
+<details>
+    <summary>Install using Docker</summary>
+
+- Using [docker](https://docs.docker.com/install/) directly:
+
+  ```
+  docker run -p <PORT>:8080 felixgail/musicbot-web
+  ```
+
+  The application is now accessible at `http://musicbot.local:<PORT>`
+
+- Using [docker-compose](https://docs.docker.com/compose/):
+
+  docker-compose makes it easier to persist your configuration data.
+  Create a `docker.compose.yml` file that looks like this.
+  Edit the ports, so they reflect the port you want to expose your application on:
+
+  ```
+  version: "3"
+  services:
+    server:
+      image: felixgail/musicbot-web
+      ports:
+        - "8080:8080"
+      volumes:
+        - "./config.json:/usr/src/app/config/config.json"
+  ```
+
+  Create a `config.json` file in the same directory, in which you save your [configuration](#configuration).
+
+  Start your application with `docker-compose up`
+
+  </details>
 
 ## Configuration:
 
