@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Row, Input, Tabs } from "antd";
 import { RouteComponentProps } from "react-router";
 import { useResource } from "react-request-hook";
-import api from "../../core/api/model";
+import api from "../../../core/api/model";
 import { useDebounce } from "react-use";
-import { ProviderPane } from "./SongPanes";
+import { ProviderPane } from "../snippets/SongPanes";
 
 export const Search = (props: RouteComponentProps) => {
   const [providers, getProviders] = useResource(api.getProviders);

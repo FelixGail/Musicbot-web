@@ -50,13 +50,13 @@ const SearchRouter = (props: RouteComponentProps) => {
           <Card
             className="search-router-navigation spanning"
             actions={[
-              <Link to="/listen/add/search">
+              <Link to="/add/search">
                 <Icon type="search" />
               </Link>,
-              <Link to="/listen/add/suggest">
+              <Link to="/add/suggest">
                 <Icon type="question" />
               </Link>,
-              <Link to="/listen/add/stars">
+              <Link to="/add/stars">
                 <Icon type="star" />
               </Link>
             ]}

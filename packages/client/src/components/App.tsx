@@ -48,7 +48,7 @@ const App = () => {
                 path="/"
                 component={() => <Redirect to="listen" />}
               />
-              <PrivateRoute path="/listen" component={PlayRouter} />
+              <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
               <Route path="/login" component={Login}></Route>
             </Router>
           </RequestContext.Provider>
