@@ -1,9 +1,9 @@
 import { useResource } from "react-request-hook";
-import api from "../../core/api/model";
+import api from "../../../core/api/model";
 import { useEffect } from "react";
 import React from "react";
 import { Row, Tabs } from "antd";
-import { SuggesterPane } from "./SongPanes";
+import { SuggesterPane } from "../snippets/SongPanes";
 
 const Suggest = () => {
   const [suggesters, getSuggesters] = useResource(api.getSuggesters);

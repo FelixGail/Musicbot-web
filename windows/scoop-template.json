@@ -12,7 +12,7 @@
     ]
   },
   "shortcuts": [
-    ["musicbot-windows-web.exe", "MusicBot-web", "", "favicon.ico"]
+    ["musicbot-web-windows.exe", "MusicBot-web", "", "favicon.ico"]
   ],
   "persist": "config",
   "license": "MIT",

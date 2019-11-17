@@ -1,34 +1,38 @@
-import React, { useEffect, useState, useMemo, useContext } from "react";
+import React, { useMemo, useContext } from "react";
 import { Card, Icon, Layout } from "antd";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
-import api from "../../core/api/model";
+import api from "../../../core/api/model";
 import {
   PlayerStatus,
   Action,
   PlayerState,
   Permission
-} from "../../core/types";
-import { RouteComponentProps } from "react-router";
-import { AlbumArt } from "./AlbumArt";
-import { ConfigurationContext } from "../../core/context/Configuration";
+} from "../../../core/types";
+import { RouteComponentProps, Route } from "react-router";
+import { ConfigurationContext } from "../../../core/context/Configuration";
 import moment from "moment";
 import "moment-duration-format";
 import { Link } from "react-router-dom";
+import Current from "./Current";
+import History from "./History";
+import Queue from "./Queue";
+import useReload from "../../../core/reloadHook";
 
 const { Meta } = Card;
 const { Content, Footer } = Layout;
 
-export const CurrentlyPlaying = (props: RouteComponentProps) => {
+export const ListenRouter = (props: RouteComponentProps) => {
   const [playerState, getPlayerState] = useResource(api.getPlayerState);
-  const [changedPlayerState, setPlayerState] = useResource(api.setPlayerState);
-  const [reload, triggerReload] = useState(false);
+  const [, setPlayerState] = useResource(api.setPlayerState);
   const { configuration } = useContext(ConfigurationContext);
+
+  useReload(getPlayerState);
 
   const songInfo = useMemo(() => {
     const songEntry = playerState.data && playerState.data.songEntry;
     const song = songEntry && songEntry.song;
     return {
-      albumArt: <AlbumArt song={song} />,
+      song: song,
       title: (song && song.title) || "",
       description: (song && song.description) || "",
       duration: moment
@@ -54,7 +58,7 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
       );
     }
     actions.push(
-      <Icon type="search" onClick={() => props.history.push("listen/add")} />
+      <Icon type="search" onClick={() => props.history.push("/add")} />
     );
     return actions;
   }, [
@@ -64,17 +68,17 @@ export const CurrentlyPlaying = (props: RouteComponentProps) => {
     setPlayerState
   ]);
 
-  useEffect(() => {
-    getPlayerState();
-    const ref = setTimeout(() => triggerReload(!reload), 1000);
-    return () => clearTimeout(ref);
-  }, [getPlayerState, reload, triggerReload, changedPlayerState.data]);
-
   return (
     <div className="currently-playing">
       <Layout>
         <Content className="centering vertically-centering">
-          {songInfo.albumArt}
+          <Route
+            exact
+            path="*/listen"
+            render={props => <Current song={songInfo.song} {...props} />}
+          />
+          <Route path="*/listen/history" component={History} />
+          <Route path="*/listen/queue" component={Queue} />
         </Content>
         <Footer>
           <Card className="spanning" actions={actions}>
