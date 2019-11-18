@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
-import { usePerformLogin } from "../../core/api/hooks";
+import { usePerformLogin } from "../../core/api/loginHook";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Icon, Col, Row, Checkbox } from "antd";

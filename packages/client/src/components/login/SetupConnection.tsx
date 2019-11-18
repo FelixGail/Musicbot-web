@@ -4,7 +4,7 @@ import { Row, Col } from "antd";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import api from "../../core/api/model";
-import { usePerformLogin } from "../../core/api/hooks";
+import { usePerformLogin } from "../../core/api/loginHook";
 import { useResource } from "react-request-hook";
 
 enum SetupStates {

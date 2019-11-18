@@ -100,23 +100,23 @@ const api = {
       method: "GET"
     });
   },
-  enqueue: (song: Song, provider: NamedPlugin) => {
+  enqueue: (song: Song) => {
     return request<QueueEntry[]>({
       url: "/player/queue",
       method: "PUT",
       params: {
         songId: song.id,
-        providerId: provider.id
+        providerId: song.provider.id
       }
     });
   },
-  dequeue: (song: Song, provider: NamedPlugin) => {
+  dequeue: (song: Song) => {
     return request<QueueEntry[]>({
       url: "/player/queue",
       method: "DELETE",
       params: {
         songId: song.id,
-        providerId: provider.id
+        providerId: song.provider.id
       }
     });
   },

@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
-import api from "../../core/api/model";
-import { NamedPlugin, Song } from "../../core/types";
+import api from "../../../core/api/model";
+import { NamedPlugin, Song } from "../../../core/types";
 import { SongList } from "./SongList";
 import { ListProps } from "antd/lib/list";
 
@@ -12,19 +12,8 @@ const SongPane = ({
   songs?: Song[];
 } & ListProps<Song>) => {
   const [, enqueue] = useResource(api.enqueue);
-  const [mutableSongs, setSongs] = useState(songs);
 
-  useEffect(() => setSongs(songs), [songs, setSongs]);
-
-  const enqueueWrapper = useCallback(
-    (song: Song) => {
-      enqueue(song, song.provider);
-      setSongs(mutableSongs && mutableSongs.filter(item => item !== song));
-    },
-    [enqueue, mutableSongs]
-  );
-
-  return <SongList songs={mutableSongs} onClick={enqueueWrapper} {...props} />;
+  return <SongList items={songs} onClick={enqueue} {...props} />;
 };
 
 export const ProviderPane = ({
