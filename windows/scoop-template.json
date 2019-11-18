@@ -7,7 +7,7 @@
   "installer": {
     "script": [
       "mkdir -p $dir\\config",
-      "New-Item $dir\\config\\config.json",
+      "echo '{}' > $dir\\config\\config.json",
       "Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/FelixGail/Musicbot-web/master/packages/client/public/favicon.ico\" -OutFile \"$dir\\favicon.ico\""
     ]
   },

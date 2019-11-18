@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 import useReload from "../../../core/reloadHook";
-import { SongEntryList } from "../snippets/SongList";
+import { DefaultSongEntryList } from "../snippets/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
 import { Permission, SongEntry } from "../../../core/types";
@@ -23,7 +23,11 @@ const History = () => {
 
   return (
     <div className="history">
-      <SongEntryList header="History" items={data} onClick={enqueueWrapper} />
+      <DefaultSongEntryList
+        header="History"
+        items={data}
+        onClick={enqueueWrapper}
+      />
       <ScreenNavigation left="queue" right="/listen" />
     </div>
   );

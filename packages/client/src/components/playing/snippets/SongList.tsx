@@ -19,9 +19,12 @@ import { ListProps, ListItemProps } from "antd/lib/list";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 
+type SongListAdditional<T> = ((item: T) => JSX.Element | null)[];
+
 interface SongListProps<T extends Song | SongEntry> {
   items?: T[];
   onClick: (item: T) => void;
+  additional?: SongListAdditional<T>;
 }
 
 interface SongListItem<T extends Song | SongEntry> {
@@ -29,11 +32,12 @@ interface SongListItem<T extends Song | SongEntry> {
   queue: SongEntry[];
   item: T;
   handleClick: (item: T) => void;
-  additional?: JSX.Element | string;
+  additional?: SongListAdditional<T>;
 }
 
 export const SongList = ({
   items,
+  additional,
   onClick,
   ...props
 }: SongListProps<Song> & ListProps<Song>) => {
@@ -53,6 +57,7 @@ export const SongList = ({
           item={item}
           handleClick={onClick}
           queue={data || []}
+          additional={additional}
         />
       )}
     />
@@ -61,6 +66,7 @@ export const SongList = ({
 
 export const SongEntryList = ({
   items,
+  additional,
   onClick,
   ...props
 }: SongListProps<SongEntry> & ListProps<SongEntry>) => {
@@ -79,15 +85,24 @@ export const SongEntryList = ({
           item={item}
           handleClick={onClick}
           queue={data || []}
-          additional={
-            <div className="ant-list-item-meta-description">
-              {item.userName}
-            </div>
-          }
+          additional={additional}
         />
       )}
     ></List>
   );
+};
+
+export const DefaultSongEntryList = ({
+  additional,
+  ...props
+}: SongListProps<SongEntry> & ListProps<SongEntry>) => {
+  const extendedAdditional = useMemo(() => {
+    const extra = (item: SongEntry) => (
+      <div className="ant-list-item-meta-description">{item.userName}</div>
+    );
+    return additional ? [extra, ...additional] : [extra];
+  }, [additional]);
+  return <SongEntryList additional={extendedAdditional} {...props} />;
 };
 
 function SongListItem<T extends Song | SongEntry>({
@@ -123,6 +138,18 @@ function SongListItem<T extends Song | SongEntry>({
     }
   }, [queue, song, addEnqueuedClass]);
 
+  const additionalElements = useMemo(() => {
+    return (
+      additional && (
+        <ul className="ant-list-item-action ant-list-item-additional">
+          {additional.map(fn => (
+            <li>{fn(item)}</li>
+          ))}
+        </ul>
+      )
+    );
+  }, [additional]);
+
   return (
     <List.Item
       {...props}
@@ -137,7 +164,7 @@ function SongListItem<T extends Song | SongEntry>({
         description={song.description.substr(0, 50)}
         avatar={<AlbumArt song={song} />}
       />
-      {additional}
+      {additionalElements}
     </List.Item>
   );
 }
