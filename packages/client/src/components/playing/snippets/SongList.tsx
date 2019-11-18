@@ -148,7 +148,7 @@ function SongListItem<T extends Song | SongEntry>({
         </ul>
       )
     );
-  }, [additional]);
+  }, [additional, item]);
 
   return (
     <List.Item
