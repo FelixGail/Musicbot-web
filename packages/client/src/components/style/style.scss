@@ -117,6 +117,26 @@
       }
     }
   }
+
+  .ant-list-item-action {
+    .anticon {
+      color: #e6e6e6;
+
+      &:hover {
+        color: #68758d;
+      }
+    }
+
+    color: #e6e6e6;
+    margin-left: 12px;
+  }
+
+  .ant-list-item-additional {
+    ul {
+      padding-right: 0px;
+    }
+    margin-left: 24px;
+  }
 }
 
 .search-router {
