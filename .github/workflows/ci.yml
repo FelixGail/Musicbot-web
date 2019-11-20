@@ -69,7 +69,7 @@ jobs:
       - name: install dependencies
         run: cd production && yarn install --frozen-lockfile && cd ..
       - name: Package
-        run: yarn pkg production -o build/musicbot-web-${{ matrix.os }}
+        run: yarn pkg production/package.json -o build/musicbot-web-${{ matrix.os }}
       - name: Add Nuget PackageSource
         if: matrix.os == 'windows'
         run: Register-PackageSource -Name NuGetGallery -Location https://www.nuget.org/api/v2 -ProviderName NuGet -Trusted
