@@ -67,7 +67,7 @@ jobs:
         with:
           name: production
       - name: Change workdir
-        cd: cd production
+        run: cd production
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Install pkg module
