@@ -9,5 +9,9 @@ server:
   - packages/server/*
   - packages/server/**/*
 
+ci:
+  - .github/*
+  - .github/**/*
+
 docker:
   - docker/*
