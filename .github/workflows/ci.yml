@@ -31,7 +31,7 @@ jobs:
       - name: Build arm
         run: |
           yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
-      - name: Upload artifacts
+      - name: Upload arm executable
         uses: actions/upload-artifact@v1
         with:
           name: musicbot-executables
