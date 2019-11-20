@@ -66,14 +66,12 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: production
-      - name: install dependencies
-        run: cd production && yarn install --frozen-lockfile && cd ..
-      - name: Echo current path information
-        run: |
-          echo $PWD
-          ls .
-          ls ..
-          ls production
+      - name: Change workdir
+        cd: cd production
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install pkg module
+        run: yarn add pkg -D
       - name: Package
         run: yarn pkg production/package.json -o build/musicbot-web-${{ matrix.os }}
       - name: Add Nuget PackageSource
