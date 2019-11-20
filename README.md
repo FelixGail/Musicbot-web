@@ -27,7 +27,7 @@ scoop install https://github.com/FelixGail/Musicbot-web/releases/latest/download
 </details>
 
 <details>
-    <summary>Install using pre-build-files</summary>
+    <summary>Install using pre-built-files</summary>
 
 ### Requirements:
 
