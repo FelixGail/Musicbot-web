@@ -30,12 +30,6 @@ jobs:
         run: yarn setVersion
       - name: Build
         run: yarn build
-      - name: Upload client production build
-        if: matrix.os == 'ubuntu'
-        uses: actions/upload-artifact@v1
-        with:
-          name: production
-          path: packages/server
       - name: Package
         run: yarn pkg packages/server -o build/musicbot-web-${{ matrix.os }}
       - name: Build arm
@@ -62,6 +56,15 @@ jobs:
         with:
           name: musicbot-executables
           path: build/
+      - name: Remove server dependencies
+        if: matrix.os == 'ubuntu'
+        run: rm -rf packages/server/node_modules
+      - name: Upload client production build
+        if: matrix.os == 'ubuntu'
+        uses: actions/upload-artifact@v1
+        with:
+          name: production
+          path: packages/server
   release:
     name: Create Release
     needs: [build]
