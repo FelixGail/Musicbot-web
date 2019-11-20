@@ -7,13 +7,11 @@ on:
 
 jobs:
   build:
+    name: Build
     strategy:
       matrix:
         node-version: [12.x]
-        os: [ubuntu, windows, macos]
-
-    name: Build and package
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event.label.name == 'allow-build'
 
     steps:
@@ -30,12 +28,48 @@ jobs:
         run: yarn setVersion
       - name: Build
         run: yarn build
-      - name: Package
-        run: yarn pkg packages/server -o build/musicbot-web-${{ matrix.os }}
       - name: Build arm
-        if: matrix.os == 'ubuntu'
         run: |
           yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: musicbot-executables
+          path: build/
+      - name: Remove server dependencies
+        run: rm -rf packages/server/node_modules
+      - name: Copy additional Server files
+        run: |
+          mkdir production/windows && cp -r windows/*.ps1 production/windows
+          cp yarn.lock production/
+      - name: Upload client production build
+        uses: actions/upload-artifact@v1
+        with:
+          name: production
+          path: packages/server
+  package:
+    strategy:
+      matrix:
+        node-version: [12.x]
+        os: [ubuntu, windows, macos]
+
+    name: Package
+    runs-on: ${{ matrix.os }}-latest
+    needs: [build]
+
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Download client production build
+        uses: actions/download-artifact@master
+        with:
+          name: production
+      - name: install dependencies
+        run: cd production && yarn install --frozen-lockfile && cd ..
+      - name: Package
+        run: yarn pkg production -o build/musicbot-web-${{ matrix.os }}
       - name: Add Nuget PackageSource
         if: matrix.os == 'windows'
         run: Register-PackageSource -Name NuGetGallery -Location https://www.nuget.org/api/v2 -ProviderName NuGet -Trusted
@@ -56,18 +90,9 @@ jobs:
         with:
           name: musicbot-executables
           path: build/
-      - name: Remove server dependencies
-        if: matrix.os == 'ubuntu'
-        run: rm -rf packages/server/node_modules
-      - name: Upload client production build
-        if: matrix.os == 'ubuntu'
-        uses: actions/upload-artifact@v1
-        with:
-          name: production
-          path: packages/server
   release:
     name: Create Release
-    needs: [build]
+    needs: [package]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
@@ -81,10 +106,6 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: production
-      - name: Copy additional Server files
-        run: |
-          mkdir production/windows && cp -r windows/*.ps1 production/windows
-          cp yarn.lock production/
       - name: Zip build artifact
         run: cd production && zip -r ../musicbot-web.zip ./* && cd ..
       - name: Calculate variables
