@@ -66,8 +66,8 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: production
-      - name: Change workdir
-        run: cd production
+      - name: Move production files to workdir
+        run: mv production/* .
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Install pkg module
