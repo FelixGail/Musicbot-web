@@ -68,6 +68,12 @@ jobs:
           name: production
       - name: install dependencies
         run: cd production && yarn install --frozen-lockfile && cd ..
+      - name: Echo current path information
+        run: |
+          echo $PWD
+          ls .
+          ls ..
+          ls production
       - name: Package
         run: yarn pkg production/package.json -o build/musicbot-web-${{ matrix.os }}
       - name: Add Nuget PackageSource
