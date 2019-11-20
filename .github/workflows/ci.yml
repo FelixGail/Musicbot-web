@@ -30,12 +30,12 @@ jobs:
         run: yarn build
       - name: Build arm
         run: |
-          yarn pkg packages/server/package.json -o build/musicbot-arm -t linux-armv7 --no-bytecode
+          yarn pkg packages/server/package.json -o bin/musicbot-arm -t linux-armv7 --no-bytecode
       - name: Upload arm executable
         uses: actions/upload-artifact@v1
         with:
           name: musicbot-executables
-          path: build/
+          path: bin/
       - name: Remove server dependencies
         run: rm -rf packages/server/node_modules
       - name: Copy additional Server files
@@ -73,7 +73,7 @@ jobs:
       - name: Install pkg module
         run: yarn add pkg -D
       - name: Package
-        run: yarn pkg production/package.json -o build/musicbot-web-${{ matrix.os }}
+        run: yarn pkg package.json -o bin/musicbot-web-${{ matrix.os }}
       - name: Add Nuget PackageSource
         if: matrix.os == 'windows'
         run: Register-PackageSource -Name NuGetGallery -Location https://www.nuget.org/api/v2 -ProviderName NuGet -Trusted
@@ -88,12 +88,12 @@ jobs:
       - name: Sign Executable
         if: matrix.os == 'windows'
         run: |
-          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} build/musicbot-web-${{ matrix.os }}.exe
+          .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} bin/musicbot-web-${{ matrix.os }}.exe
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
           name: musicbot-executables
-          path: build/
+          path: bin/
   release:
     name: Create Release
     needs: [package]
