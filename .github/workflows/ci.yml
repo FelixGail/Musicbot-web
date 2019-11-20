@@ -40,8 +40,8 @@ jobs:
         run: rm -rf packages/server/node_modules
       - name: Copy additional Server files
         run: |
-          mkdir production/windows && cp -r windows/*.ps1 production/windows
-          cp yarn.lock production/
+          mkdir packages/server/windows && cp -r windows/*.ps1 packages/server/windows
+          cp yarn.lock packages/server/
       - name: Upload client production build
         uses: actions/upload-artifact@v1
         with:
