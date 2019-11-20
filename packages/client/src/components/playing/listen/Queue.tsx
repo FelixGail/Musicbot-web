@@ -45,7 +45,7 @@ const Queue = () => {
         />
       </Conditional>
     ),
-    [configuration.username]
+    [configuration.username, dequeue, permission]
   );
 
   return (

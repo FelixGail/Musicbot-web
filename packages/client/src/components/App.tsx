@@ -14,6 +14,7 @@ import "./style/style.scss";
 import { PlayRouter } from "./playing/PlayRouter";
 import { LikedSongContext } from "../core/context/LikedSongsContext";
 import LikedSongs from "../core/LikedSongs";
+import InterceptorLayer from "./util/InterceptorLayer";
 
 const App = () => {
   const axios = useMemo(
@@ -42,15 +43,20 @@ const App = () => {
       <ConfigurationContext.Provider value={configurationContext}>
         <LikedSongContext.Provider value={likedSongs}>
           <RequestContext.Provider value={axios}>
-            <Router>
-              <PrivateRoute
-                exact
-                path="/"
-                component={() => <Redirect to="listen" />}
-              />
-              <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
-              <Route path="/login" component={Login}></Route>
-            </Router>
+            <InterceptorLayer>
+              <Router>
+                <PrivateRoute
+                  exact
+                  path="/"
+                  component={() => <Redirect to="listen" />}
+                />
+                <PrivateRoute
+                  path={["/listen", "/add"]}
+                  component={PlayRouter}
+                />
+                <Route path="/login" component={Login}></Route>
+              </Router>
+            </InterceptorLayer>
           </RequestContext.Provider>
         </LikedSongContext.Provider>
       </ConfigurationContext.Provider>
