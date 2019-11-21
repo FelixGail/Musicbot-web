@@ -1,10 +1,10 @@
 import { Modal } from "antd";
-import React, { useState, useMemo, useEffect, ReactNode } from "react";
+import React, { ReactNode, useMemo, Children, useEffect } from "react";
 
 export interface ContextModalProps {
   title?: string;
   visible?: boolean;
-  elements?: ContextModalElement[];
+  elements: ContextModalElement[];
 }
 
 export interface ContextModalElement {
@@ -20,31 +20,15 @@ const wrapChildren = ({ element, onClick }: ContextModalElement) => {
   );
 };
 
-export const ContextModal = ({
-  title,
-  visible,
-  elements
-}: ContextModalProps) => {
-  const [visibleState, setVisible] = useState(false);
-  useEffect(() => {
-    setVisible(visible || false);
-  }, [visible, setVisible]);
-
-  const closeLink = useMemo(() => {
-    return wrapChildren({ element: "close", onClick: () => setVisible(false) });
-  }, [setVisible]);
+const ContextModal = ({ title, visible, elements }: ContextModalProps) => {
+  const wrapped = useMemo(
+    () => elements && elements.map(element => wrapChildren(element)),
+    [elements]
+  );
 
   return (
-    <Modal
-      className="contextmodal"
-      centered
-      visible={visibleState}
-      title={title}
-    >
-      <ul className="contextmodal-list">
-        {elements && elements.map(element => wrapChildren(element))}
-        {closeLink}
-      </ul>
+    <Modal className="contextmodal" centered visible={visible} title={title}>
+      <ul className="contextmodal-list">{wrapped}</ul>
     </Modal>
   );
 };

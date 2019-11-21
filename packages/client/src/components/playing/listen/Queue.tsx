@@ -2,12 +2,13 @@ import React, { useCallback, useContext, useMemo } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 import useReload from "../../../core/reloadHook";
-import { DefaultSongEntryList } from "../snippets/songlist/SongList";
+import DefaultSongEntryList from "../snippets/songlist/DefaultSongEntryList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import Conditional from "../../util/Conditional";
 import { Icon } from "antd";
+import ContextSongEntryList from "../snippets/songlist/ContextSongEntryList";
 
 const Queue = () => {
   const [{ data }, getQueue] = useResource(api.getQueue);
@@ -50,13 +51,13 @@ const Queue = () => {
 
   return (
     <div className="queue">
-      <DefaultSongEntryList
+      <ScreenNavigation left="/listen" right="history" />
+      <ContextSongEntryList
         header="Queue"
         items={data}
-        onClick={dequeueWrapper}
         additional={[additional]}
+        elements={[]}
       />
-      <ScreenNavigation left="/listen" right="history" />
     </div>
   );
 };

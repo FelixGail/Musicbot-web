@@ -71,7 +71,7 @@ export const ListenRouter = (props: RouteComponentProps) => {
   return (
     <div className="currently-playing">
       <Layout>
-        <Content className="centering vertically-centering">
+        <Content>
           <Route
             exact
             path="*/listen"

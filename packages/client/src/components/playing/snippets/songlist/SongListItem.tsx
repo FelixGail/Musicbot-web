@@ -7,17 +7,24 @@ import SongItemExtra from "./SongItemExtra";
 import SongItemAction from "./SongItemAction";
 import { SongListAdditional } from "./SongList";
 
-interface SongListItemProps<T extends Song | SongEntry> extends ListItemProps {
-  song: Song;
+export interface SongListItemProps<T extends Song | SongEntry>
+  extends ListItemProps {
   queue: SongEntry[];
   item: T;
-  handleClick: (item: T) => void;
+  handleClick?: (item: T) => void;
   additional?: SongListAdditional<T>;
+}
+
+export function itemToSong<T extends Song | SongEntry>(item: T): Song {
+  const sAny = item as any;
+  if (sAny.song) {
+    return sAny.song;
+  }
+  return sAny;
 }
 
 function SongListItem<T extends Song | SongEntry>({
   handleClick,
-  song,
   item,
   queue,
   additional,
@@ -28,13 +35,15 @@ function SongListItem<T extends Song | SongEntry>({
     className
   );
 
+  const song = useMemo(() => itemToSong(item), [itemToSong, item]);
+
   const addEnqueuedClass = useCallback(() => {
     setClassName(className ? `${className} enqueued` : "enqueued");
   }, [setClassName, className]);
 
   const alteredClickHandle = useCallback(() => {
     addEnqueuedClass();
-    handleClick(item);
+    handleClick && handleClick(item);
   }, [handleClick, addEnqueuedClass, item]);
 
   useEffect(() => {
