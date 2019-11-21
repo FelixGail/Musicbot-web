@@ -6,7 +6,9 @@ import { useResource } from "react-request-hook";
 import api from "../../../../core/api/model";
 import SongListItem from "./SongListItem";
 
-export type SongListAdditional<T> = ((item: T) => JSX.Element | null)[];
+export type SongListAdditional<T extends Song | SongEntry> = ((
+  item: T
+) => JSX.Element | null)[];
 
 export interface SongListProps<T extends Song | SongEntry>
   extends ListProps<T> {
@@ -15,12 +17,20 @@ export interface SongListProps<T extends Song | SongEntry>
   additional?: SongListAdditional<T>;
 }
 
-export const SongList = ({
+function itemToSong<T extends Song | SongEntry>(item: T): Song {
+  const sAny = item as any;
+  if (sAny.song) {
+    return sAny.song;
+  }
+  return sAny;
+}
+
+export function SongList<T extends Song | SongEntry>({
   items,
   additional,
   onClick,
   ...props
-}: SongListProps<Song>) => {
+}: SongListProps<T>) {
   const [{ data }, getQueue] = useResource(api.getQueue);
   useEffect(() => {
     getQueue();
@@ -33,7 +43,7 @@ export const SongList = ({
       dataSource={items}
       renderItem={item => (
         <SongListItem
-          song={item}
+          song={itemToSong(item)}
           item={item}
           handleClick={onClick}
           queue={data || []}
@@ -42,35 +52,7 @@ export const SongList = ({
       )}
     />
   );
-};
-
-export const SongEntryList = ({
-  items,
-  additional,
-  onClick,
-  ...props
-}: SongListProps<SongEntry> & ListProps<SongEntry>) => {
-  const [{ data }, getQueue] = useResource(api.getQueue);
-  useEffect(() => {
-    getQueue();
-  }, [getQueue]);
-  return (
-    <List
-      className="songlist"
-      {...props}
-      dataSource={items}
-      renderItem={item => (
-        <SongListItem
-          song={item.song}
-          item={item}
-          handleClick={onClick}
-          queue={data || []}
-          additional={additional}
-        />
-      )}
-    ></List>
-  );
-};
+}
 
 export const DefaultSongEntryList = ({
   additional,
@@ -82,5 +64,5 @@ export const DefaultSongEntryList = ({
     );
     return additional ? [extra, ...additional] : [extra];
   }, [additional]);
-  return <SongEntryList additional={extendedAdditional} {...props} />;
+  return <SongList additional={extendedAdditional} {...props} />;
 };
