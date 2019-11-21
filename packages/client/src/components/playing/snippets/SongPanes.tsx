@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 import { NamedPlugin, Song } from "../../../core/types";
-import { SongList } from "./SongList";
+import { SongList } from "./songlist/SongList";
 import { ListProps } from "antd/lib/list";
 
 const SongPane = ({

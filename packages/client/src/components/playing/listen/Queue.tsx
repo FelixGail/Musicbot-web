@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 import useReload from "../../../core/reloadHook";
-import { DefaultSongEntryList } from "../snippets/SongList";
+import { DefaultSongEntryList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";

@@ -2,7 +2,7 @@ import { useContext, useState, useCallback } from "react";
 import { LikedSongContext } from "../../../core/context/LikedSongsContext";
 import React from "react";
 import { Row } from "antd";
-import { SongList } from "../snippets/SongList";
+import { SongList } from "../snippets/songlist/SongList";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 import { Song } from "../../../core/types";
