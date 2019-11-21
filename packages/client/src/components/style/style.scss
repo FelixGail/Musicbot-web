@@ -139,6 +139,11 @@
   }
 }
 
+.ant-layout-content {
+  overflow-y: scroll;
+  background-color: #272c35;
+}
+
 .search-router {
   .back-arrow {
     width: 100%;
@@ -156,8 +161,6 @@
   }
   .ant-layout-content {
     padding-top: 10px;
-    overflow-y: scroll;
-    background-color: #272c35;
     color: white;
   }
 
@@ -183,7 +186,6 @@
 .history,
 .queue {
   display: flex;
-  height: 100%;
   width: 100%;
 
   .songlist {
