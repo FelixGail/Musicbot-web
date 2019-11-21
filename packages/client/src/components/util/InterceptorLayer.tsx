@@ -1,16 +1,16 @@
-import { useContext, useEffect } from "react";
+import React, {
+  useContext,
+  useEffect,
+  Fragment,
+  FunctionComponent
+} from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { usePerformLogin } from "../../core/api/loginHook";
-import { RequestError } from "react-request-hook";
 import { AxiosError } from "axios";
 
-export interface InterceptorLayerProps {
-  children?: JSX.Element;
-}
-
-const InterceptorLayer = (props: InterceptorLayerProps) => {
+const InterceptorLayer: FunctionComponent = ({ children }) => {
   const { configuration } = useContext(ConfigurationContext);
-  const [result, login] = usePerformLogin();
+  const [, login] = usePerformLogin();
 
   useEffect(() => {
     const id = configuration.axios.interceptors.response.use(
@@ -32,7 +32,7 @@ const InterceptorLayer = (props: InterceptorLayerProps) => {
     configuration.password,
     login
   ]);
-  return props.children || null;
+  return <Fragment>{children}</Fragment>;
 };
 
 export default InterceptorLayer;
