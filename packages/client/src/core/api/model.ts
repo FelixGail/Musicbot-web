@@ -8,7 +8,6 @@ import {
   Song,
   PasswordChange,
   SongEntry,
-  QueueEntry,
   Volume
 } from "../types";
 import { request } from "react-request-hook";
@@ -95,13 +94,13 @@ const api = {
     });
   },
   getQueue: () => {
-    return request<QueueEntry[]>({
+    return request<SongEntry[]>({
       url: "/player/queue",
       method: "GET"
     });
   },
   enqueue: (song: Song) => {
-    return request<QueueEntry[]>({
+    return request<SongEntry[]>({
       url: "/player/queue",
       method: "PUT",
       params: {
@@ -111,7 +110,7 @@ const api = {
     });
   },
   dequeue: (song: Song) => {
-    return request<QueueEntry[]>({
+    return request<SongEntry[]>({
       url: "/player/queue",
       method: "DELETE",
       params: {
@@ -120,14 +119,14 @@ const api = {
       }
     });
   },
-  moveEntry: (index: number, song: Song, provider: NamedPlugin) => {
-    return request<QueueEntry[]>({
+  moveEntry: (index: number, song: Song) => {
+    return request<SongEntry[]>({
       url: "/player/queue/order",
       method: "PUT",
       params: {
         index: index,
-        song: song.id,
-        provider: provider.id
+        songId: song.id,
+        providerId: song.provider.id
       }
     });
   },

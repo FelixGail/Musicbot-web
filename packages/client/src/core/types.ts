@@ -15,6 +15,18 @@ export interface PlayerState {
   progress?: number;
 }
 
+export function playerStateEquals(a?: PlayerState, b?: PlayerState) {
+  if (a === b) return true;
+  if (a && b) {
+    return (
+      a.state === b.state &&
+      a.progress === b.progress &&
+      songEntryEquals(a.songEntry, b.songEntry)
+    );
+  }
+  return false;
+}
+
 export interface UserInfo {
   name: string;
   permissions: Permission[];
@@ -36,6 +48,14 @@ export interface NamedPlugin {
   name: string;
 }
 
+export function namedPluginEquals(a?: NamedPlugin, b?: NamedPlugin) {
+  if (a === b) return true;
+  if (a && b) {
+    return a.id === b.id;
+  }
+  return false;
+}
+
 export interface Song {
   id: string;
   provider: NamedPlugin;
@@ -46,14 +66,25 @@ export interface Song {
   albumArtPath?: string;
 }
 
+export function songEquals(a?: Song, b?: Song) {
+  return (
+    a === b ||
+    (a && b && a.id === b.id && namedPluginEquals(a.provider, b.provider)) ||
+    false
+  );
+}
+
 export interface SongEntry {
   song: Song;
   userName: string;
 }
 
-export interface QueueEntry {
-  song: Song;
-  userName: string;
+export function songEntryEquals(a?: SongEntry, b?: SongEntry) {
+  if (a === b) return true;
+  if (a && b) {
+    return a.userName === b.userName && songEquals(a.song, b.song);
+  }
+  return false;
 }
 
 export interface PlayerStateChange {

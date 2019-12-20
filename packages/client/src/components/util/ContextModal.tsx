@@ -1,52 +1,58 @@
 import { Modal } from "antd";
-import React, { useState, useMemo, useEffect, ReactNode } from "react";
+import React, { useMemo, ReactNode, useRef, useCallback } from "react";
+import { ModalProps } from "antd/lib/modal";
+import { useClickAway } from "react-use";
 
-export interface ContextModalProps {
-  title?: string;
-  visible?: boolean;
-  elements?: ContextModalElement[];
+export interface ContextModalProps<T> extends ModalProps {
+  elements?: ContextModalElement<T>[];
+  item: T;
+  clickAway?: () => void;
 }
 
-export interface ContextModalElement {
-  element: ReactNode;
-  onClick: (item: any) => void;
+export interface ContextModalElement<T> {
+  element: (item: T) => ReactNode;
+  onClick: (item: T) => void;
 }
 
-const wrapChildren = ({ element, onClick }: ContextModalElement) => {
-  return (
-    <li className="contextmodal-list-element">
-      <div onClick={onClick}>{element}</div>
-    </li>
+export function ContextModal<T>({
+  elements,
+  clickAway,
+  item,
+  ...props
+}: ContextModalProps<T>) {
+  const wrapChildren = useCallback(
+    ({ element, onClick }: ContextModalElement<T>, index: number) => {
+      return (
+        <li className="contextmodal-list-element centering" key={index}>
+          <div
+            className="contextmodal-list-element-div centering"
+            onClick={() => onClick(item)}
+          >
+            {element(item)}
+          </div>
+        </li>
+      );
+    },
+    [item]
   );
-};
+  const wrappedElements = useMemo(() => {
+    return (
+      (elements &&
+        elements.map((element, index) => wrapChildren(element, index))) ||
+      []
+    );
+  }, [elements, wrapChildren]);
 
-export const ContextModal = ({
-  title,
-  visible,
-  elements
-}: ContextModalProps) => {
-  const [visibleState, setVisible] = useState(false);
-  useEffect(() => {
-    setVisible(visible || false);
-  }, [visible, setVisible]);
-
-  const closeLink = useMemo(() => {
-    return wrapChildren({ element: "close", onClick: () => setVisible(false) });
-  }, [setVisible]);
+  const ref = useRef(null);
+  useClickAway(ref, clickAway || (() => {}));
 
   return (
-    <Modal
-      className="contextmodal"
-      centered
-      visible={visibleState}
-      title={title}
-    >
-      <ul className="contextmodal-list">
-        {elements && elements.map(element => wrapChildren(element))}
-        {closeLink}
-      </ul>
+    <Modal className="contextmodal" {...props}>
+      <div ref={ref}>
+        <ul className="contextmodal-list">{wrappedElements}</ul>
+      </div>
     </Modal>
   );
-};
+}
 
 export default ContextModal;

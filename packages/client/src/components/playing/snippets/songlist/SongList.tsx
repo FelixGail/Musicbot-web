@@ -1,7 +1,7 @@
 import { List } from "antd";
 import React, { useEffect, useMemo } from "react";
 import { Song, SongEntry } from "../../../../core/types";
-import { ListProps, ListItemProps } from "antd/lib/list";
+import { ListProps } from "antd/lib/list";
 import { useResource } from "react-request-hook";
 import api from "../../../../core/api/model";
 import SongListItem from "./SongListItem";
@@ -13,16 +13,8 @@ export type SongListAdditional<T extends Song | SongEntry> = ((
 export interface SongListProps<T extends Song | SongEntry>
   extends ListProps<T> {
   items?: T[];
-  onClick: (item: T) => void;
+  onClick: (item: T, index: number) => void;
   additional?: SongListAdditional<T>;
-}
-
-function itemToSong<T extends Song | SongEntry>(item: T): Song {
-  const sAny = item as any;
-  if (sAny.song) {
-    return sAny.song;
-  }
-  return sAny;
 }
 
 export function SongList<T extends Song | SongEntry>({
@@ -41,10 +33,10 @@ export function SongList<T extends Song | SongEntry>({
       className="songlist"
       {...props}
       dataSource={items}
-      renderItem={item => (
+      renderItem={(item, index) => (
         <SongListItem
-          song={itemToSong(item)}
           item={item}
+          index={index}
           handleClick={onClick}
           queue={data || []}
           additional={additional}

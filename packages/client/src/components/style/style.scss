@@ -140,7 +140,6 @@
 }
 
 .ant-layout-content {
-  overflow-y: scroll;
   background-color: #272c35;
 }
 
@@ -162,6 +161,7 @@
   .ant-layout-content {
     padding-top: 10px;
     color: white;
+    overflow-y: scroll;
   }
 
   .search-router-navigation {
@@ -192,6 +192,10 @@
     margin-top: 50px;
     margin-left: 50px;
     margin-right: 50px;
+  }
+
+  .ant-layout-content {
+    overflow-y: scroll;
   }
 }
 
@@ -235,5 +239,45 @@
 
   .screen-navigation-right {
     right: 0;
+  }
+}
+
+.contextmodal {
+  min-width: 300px;
+  width: auto !important;
+
+  .contextmodal-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .ant-modal-header {
+    padding: 10px 20px 10px 20px;
+  }
+
+  .ant-modal-title {
+    font-weight: bolder;
+    color: #949494;
+  }
+
+  .ant-modal-body {
+    padding: 10px 0px;
+  }
+
+  .contextmodal-list-element-div {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .contextmodal-list-element {
+    div:not(:empty) {
+      padding: 4px 20px;
+    }
+  }
+
+  .contextmodal-list-element:hover {
+    color: #1890ff;
+    background-color: #cccccc;
   }
 }
