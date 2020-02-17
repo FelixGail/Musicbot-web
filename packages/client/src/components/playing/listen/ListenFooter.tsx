@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useMemo, useCallback } from "react";
+import React, { FunctionComponent, useContext, useMemo, useCallback, useEffect, useRef } from "react";
 import { Card, Layout, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
@@ -12,6 +12,7 @@ import {
 } from "../../../core/types";
 import moment from "moment";
 import { useHistory } from "react-router";
+import deepEqual from "deep-equal";
 
 export interface ListenFooterProps {
   current: PlayerState;
@@ -24,8 +25,15 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   const { configuration } = useContext(ConfigurationContext);
   const history = useHistory();
 
+  const currentRef = useRef(current);
+  useEffect(() => {
+    if(!(deepEqual(current.songEntry, currentRef.current.songEntry) && deepEqual(current.state, currentRef.current.state))) {
+      currentRef.current = current;
+    }
+  }, [current, currentRef])
+
   const songInfo = useMemo(() => {
-    const songEntry = current.songEntry;
+    const songEntry = currentRef.current.songEntry;
     const song = songEntry && songEntry.song;
     return {
       song: song,
@@ -36,22 +44,23 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         .format("mm:ss"),
       enqueuedBy: (songEntry && songEntry.userName) || "Suggested"
     };
-  }, [current]);
+  }, [currentRef]);
   const actions = useMemo(() => {
-    var actions = [
-      <PlayPause status={current.state} changePlayerState={setPlayerState} />
-    ];
-    if (
-      configuration.permissions &&
-      configuration.permissions.includes(Permission.SKIP)
-    ) {
-      actions.push(
-        <Icon type="forward" onClick={() => setPlayerState(Action.SKIP)} />
-      );
+    const actions = [];
+    if(configuration.permissions) {
+      if(configuration.permissions.includes(Permission.PAUSE)) {
+        actions.push(<PlayPause status={currentRef.current.state} changePlayerState={setPlayerState} />)
+      }
+      if(configuration.permissions.includes(Permission.SKIP)
+      ) {
+        actions.push(
+          <Icon type="forward" onClick={() => setPlayerState(Action.SKIP)} />
+        );
+      }
     }
     actions.push(<Icon type="search" onClick={() => history.push("/add")} />);
     return actions;
-  }, [current, configuration.permissions, history, setPlayerState]);
+  }, [currentRef, configuration.permissions, history, setPlayerState]);
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
     songInfo.title
   ]);
@@ -62,7 +71,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       }`,
     [songInfo]
   );
-  return (
+  const jsx = useMemo(() => (
     <Layout.Footer>
       <Card className="spanning" actions={actions}>
         <Card.Meta
@@ -71,7 +80,8 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         />
       </Card>
     </Layout.Footer>
-  );
+  ), [actions, searchLink, songInfo.title, description])
+  return jsx;
 };
 
 export const PlayPause = ({status, changePlayerState}: {

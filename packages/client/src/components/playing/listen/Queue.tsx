@@ -67,7 +67,8 @@ const Queue: FunctionComponent = () => {
         element: () => (
           <Permissional permission={Permission.MOVE}>Move to top</Permissional>
         ),
-        onClick: item => move(0, item.song)
+        onClick: item => move(0, item.song),
+        close: true
       },
       {
         element: item => (
@@ -79,7 +80,8 @@ const Queue: FunctionComponent = () => {
             Remove
           </Conditional>
         ),
-        onClick: item => dequeue(item.song)
+        onClick: item => dequeue(item.song),
+        close: true
       }
     ];
   }, [move, hasRemovePermission, configuration.username, dequeue]);

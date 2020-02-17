@@ -14,7 +14,7 @@ const SongItemAction = (props: { song: Song }) => {
   const [isLiked, setLiked] = useState<boolean>(false);
   useEffect(() => {
     setLiked(likedSongs.contains(props.song));
-  }, [setLiked, likedSongs, props.song]);
+  }, [setLiked, likedSongs, likedSongs.songs, likedSongs.songs.length, props.song]);
   const style = useMemo(() => {
     if (isLiked) {
       return {

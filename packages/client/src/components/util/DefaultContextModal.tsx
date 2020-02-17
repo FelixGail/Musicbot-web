@@ -1,6 +1,6 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
 import { useContext, useMemo } from "react";
-import { RouteComponentProps, useHistory } from "react-router";
+import { RouteComponentProps, useHistory} from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
@@ -47,25 +47,27 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   ]);
 
   const combinedElements: ContextModalElement<T>[] = useMemo(() => {
-    const defaultElements = [
+    const defaultElements: ContextModalElement<T>[] = [
       {
         element: () => `${isLikedSong ? "Remove from" : "Add to"} my songs`,
         onClick: () => {
           isLikedSong ? likedSongs.removeSong(song) : likedSongs.addSong(song);
-        }
+        },
+        close: true
       },
       {
         element: () => "Close",
-        onClick: () => {}
+        onClick: () => {},
+        close: true
       }
     ];
     return (elements ? elements.concat(defaultElements) : defaultElements).map(
-      ({ element, onClick }) => {
+      ({ element, onClick, close }) => {
         return {
           element: element,
           onClick: (item: T) => {
             onClick(item);
-            history.goBack();
+            close && history.goBack();
           }
         };
       }
@@ -94,9 +96,8 @@ export function useSearchSongModalElements<T extends Song | SongEntry>(): Contex
         element: item => `Search for '${itemToSong(item).title}'`,
         onClick: item => {
           history.push(`/add/search?${encodeURI(itemToSong(item).title)}`);
-          history.goForward();
-          history.goForward();
-        }
+        },
+        close: false
       },
       {
         element: item =>
@@ -107,7 +108,8 @@ export function useSearchSongModalElements<T extends Song | SongEntry>(): Contex
               itemToSong(item).description.substr(0, 50)
             )}`
           );
-        }
+        },
+        close: false
       }
     ],
     [history]

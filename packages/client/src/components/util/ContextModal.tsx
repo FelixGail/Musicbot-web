@@ -12,6 +12,7 @@ export interface ContextModalProps<T> extends ModalProps {
 export interface ContextModalElement<T> {
   element: (item: T) => ReactNode;
   onClick: (item: T) => void;
+  close?: boolean;
 }
 
 export function ContextModal<T>({
