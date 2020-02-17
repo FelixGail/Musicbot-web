@@ -2,41 +2,38 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FunctionComponent,
-  useEffect
+  FunctionComponent
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
-import useReload from "../../../core/hooks/reloadHook";
 import { DefaultSongEntryList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
-import { SongEntry, Permission, songEntryEquals } from "../../../core/types";
+import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import Conditional from "../../util/Conditional";
 import { Icon } from "antd";
-import { Route, RouteComponentProps } from "react-router";
+import { Route, useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
 import DefaultContextModal, {
   useSearchSongModalElements
 } from "../../util/DefaultContextModal";
 import Permissional from "../../util/Permissional";
 import useHasPermission from "../../../core/hooks/useHasPermission";
-import { useLogger } from "react-use";
-import useArrayEquals from "../../../core/hooks/useArrayEquals";
-import useEquallingReload from "../../../core/hooks/useEquallingReload";
+import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
 
-const Queue: FunctionComponent<RouteComponentProps> = props => {
-  useLogger("queue", props);
-  const compareQueue = useArrayEquals(songEntryEquals);
-  const queue = useEquallingReload(api.getQueue, compareQueue, []);
+const Queue: FunctionComponent = () => {
+  const queue = useResourceReload(api.getQueue, [])
+  const hstry = useHistory()
+  const location = useLocation()
 
   const [, dequeue] = useResource(api.dequeue);
   const click = useCallback(
     (_, index: number) => {
-      props.history.push(`${props.match.url}/${index}`);
+      hstry.push(`${location.pathname}/${index}`);
     },
-    [props.history, props.match.url]
+    [hstry, location.pathname]
   );
+
 
   const hasRemovePermission = useHasPermission(Permission.SKIP);
   const { configuration } = useContext(ConfigurationContext);
@@ -60,8 +57,9 @@ const Queue: FunctionComponent<RouteComponentProps> = props => {
     ),
     [configuration.username, dequeue, hasRemovePermission]
   );
+  const additionalArray = useMemo(() => [additional], [additional])
 
-  const searchElements = useSearchSongModalElements<SongEntry>(props);
+  const searchElements = useSearchSongModalElements<SongEntry>();
   const [, move] = useResource(api.moveEntry);
   const contextElements: ContextModalElement<SongEntry>[] = useMemo(() => {
     return [
@@ -90,27 +88,30 @@ const Queue: FunctionComponent<RouteComponentProps> = props => {
     [searchElements, contextElements]
   );
 
-  return (
-    <div className="queue">
+  const renderFunction = useCallback(props =>
+    <DefaultContextModal
+      data={queue}
+      elements={combinedElements}
+      {...props}
+    />, [queue, combinedElements])
+
+    const jsx = useMemo(() => (
+      <div className="queue">
       <ScreenNavigation left="/listen" right="history" />
       <DefaultSongEntryList
         header="Queue"
         items={queue}
         onClick={click}
-        additional={[additional]}
+        additional={additionalArray}
       />
       <Route
         path="*/queue/:element"
-        render={props => (
-          <DefaultContextModal
-            data={queue}
-            elements={combinedElements}
-            {...props}
-          />
-        )}
+        render={renderFunction}
       />
     </div>
-  );
+    ), [queue, click, additionalArray, renderFunction])
+
+  return jsx;
 };
 
 export default Queue;

@@ -1,40 +1,35 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Layout } from "antd";
-import api from "../../../core/api/model";
-import { PlayerStatus, playerStateEquals } from "../../../core/types";
-import { RouteComponentProps, Route } from "react-router";
+import { Route } from "react-router";
 import "moment-duration-format";
 import Current from "./Current";
 import History from "./History";
 import Queue from "./Queue";
-import useEquallingReload from "../../../core/hooks/useEquallingReload";
 import ListenFooter from "./ListenFooter";
-import { useLogger } from "react-use";
+import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
+import api from "../../../core/api/model";
 
-export const ListenRouter = (props: RouteComponentProps) => {
-  useLogger("ListenRouter");
-  const current = useEquallingReload(api.getPlayerState, playerStateEquals, {
-    state: PlayerStatus.STOP
-  });
-  useEffect(() => console.log(current), [current]);
+export const ListenRouter = () => {
+  const playerState = useResourceReload(api.getPlayerState, undefined)
 
   const renderCurrent = useCallback(
-    (props: RouteComponentProps) => (
-      <Current song={current.songEntry && current.songEntry.song} {...props} />
+    () => (
+     playerState && <Current song={playerState.songEntry && playerState.songEntry.song}/>
     ),
-    [current.songEntry]
+    [playerState]
   );
 
-  return (
-    <div className="currently-playing">
-      <Layout>
-        <Layout.Content>
-          <Route exact path="*/listen" render={renderCurrent} />
-          <Route path="*/listen/history" component={History} />
-          <Route path="*/listen/queue" component={Queue} />
-        </Layout.Content>
-        <ListenFooter current={current} {...props} />
-      </Layout>
-    </div>
-  );
+  const jsx = useMemo(() => (
+  <div className="currently-playing">
+    <Layout>
+      <Layout.Content>
+        <Route exact path="*/listen" render={renderCurrent} />
+        <Route path="*/listen/history" component={History} />
+        <Route path="*/listen/queue" component={Queue} />
+      </Layout.Content>
+      {playerState && <ListenFooter current={playerState}/>}
+    </Layout>
+  </div>), [renderCurrent, playerState])
+
+  return jsx;
 };

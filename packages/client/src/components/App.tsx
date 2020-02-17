@@ -9,7 +9,7 @@ import {
 } from "../core/context/Configuration";
 import Axios from "axios";
 import { RequestContext } from "react-request-hook";
-import { useSetState, useLogger } from "react-use";
+import { useSetState } from "react-use";
 import "./style/style.scss";
 import { PlayRouter } from "./playing/PlayRouter";
 import { LikedSongContext } from "../core/context/LikedSongsContext";
@@ -17,7 +17,6 @@ import LikedSongs from "../core/LikedSongs";
 import InterceptorLayer from "./util/InterceptorLayer";
 
 const App = () => {
-  useLogger("Toplevel");
   const axios = useMemo(
     () =>
       Axios.create({
@@ -45,18 +44,18 @@ const App = () => {
         <LikedSongContext.Provider value={likedSongs}>
           <RequestContext.Provider value={axios}>
             <InterceptorLayer>
-              <Router>
-                <PrivateRoute
-                  exact
-                  path="/"
-                  component={() => <Redirect to="listen" />}
-                />
-                <PrivateRoute
-                  path={["/listen", "/add"]}
-                  component={PlayRouter}
-                />
-                <Route path="/login" component={Login}></Route>
-              </Router>
+                <Router>
+                  <PrivateRoute
+                    exact
+                    path="/"
+                    component={() => <Redirect to="listen" />}
+                  />
+                  <PrivateRoute
+                    path={["/listen", "/add"]}
+                    component={PlayRouter}
+                  />
+                  <Route path="/login" component={Login}></Route>
+                </Router>
             </InterceptorLayer>
           </RequestContext.Provider>
         </LikedSongContext.Provider>

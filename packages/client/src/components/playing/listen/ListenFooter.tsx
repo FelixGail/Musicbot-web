@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useContext, useMemo } from "react";
+import React, { FunctionComponent, useContext, useMemo, useCallback } from "react";
 import { Card, Layout, Icon } from "antd";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
 import api from "../../../core/api/model";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -11,17 +11,19 @@ import {
   PlayerState
 } from "../../../core/types";
 import moment from "moment";
+import { useHistory } from "react-router";
 
-export interface ListenFooterProps extends RouteComponentProps {
+export interface ListenFooterProps {
   current: PlayerState;
 }
 
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
-  current,
-  history
+  current
 }) => {
   const [, setPlayerState] = useResource(api.setPlayerState);
   const { configuration } = useContext(ConfigurationContext);
+  const history = useHistory();
+
   const songInfo = useMemo(() => {
     const songEntry = current.songEntry;
     const song = songEntry && songEntry.song;
@@ -72,30 +74,32 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   );
 };
 
-export const PlayPause = (props: {
+export const PlayPause = ({status, changePlayerState}: {
   status: PlayerStatus;
   changePlayerState: RequestDispatcher<
     (action: Action) => Resource<PlayerState>
   >;
 }) => {
+  const clickPause = useCallback(() => changePlayerState(Action.PAUSE), [changePlayerState]);
+  const clickPlay = useCallback(() => changePlayerState(Action.PLAY), [changePlayerState]);
   return useMemo(() => {
-    switch (props.status) {
+    switch (status) {
       case PlayerStatus.PLAY:
         return (
           <Icon
             type="pause"
-            onClick={() => props.changePlayerState(Action.PAUSE)}
+            onClick={clickPause}
           />
         );
       default:
         return (
           <Icon
             type="caret-right"
-            onClick={() => props.changePlayerState(Action.PLAY)}
+            onClick={clickPlay}
           />
         );
     }
-  }, [props.status, props.changePlayerState]);
+  }, [status, clickPause, clickPlay]);
 };
 
 export default ListenFooter;

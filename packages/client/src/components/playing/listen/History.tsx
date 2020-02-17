@@ -1,36 +1,36 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useMemo } from "react";
 import api from "../../../core/api/model";
-import useReload from "../../../core/hooks/reloadHook";
 import { DefaultSongEntryList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
-import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
 import { Permission, SongEntry } from "../../../core/types";
+import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
 import { useResource } from "react-request-hook";
+import useHasPermission from "../../../core/hooks/useHasPermission";
 
 const History = () => {
-  const [{ data }, getHistory] = useResource(api.getHistory);
-  useReload(getHistory);
-  const [, enqueue] = useResourceWithPermission(
-    api.enqueue,
-    Permission.ENQUEUE
-  );
+  const history = useResourceReload(api.getHistory, [])
+  const [, enqueue] = useResource(api.enqueue);
+  const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE)
+
   const enqueueWrapper = useCallback(
     (value: SongEntry) => {
-      enqueue([], value.song);
+      hasEnqueuePermission && enqueue(value.song);
     },
-    [enqueue]
+    [enqueue, hasEnqueuePermission]
   );
 
-  return (
+  const jsx = useMemo(() => (
     <div className="history">
       <ScreenNavigation left="queue" right="/listen" />
       <DefaultSongEntryList
         header="History"
-        items={data}
+        items={history}
         onClick={enqueueWrapper}
       />
     </div>
-  );
+  ), [history, enqueueWrapper])
+
+  return jsx;
 };
 
 export default History;

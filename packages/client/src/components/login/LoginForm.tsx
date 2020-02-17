@@ -72,6 +72,14 @@ export const LForm = (props: FormComponentProps) => {
     }
   }, [successful, error, isLoading, setError, redirectToReferrer]);
 
+  const checkCheckbox = useCallback((rule, value, callback) => {
+    if(!value) {
+      callback("Please accept the ICBINT warning.")
+    } else {
+      callback()
+    }
+  }, []);
+
   return (
     <Row>
       <Col {...FormProps}>
@@ -111,15 +119,13 @@ export const LForm = (props: FormComponentProps) => {
             </Form.Item>
           )}
           {!configuration.icbintKey && (
-            <Form.Item help="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.">
+            <Form.Item extra="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.">
               {getFieldDecorator("icbint", {
+                valuePropName: 'checked',
                 rules: [
                   {
-                    validator: (_, value, callback) => {
-                      value
-                        ? callback()
-                        : callback("You need to accept the warning.");
-                    }
+                    required: true,
+                    validator: checkCheckbox
                   }
                 ]
               })(

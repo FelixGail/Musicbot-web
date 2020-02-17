@@ -1,6 +1,6 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
 import { useContext, useMemo } from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useHistory } from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
@@ -86,9 +86,8 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   });
 }
 
-export function useSearchSongModalElements<T extends Song | SongEntry>({
-  history
-}: RouteComponentProps): ContextModalElement<T>[] {
+export function useSearchSongModalElements<T extends Song | SongEntry>(): ContextModalElement<T>[] {
+  const history = useHistory()
   return useMemo(
     () => [
       {
