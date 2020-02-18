@@ -1,5 +1,5 @@
 import { Route, Redirect, useHistory, useLocation } from "react-router";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect } from "react";
 import { BackTop, Col, Icon, Card, Layout } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
