@@ -39,6 +39,7 @@ export const Search = (props: RouteComponentProps) => {
           onChange={value => setUndebounced(value.target.value)}
           enterButton="Search"
           size="large"
+          allowClear
         />
       </Row>
       <Row>
