@@ -1,13 +1,15 @@
-import { RouteComponentProps, Route, Redirect } from "react-router";
-import React, { useCallback, useEffect } from "react";
+import { Route, Redirect, useHistory, useLocation } from "react-router";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { BackTop, Col, Icon, Card, Layout } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
 import Stars from "./Stars";
 import { Link } from "react-router-dom";
 
-const SearchRouter = (props: RouteComponentProps) => {
-  const goHome = useCallback(() => props.history.push("/"), [props.history]);
+const SearchRouter = () => {
+  const location = useLocation()
+  const history = useHistory();
+  const goHome = useCallback(() => history.push("/"), [history]);
 
   const handleEscape = useCallback(
     (event: KeyboardEvent) => {
@@ -25,6 +27,7 @@ const SearchRouter = (props: RouteComponentProps) => {
     };
   }, [handleEscape]);
 
+  const renderCallback = useCallback(() => <Redirect to={`${location.pathname}/search`} />, [location.pathname])
   const backTopTarget = useCallback(() => document.getElementById("searchContent") || window, [])
 
   return (
@@ -41,9 +44,7 @@ const SearchRouter = (props: RouteComponentProps) => {
             <Route
               exact
               path="*/add"
-              render={() => (
-                <Redirect to={`${props.location.pathname}/search`} />
-              )}
+              render={renderCallback}
             />
             <Route path="*/add/search" component={Search} />
             <Route path="*/add/suggest" component={Suggest} />
@@ -54,6 +55,9 @@ const SearchRouter = (props: RouteComponentProps) => {
           <Card
             className="search-router-navigation spanning"
             actions={[
+              <Link to="/listen">
+                <Icon type="unordered-list" />
+              </Link>,
               <Link to="/add/search">
                 <Icon type="search" />
               </Link>,
