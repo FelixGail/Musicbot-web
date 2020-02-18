@@ -1,19 +1,22 @@
 import { Song } from "../../../core/types";
 import { AlbumArt } from "../snippets/AlbumArt";
-import React from "react";
+import React, { useMemo } from "react";
 import ScreenNavigation from "../../util/ScreenNavigation";
-import { RouteComponentProps } from "react-router";
+import { useLocation } from "react-use";
 
-const Current = (props: { song?: Song } & RouteComponentProps) => {
-  return (
+const Current = (props: { song?: Song }) => {
+  const location = useLocation()
+
+  const jsx = useMemo(() => (
     <div className="current full-width full-height vertically-centering centering">
       <AlbumArt song={props.song} />
       <ScreenNavigation
-        left={`${props.location.pathname}/history`}
-        right={`${props.location.pathname}/queue`}
+        left={`${location.pathname}/history`}
+        right={`${location.pathname}/queue`}
       />
-    </div>
-  );
+    </div>), [props.song, location.pathname])
+
+    return jsx;
 };
 
 export default Current;

@@ -44,18 +44,18 @@ const App = () => {
         <LikedSongContext.Provider value={likedSongs}>
           <RequestContext.Provider value={axios}>
             <InterceptorLayer>
-              <Router>
-                <PrivateRoute
-                  exact
-                  path="/"
-                  component={() => <Redirect to="listen" />}
-                />
-                <PrivateRoute
-                  path={["/listen", "/add"]}
-                  component={PlayRouter}
-                />
-                <Route path="/login" component={Login}></Route>
-              </Router>
+                <Router>
+                  <PrivateRoute
+                    exact
+                    path="/"
+                    component={() => <Redirect to="listen" />}
+                  />
+                  <PrivateRoute
+                    path={["/listen", "/add"]}
+                    component={PlayRouter}
+                  />
+                  <Route path="/login" component={Login}></Route>
+                </Router>
             </InterceptorLayer>
           </RequestContext.Provider>
         </LikedSongContext.Provider>

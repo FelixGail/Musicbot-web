@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import LinkDiv from "./LinkDiv";
 
 type clickFunction = () => void;
@@ -11,7 +11,7 @@ export interface ScreenNavigationProps {
 }
 
 const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
-  return (
+  const jsx = useMemo(() => (
     <div className="screen-navigation">
       <ScreenNavigationItem
         action={left}
@@ -26,7 +26,9 @@ const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
         className="screen-navigation-inner screen-navigation-right"
       />
     </div>
-  );
+  ), [left, right, center])
+
+  return jsx;
 };
 
 const ScreenNavigationItem = ({
