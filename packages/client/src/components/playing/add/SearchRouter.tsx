@@ -25,11 +25,15 @@ const SearchRouter = (props: RouteComponentProps) => {
     };
   }, [handleEscape]);
 
+  const backTopTarget = useCallback(() => document.getElementById("searchContent") || window, [])
+
   return (
     <div className="search-router">
-      <BackTop />
+      <BackTop target={backTopTarget}>
+        <div className="ant-back-top-inner">UP</div>
+      </BackTop>
       <Layout>
-        <Layout.Content>
+        <Layout.Content id="searchContent">
           <Col span={3}>
             <Icon className="back-arrow" type="double-left" onClick={goHome} />
           </Col>

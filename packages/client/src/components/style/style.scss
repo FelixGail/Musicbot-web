@@ -173,6 +173,11 @@
   .ant-tabs {
     color: #e6e6e6;
   }
+
+  .ant-back-top {
+    left: 5px;
+    bottom: 55px;
+  }
 }
 
 .full-height {
@@ -280,4 +285,19 @@
     color: #1890ff;
     background-color: #cccccc;
   }
+}
+
+.ant-back-top {
+  bottom: 100px;
+}
+
+.ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
 }
