@@ -5,6 +5,9 @@ import { ListProps } from "antd/lib/list";
 import { useResource } from "react-request-hook";
 import api from "../../../../core/api/model";
 import SongListItem from "./SongListItem";
+import { ContextModalElement } from "../../../util/ContextModal";
+import { Route } from "react-router";
+import DefaultContextModal from "../../../util/DefaultContextModal";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -15,12 +18,19 @@ export interface SongListProps<T extends Song | SongEntry>
   items?: T[];
   onClick: (item: T, index: number) => void;
   additional?: SongListAdditional<T>;
+  contextModal?: ListContextModal<T>;
+}
+
+export interface ListContextModal<T extends Song | SongEntry> {
+  route: string
+  elements: ContextModalElement<T>[]
 }
 
 export function SongList<T extends Song | SongEntry>({
   items,
   additional,
   onClick,
+  contextModal,
   ...props
 }: SongListProps<T>) {
   const [{ data }, getQueue] = useResource(api.getQueue);
@@ -28,8 +38,23 @@ export function SongList<T extends Song | SongEntry>({
     getQueue();
   }, [getQueue]);
 
+  const modalJSX = useMemo(() => {
+    return contextModal &&
+      <Route
+        path={`${contextModal.route}/:element`}
+        render={({match}) => <DefaultContextModal
+          data={items || []}
+          elements={contextModal.elements}
+          match={match}
+        />}
+      />
+
+  }, [contextModal, items])
+
   return (
-    <List
+    <div className="songlist">
+      {modalJSX}
+      <List
       className="songlist"
       {...props}
       dataSource={items}
@@ -41,8 +66,8 @@ export function SongList<T extends Song | SongEntry>({
           queue={data || []}
           additional={additional}
         />
-      )}
-    />
+      )}/>
+    </div>
   );
 }
 

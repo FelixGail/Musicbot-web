@@ -12,11 +12,9 @@ import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import Conditional from "../../util/Conditional";
 import { Icon } from "antd";
-import { Route, useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
-import DefaultContextModal, {
-  useSearchSongModalElements
-} from "../../util/DefaultContextModal";
+import { useSearchSongModalElements } from "../../util/DefaultContextModal";
 import Permissional from "../../util/Permissional";
 import useHasPermission from "../../../core/hooks/useHasPermission";
 import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
@@ -90,13 +88,6 @@ const Queue: FunctionComponent = () => {
     [searchElements, contextElements]
   );
 
-  const renderFunction = useCallback(props =>
-    <DefaultContextModal
-      data={queue}
-      elements={combinedElements}
-      {...props}
-    />, [queue, combinedElements])
-
     const jsx = useMemo(() => (
       <div className="queue">
       <ScreenNavigation left="/listen" right="history" />
@@ -105,13 +96,10 @@ const Queue: FunctionComponent = () => {
         items={queue}
         onClick={click}
         additional={additionalArray}
-      />
-      <Route
-        path="*/queue/:element"
-        render={renderFunction}
+        contextModal={{route: "*/queue", elements: combinedElements}}
       />
     </div>
-    ), [queue, click, additionalArray, renderFunction])
+    ), [queue, click, additionalArray, combinedElements])
 
   return jsx;
 };

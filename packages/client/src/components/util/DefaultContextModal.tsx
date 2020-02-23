@@ -1,16 +1,16 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
 import { useContext, useMemo } from "react";
-import { RouteComponentProps, useHistory} from "react-router";
+import { useHistory, match} from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
 import { ModalProps } from "antd/lib/modal";
 
 export interface DefaultContextModalProps<T extends Song | SongEntry>
-  extends RouteComponentProps<{ element: string }>,
-    ModalProps {
+  extends ModalProps {
   elements?: ContextModalElement<T>[];
   data: T[];
+  match: match<{element: string}>
 }
 
 function DefaultContextModal<T extends Song | SongEntry>({
@@ -18,26 +18,25 @@ function DefaultContextModal<T extends Song | SongEntry>({
   match,
   ...props
 }: DefaultContextModalProps<T>) {
-  const isValid =
-    +match.params.element >= 0 && data.length > +match.params.element;
+  const element = match && +match.params.element;
+  const isValid = match && element >= 0 && data.length > element;
 
   return isValid
-    ? InnerDefaultContextModal({ data: data, match: match, ...props })
+    ? InnerDefaultContextModal({ data: data, id: element, match, ...props })
     : null;
 }
 
 function InnerDefaultContextModal<T extends Song | SongEntry>({
   data,
   elements,
-  history,
-  match,
+  id,
   maskClosable,
   centered,
   ...props
-}: DefaultContextModalProps<T>) {
-  const item = useMemo(() => data[+match.params.element], [
+}: DefaultContextModalProps<T> & {id: number}) {
+  const item = useMemo(() => data[id], [
     data,
-    match.params.element
+    id
   ]);
   const song = useMemo(() => itemToSong(item), [item]);
   const likedSongs = useContext(LikedSongContext);
@@ -45,6 +44,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
     likedSongs,
     song
   ]);
+  const history = useHistory();
 
   const combinedElements: ContextModalElement<T>[] = useMemo(() => {
     const defaultElements: ContextModalElement<T>[] = [
