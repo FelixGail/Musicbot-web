@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useMemo, useCallback, useEffect, useRef } from "react";
+import React, { FunctionComponent, useContext, useMemo, useCallback, useEffect, useRef, useState } from "react";
 import { Card, Layout, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
@@ -26,14 +26,17 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   const history = useHistory();
 
   const currentRef = useRef(current);
+  const [currentState, setCurrentState]  = useState<PlayerState>(current);
   useEffect(() => {
-    if(!(deepEqual(current.songEntry, currentRef.current.songEntry) && deepEqual(current.state, currentRef.current.state))) {
+    if(!(deepEqual(current.songEntry, currentRef.current.songEntry)
+      && deepEqual(current.state, currentRef.current.state))) {
       currentRef.current = current;
+      setCurrentState(current);
     }
-  }, [current, currentRef])
+  }, [current, currentRef, setCurrentState])
 
   const songInfo = useMemo(() => {
-    const songEntry = currentRef.current.songEntry;
+    const songEntry = currentState && currentState.songEntry;
     const song = songEntry && songEntry.song;
     return {
       song: song,
@@ -44,12 +47,13 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         .format("mm:ss"),
       enqueuedBy: (songEntry && songEntry.userName) || "Suggested"
     };
-  }, [currentRef]);
+  }, [currentState]);
   const actions = useMemo(() => {
     const actions = [];
     if(configuration.permissions) {
       if(configuration.permissions.includes(Permission.PAUSE)) {
-        actions.push(<PlayPause status={currentRef.current.state} changePlayerState={setPlayerState} />)
+        actions.push(<PlayPause status={currentState? currentState.state : PlayerStatus.ERROR}
+          changePlayerState={setPlayerState} />)
       }
       if(configuration.permissions.includes(Permission.SKIP)
       ) {
@@ -60,7 +64,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
     }
     actions.push(<Icon type="search" onClick={() => history.push("/add")} />);
     return actions;
-  }, [currentRef, configuration.permissions, history, setPlayerState]);
+  }, [currentState, configuration.permissions, history, setPlayerState]);
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
     songInfo.title
   ]);
