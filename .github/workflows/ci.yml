@@ -30,7 +30,7 @@ jobs:
         run: yarn build
       - name: Build arm
         run: |
-          yarn pkg packages/server/package.json -o bin/musicbot-arm -t linux-armv7 --no-bytecode
+          yarn pkg packages/server/package.json -o bin/musicbot-arm -t node12.2.0-linux-armv7 --no-bytecode
       - name: Upload arm executable
         uses: actions/upload-artifact@v1
         with:
