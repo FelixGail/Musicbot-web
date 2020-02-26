@@ -10,7 +10,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: ["12.2.0"]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event.label.name == 'allow-build'
 
