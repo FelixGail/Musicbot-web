@@ -21,12 +21,12 @@
   "homepage": "https://github.com/FelixGail/MusicBot-web#readme",
   "dependencies": {
     "bonjour": "^3.5.0",
-    "express": "^4.16.4",
-    "express-http-proxy": "^1.5.1",
+    "express": "^4.17.1",
+    "express-http-proxy": "^1.6.0",
     "ip": "^1.1.5",
     "nconf": "^0.10.0",
     "node-ssdp": "^4.0.0",
-    "yargs": "^14.2.0"
+    "yargs": "^15.1.0"
   },
   "pkg": {
     "assets": [
