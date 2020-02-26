@@ -5,7 +5,7 @@ import { Token } from "../types";
 import api from "./model";
 import { Canceler } from "axios";
 import { useSetState } from "react-use";
-const uuid4 = require("uuid/v4");
+import { v4 as uuidv4 } from 'uuid';
 
 interface LoginResult {
   successful: boolean;
@@ -27,7 +27,7 @@ export function usePerformLogin(): [LoginResult, LoginRequest] {
 
   const performLogin = useCallback(
     (username: string, password: string | null) => {
-      const tmpPw: string = password ? password : uuid4();
+      const tmpPw: string = password ? password : uuidv4();
       setConfiguration({ username: username, password: tmpPw });
       localStorage.setItem("username", username);
       localStorage.setItem("password", tmpPw);

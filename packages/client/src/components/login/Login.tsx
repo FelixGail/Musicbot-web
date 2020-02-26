@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { Route, RouteComponentProps, Redirect } from "react-router";
 import { Row, Col, Alert } from "antd";
-import ReactSVG from "react-svg";
+import { ReactSVG } from "react-svg";
 import logo from "../../img/kiu.svg";
 import { LoginContext } from "../../core/context/LoginContext";
 import { SetupConnection } from "./SetupConnection";
