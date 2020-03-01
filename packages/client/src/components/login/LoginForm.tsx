@@ -32,7 +32,7 @@ export const LForm = (props: FormComponentProps) => {
   const [{ successful, error, isLoading }, login] = usePerformLogin();
   const { setError, redirectToReferrer } = useContext(LoginContext);
   const { configuration } = useContext(ConfigurationContext);
-  const { getFieldDecorator, validateFields } = props.form;
+  const { getFieldDecorator, validateFields, setFieldsValue } = props.form;
 
   const onSubmit = useCallback(
     (event: React.FormEvent) => {
@@ -73,12 +73,19 @@ export const LForm = (props: FormComponentProps) => {
   }, [successful, error, isLoading, setError, redirectToReferrer]);
 
   const checkCheckbox = useCallback((rule, value, callback) => {
-    if(!value) {
-      callback("Please accept the ICBINT warning.")
+    if (!value) {
+      callback("Please accept the ICBINT warning.");
     } else {
-      callback()
+      callback();
     }
   }, []);
+
+  const hidePasswordField = useCallback(() => {
+    if (expectPassword) {
+      setFieldsValue({ password: undefined });
+      setExpectPassword(false);
+    }
+  }, [expectPassword, setExpectPassword, setFieldsValue]);
 
   return (
     <Row>
@@ -103,6 +110,7 @@ export const LForm = (props: FormComponentProps) => {
                 prefix={<Icon type="user" />}
                 type="text"
                 placeholder="Username"
+                onChange={hidePasswordField}
               />
             )}
           </Form.Item>
@@ -121,7 +129,7 @@ export const LForm = (props: FormComponentProps) => {
           {!configuration.icbintKey && (
             <Form.Item extra="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.">
               {getFieldDecorator("icbint", {
-                valuePropName: 'checked',
+                valuePropName: "checked",
                 rules: [
                   {
                     required: true,
