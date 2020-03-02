@@ -139,7 +139,8 @@
   }
 }
 
-.ant-layout-content {
+.ant-layout-content,
+.fullscreen {
   background-color: #272c35;
 }
 
@@ -161,7 +162,7 @@
   .ant-layout-content {
     padding-top: 10px;
     color: white;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .search-router-navigation {
@@ -201,7 +202,7 @@
 }
 
 .ant-layout-content {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .history,
