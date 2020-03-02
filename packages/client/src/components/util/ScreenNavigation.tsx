@@ -11,22 +11,25 @@ export interface ScreenNavigationProps {
 }
 
 const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
-  const jsx = useMemo(() => (
-    <div className="screen-navigation">
-      <ScreenNavigationItem
-        action={left}
-        className="screen-navigation-inner screen-navigation-left"
-      />
-      <ScreenNavigationItem
-        action={center}
-        className="screen-navigation-inner screen-navigation-center"
-      />
-      <ScreenNavigationItem
-        action={right}
-        className="screen-navigation-inner screen-navigation-right"
-      />
-    </div>
-  ), [left, right, center])
+  const jsx = useMemo(
+    () => (
+      <div className="screen-navigation">
+        <ScreenNavigationItem
+          action={left}
+          className="screen-navigation-inner screen-navigation-left"
+        />
+        <ScreenNavigationItem
+          action={center}
+          className="screen-navigation-inner screen-navigation-center"
+        />
+        <ScreenNavigationItem
+          action={right}
+          className="screen-navigation-inner screen-navigation-right"
+        />
+      </div>
+    ),
+    [left, right, center]
+  );
 
   return jsx;
 };

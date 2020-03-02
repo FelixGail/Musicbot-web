@@ -1,6 +1,6 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
 import { useContext, useMemo } from "react";
-import { useHistory, match} from "react-router";
+import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
@@ -10,7 +10,7 @@ export interface DefaultContextModalProps<T extends Song | SongEntry>
   extends ModalProps {
   elements?: ContextModalElement<T>[];
   data: T[];
-  match: match<{element: string}>
+  match: match<{ element: string }>;
 }
 
 function DefaultContextModal<T extends Song | SongEntry>({
@@ -33,11 +33,8 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   maskClosable,
   centered,
   ...props
-}: DefaultContextModalProps<T> & {id: number}) {
-  const item = useMemo(() => data[id], [
-    data,
-    id
-  ]);
+}: DefaultContextModalProps<T> & { id: number }) {
+  const item = useMemo(() => data[id], [data, id]);
   const song = useMemo(() => itemToSong(item), [item]);
   const likedSongs = useContext(LikedSongContext);
   const isLikedSong = useMemo(() => likedSongs.contains(song), [
@@ -88,8 +85,10 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   });
 }
 
-export function useSearchSongModalElements<T extends Song | SongEntry>(): ContextModalElement<T>[] {
-  const history = useHistory()
+export function useSearchSongModalElements<
+  T extends Song | SongEntry
+>(): ContextModalElement<T>[] {
+  const history = useHistory();
   return useMemo(
     () => [
       {

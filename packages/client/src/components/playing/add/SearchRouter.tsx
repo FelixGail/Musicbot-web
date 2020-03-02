@@ -7,7 +7,7 @@ import Stars from "./Stars";
 import { Link } from "react-router-dom";
 
 const SearchRouter = () => {
-  const location = useLocation()
+  const location = useLocation();
   const history = useHistory();
   const goHome = useCallback(() => history.push("/"), [history]);
 
@@ -27,8 +27,14 @@ const SearchRouter = () => {
     };
   }, [handleEscape]);
 
-  const renderCallback = useCallback(() => <Redirect to={`${location.pathname}/search`} />, [location.pathname])
-  const backTopTarget = useCallback(() => document.getElementById("searchContent") || window, [])
+  const renderCallback = useCallback(
+    () => <Redirect to={`${location.pathname}/search`} />,
+    [location.pathname]
+  );
+  const backTopTarget = useCallback(
+    () => document.getElementById("searchContent") || window,
+    []
+  );
 
   return (
     <div className="search-router">
@@ -41,11 +47,7 @@ const SearchRouter = () => {
             <Icon className="back-arrow" type="double-left" onClick={goHome} />
           </Col>
           <Col span={19}>
-            <Route
-              exact
-              path="*/add"
-              render={renderCallback}
-            />
+            <Route exact path="*/add" render={renderCallback} />
             <Route path="*/add/search" component={Search} />
             <Route path="*/add/suggest" component={Suggest} />
             <Route path="*/add/stars" component={Stars} />
