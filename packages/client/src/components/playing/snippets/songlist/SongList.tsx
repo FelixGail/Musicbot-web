@@ -22,8 +22,8 @@ export interface SongListProps<T extends Song | SongEntry>
 }
 
 export interface ListContextModal<T extends Song | SongEntry> {
-  route: string
-  elements: ContextModalElement<T>[]
+  route: string;
+  elements: ContextModalElement<T>[];
 }
 
 export function SongList<T extends Song | SongEntry>({
@@ -39,34 +39,39 @@ export function SongList<T extends Song | SongEntry>({
   }, [getQueue]);
 
   const modalJSX = useMemo(() => {
-    return contextModal &&
-      <Route
-        path={`${contextModal.route}/:element`}
-        render={({match}) => <DefaultContextModal
-          data={items || []}
-          elements={contextModal.elements}
-          match={match}
-        />}
-      />
-
-  }, [contextModal, items])
+    return (
+      contextModal && (
+        <Route
+          path={`${contextModal.route}/:element`}
+          render={({ match }) => (
+            <DefaultContextModal
+              data={items || []}
+              elements={contextModal.elements}
+              match={match}
+            />
+          )}
+        />
+      )
+    );
+  }, [contextModal, items]);
 
   return (
     <div className="songlist">
       {modalJSX}
       <List
-      className="songlist"
-      {...props}
-      dataSource={items}
-      renderItem={(item, index) => (
-        <SongListItem
-          item={item}
-          index={index}
-          handleClick={onClick}
-          queue={data || []}
-          additional={additional}
-        />
-      )}/>
+        className=""
+        {...props}
+        dataSource={items}
+        renderItem={(item, index) => (
+          <SongListItem
+            item={item}
+            index={index}
+            handleClick={onClick}
+            queue={data || []}
+            additional={additional}
+          />
+        )}
+      />
     </div>
   );
 }

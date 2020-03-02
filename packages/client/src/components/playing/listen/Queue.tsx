@@ -18,11 +18,13 @@ import { useSearchSongModalElements } from "../../util/DefaultContextModal";
 import Permissional from "../../util/Permissional";
 import useHasPermission from "../../../core/hooks/useHasPermission";
 import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
+import { FullscreenContext } from "../../../core/context/FullscreenContext";
 
 const Queue: FunctionComponent = () => {
-  const queue = useResourceReload(api.getQueue, [])
-  const hstry = useHistory()
-  const location = useLocation()
+  const queue = useResourceReload(api.getQueue, []);
+  const hstry = useHistory();
+  const location = useLocation();
+  const toggleFullscreen = useContext(FullscreenContext);
 
   const [, dequeue] = useResource(api.dequeue);
   const click = useCallback(
@@ -31,7 +33,6 @@ const Queue: FunctionComponent = () => {
     },
     [hstry, location.pathname]
   );
-
 
   const hasRemovePermission = useHasPermission(Permission.SKIP);
   const { configuration } = useContext(ConfigurationContext);
@@ -55,7 +56,7 @@ const Queue: FunctionComponent = () => {
     ),
     [configuration.username, dequeue, hasRemovePermission]
   );
-  const additionalArray = useMemo(() => [additional], [additional])
+  const additionalArray = useMemo(() => [additional], [additional]);
 
   const searchElements = useSearchSongModalElements<SongEntry>();
   const [, move] = useResource(api.moveEntry);
@@ -88,18 +89,25 @@ const Queue: FunctionComponent = () => {
     [searchElements, contextElements]
   );
 
-    const jsx = useMemo(() => (
-      <div className="queue">
-      <ScreenNavigation left="/listen" right="history" />
-      <DefaultSongEntryList
-        header="Queue"
-        items={queue}
-        onClick={click}
-        additional={additionalArray}
-        contextModal={{route: "*/queue", elements: combinedElements}}
-      />
-    </div>
-    ), [queue, click, additionalArray, combinedElements])
+  const jsx = useMemo(
+    () => (
+      <div className="queue full-width full-height">
+        <ScreenNavigation
+          left="/listen"
+          right="history"
+          center={toggleFullscreen}
+        />
+        <DefaultSongEntryList
+          header="Queue"
+          items={queue}
+          onClick={click}
+          additional={additionalArray}
+          contextModal={{ route: "*/queue", elements: combinedElements }}
+        />
+      </div>
+    ),
+    [queue, click, additionalArray, combinedElements, toggleFullscreen]
+  );
 
   return jsx;
 };

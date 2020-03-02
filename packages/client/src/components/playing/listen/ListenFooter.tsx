@@ -1,4 +1,12 @@
-import React, { FunctionComponent, useContext, useMemo, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import { Card, Layout, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
@@ -16,24 +24,30 @@ import deepEqual from "deep-equal";
 
 export interface ListenFooterProps {
   current: PlayerState;
+  showActions: boolean;
 }
 
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
-  current
+  current,
+  showActions
 }) => {
   const [, setPlayerState] = useResource(api.setPlayerState);
   const { configuration } = useContext(ConfigurationContext);
   const history = useHistory();
 
   const currentRef = useRef(current);
-  const [currentState, setCurrentState]  = useState<PlayerState>(current);
+  const [currentState, setCurrentState] = useState<PlayerState>(current);
   useEffect(() => {
-    if(!(deepEqual(current.songEntry, currentRef.current.songEntry)
-      && deepEqual(current.state, currentRef.current.state))) {
+    if (
+      !(
+        deepEqual(current.songEntry, currentRef.current.songEntry) &&
+        deepEqual(current.state, currentRef.current.state)
+      )
+    ) {
       currentRef.current = current;
       setCurrentState(current);
     }
-  }, [current, currentRef, setCurrentState])
+  }, [current, currentRef, setCurrentState]);
 
   const songInfo = useMemo(() => {
     const songEntry = currentState && currentState.songEntry;
@@ -50,13 +64,16 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   }, [currentState]);
   const actions = useMemo(() => {
     const actions = [];
-    if(configuration.permissions) {
-      if(configuration.permissions.includes(Permission.PAUSE)) {
-        actions.push(<PlayPause status={currentState? currentState.state : PlayerStatus.ERROR}
-          changePlayerState={setPlayerState} />)
+    if (configuration.permissions) {
+      if (configuration.permissions.includes(Permission.PAUSE)) {
+        actions.push(
+          <PlayPause
+            status={currentState ? currentState.state : PlayerStatus.ERROR}
+            changePlayerState={setPlayerState}
+          />
+        );
       }
-      if(configuration.permissions.includes(Permission.SKIP)
-      ) {
+      if (configuration.permissions.includes(Permission.SKIP)) {
         actions.push(
           <Icon type="forward" onClick={() => setPlayerState(Action.SKIP)} />
         );
@@ -75,43 +92,43 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       }`,
     [songInfo]
   );
-  const jsx = useMemo(() => (
-    <Layout.Footer>
-      <Card className="spanning" actions={actions}>
-        <Card.Meta
-          title={<Link to={searchLink}>{songInfo.title}</Link>}
-          description={description}
-        />
-      </Card>
-    </Layout.Footer>
-  ), [actions, searchLink, songInfo.title, description])
+  const jsx = useMemo(
+    () => (
+      <Layout.Footer>
+        <Card className="spanning" actions={showActions ? actions : undefined}>
+          <Card.Meta
+            title={<Link to={searchLink}>{songInfo.title}</Link>}
+            description={description}
+          />
+        </Card>
+      </Layout.Footer>
+    ),
+    [actions, searchLink, songInfo.title, description, showActions]
+  );
   return jsx;
 };
 
-export const PlayPause = ({status, changePlayerState}: {
+export const PlayPause = ({
+  status,
+  changePlayerState
+}: {
   status: PlayerStatus;
   changePlayerState: RequestDispatcher<
     (action: Action) => Resource<PlayerState>
   >;
 }) => {
-  const clickPause = useCallback(() => changePlayerState(Action.PAUSE), [changePlayerState]);
-  const clickPlay = useCallback(() => changePlayerState(Action.PLAY), [changePlayerState]);
+  const clickPause = useCallback(() => changePlayerState(Action.PAUSE), [
+    changePlayerState
+  ]);
+  const clickPlay = useCallback(() => changePlayerState(Action.PLAY), [
+    changePlayerState
+  ]);
   return useMemo(() => {
     switch (status) {
       case PlayerStatus.PLAY:
-        return (
-          <Icon
-            type="pause"
-            onClick={clickPause}
-          />
-        );
+        return <Icon type="pause" onClick={clickPause} />;
       default:
-        return (
-          <Icon
-            type="caret-right"
-            onClick={clickPlay}
-          />
-        );
+        return <Icon type="caret-right" onClick={clickPlay} />;
     }
   }, [status, clickPause, clickPlay]);
 };
