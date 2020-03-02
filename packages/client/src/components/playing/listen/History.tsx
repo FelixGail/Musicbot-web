@@ -1,32 +1,45 @@
-import React, { useCallback } from "react";
-import { useResource } from "react-request-hook";
+import React, { useCallback, useMemo, useContext } from "react";
 import api from "../../../core/api/model";
-import useReload from "../../../core/reloadHook";
-import { SongEntryList } from "../snippets/SongList";
+import { DefaultSongEntryList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
-import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
 import { Permission, SongEntry } from "../../../core/types";
+import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
+import { useResource } from "react-request-hook";
+import useHasPermission from "../../../core/hooks/useHasPermission";
+import { FullscreenContext } from "../../../core/context/FullscreenContext";
 
 const History = () => {
-  const [{ data }, getHistory] = useResource(api.getHistory);
-  const [, enqueue] = useResourceWithPermission(
-    api.enqueue,
-    Permission.ENQUEUE
-  );
+  const history = useResourceReload(api.getHistory, []);
+  const [, enqueue] = useResource(api.enqueue);
+  const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE);
+  const toggleFullscreen = useContext(FullscreenContext);
+
   const enqueueWrapper = useCallback(
     (value: SongEntry) => {
-      enqueue([], value.song);
+      hasEnqueuePermission && enqueue(value.song);
     },
-    [enqueue]
+    [enqueue, hasEnqueuePermission]
   );
-  useReload(getHistory);
 
-  return (
-    <div className="history">
-      <SongEntryList header="History" items={data} onClick={enqueueWrapper} />
-      <ScreenNavigation left="queue" right="/listen" />
-    </div>
+  const jsx = useMemo(
+    () => (
+      <div className="history full-width full-height centering">
+        <ScreenNavigation
+          left="queue"
+          right="/listen"
+          center={toggleFullscreen}
+        />
+        <DefaultSongEntryList
+          header="History"
+          items={history}
+          onClick={enqueueWrapper}
+        />
+      </div>
+    ),
+    [history, enqueueWrapper, toggleFullscreen]
   );
+
+  return jsx;
 };
 
 export default History;

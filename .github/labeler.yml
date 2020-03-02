@@ -1,0 +1,17 @@
+repository:
+  - ./*
+
+client:
+  - packages/client/*
+  - packages/client/**/*
+
+server:
+  - packages/server/*
+  - packages/server/**/*
+
+ci:
+  - .github/*
+  - .github/**/*
+
+docker:
+  - docker/*

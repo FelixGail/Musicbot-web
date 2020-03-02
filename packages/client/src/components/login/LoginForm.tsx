@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
-import { usePerformLogin } from "../../core/api/loginHook";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Icon, Col, Row, Checkbox } from "antd";
 import { FormComponentProps } from "antd/lib/form";
+import { useUserLogin, useUserRegister } from "../../core/user/user";
 
 const MAX_USERNAME_LENGTH = 20;
 
@@ -29,21 +29,31 @@ type FormData = {
 
 export const LForm = (props: FormComponentProps) => {
   const [expectPassword, setExpectPassword] = useState<boolean>(false);
-  const [{ successful, error, isLoading }, login] = usePerformLogin();
+  const [loginResult, login] = useUserLogin();
+  const [registerResult, register] = useUserRegister();
+  const [successful, isLoading, error] = [
+    loginResult.successful || registerResult.successful,
+    loginResult.isLoading || registerResult.isLoading,
+    loginResult.error || registerResult.error
+  ];
   const { setError, redirectToReferrer } = useContext(LoginContext);
   const { configuration } = useContext(ConfigurationContext);
-  const { getFieldDecorator, validateFields } = props.form;
+  const { getFieldDecorator, validateFields, setFieldsValue } = props.form;
 
   const onSubmit = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
       validateFields((err, values: FormData) => {
         if (!err && values) {
-          login(values.username, values.password);
+          if (values.password) {
+            login(values.username, values.password);
+          } else {
+            register(values.username);
+          }
         }
       });
     },
-    [login, validateFields]
+    [login, register, validateFields]
   );
 
   useEffect(() => {
@@ -72,6 +82,21 @@ export const LForm = (props: FormComponentProps) => {
     }
   }, [successful, error, isLoading, setError, redirectToReferrer]);
 
+  const checkCheckbox = useCallback((rule, value, callback) => {
+    if (!value) {
+      callback("Please accept the ICBINT warning.");
+    } else {
+      callback();
+    }
+  }, []);
+
+  const hidePasswordField = useCallback(() => {
+    if (expectPassword) {
+      setFieldsValue({ password: undefined });
+      setExpectPassword(false);
+    }
+  }, [expectPassword, setExpectPassword, setFieldsValue]);
+
   return (
     <Row>
       <Col {...FormProps}>
@@ -95,6 +120,7 @@ export const LForm = (props: FormComponentProps) => {
                 prefix={<Icon type="user" />}
                 type="text"
                 placeholder="Username"
+                onChange={hidePasswordField}
               />
             )}
           </Form.Item>
@@ -111,15 +137,13 @@ export const LForm = (props: FormComponentProps) => {
             </Form.Item>
           )}
           {!configuration.icbintKey && (
-            <Form.Item help="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.">
+            <Form.Item extra="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server.">
               {getFieldDecorator("icbint", {
+                valuePropName: "checked",
                 rules: [
                   {
-                    validator: (_, value, callback) => {
-                      value
-                        ? callback()
-                        : callback("You need to accept the warning.");
-                    }
+                    required: true,
+                    validator: checkCheckbox
                   }
                 ]
               })(

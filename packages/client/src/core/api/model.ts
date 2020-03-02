@@ -6,9 +6,7 @@ import {
   UserInfo,
   NamedPlugin,
   Song,
-  PasswordChange,
   SongEntry,
-  QueueEntry,
   Volume
 } from "../types";
 import { request } from "react-request-hook";
@@ -48,10 +46,13 @@ const api = {
       method: "GET"
     });
   },
-  setPassword: () => {
-    return request<PasswordChange>({
+  setPassword: (password: string) => {
+    return request<Token>({
       url: "/user",
-      method: "PUT"
+      method: "PUT",
+      data: {
+        newPassword: password
+      }
     });
   },
   deleteUser: () => {
@@ -95,13 +96,13 @@ const api = {
     });
   },
   getQueue: () => {
-    return request<QueueEntry[]>({
+    return request<SongEntry[]>({
       url: "/player/queue",
       method: "GET"
     });
   },
   enqueue: (song: Song) => {
-    return request<QueueEntry[]>({
+    return request<SongEntry[]>({
       url: "/player/queue",
       method: "PUT",
       params: {
@@ -111,7 +112,7 @@ const api = {
     });
   },
   dequeue: (song: Song) => {
-    return request<QueueEntry[]>({
+    return request<SongEntry[]>({
       url: "/player/queue",
       method: "DELETE",
       params: {
@@ -120,14 +121,14 @@ const api = {
       }
     });
   },
-  moveEntry: (index: number, song: Song, provider: NamedPlugin) => {
-    return request<QueueEntry[]>({
+  moveEntry: (index: number, song: Song) => {
+    return request<SongEntry[]>({
       url: "/player/queue/order",
       method: "PUT",
       params: {
         index: index,
-        song: song.id,
-        provider: provider.id
+        songId: song.id,
+        providerId: song.provider.id
       }
     });
   },
