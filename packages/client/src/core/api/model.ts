@@ -6,7 +6,6 @@ import {
   UserInfo,
   NamedPlugin,
   Song,
-  PasswordChange,
   SongEntry,
   Volume
 } from "../types";
@@ -47,10 +46,13 @@ const api = {
       method: "GET"
     });
   },
-  setPassword: () => {
-    return request<PasswordChange>({
+  setPassword: (password: string) => {
+    return request<Token>({
       url: "/user",
-      method: "PUT"
+      method: "PUT",
+      data: {
+        newPassword: password
+      }
     });
   },
   deleteUser: () => {
