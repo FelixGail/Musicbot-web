@@ -1036,19 +1036,19 @@
     "@babel/helper-plugin-utils" "^7.8.3"
     "@babel/plugin-transform-typescript" "^7.8.3"
 
-"@babel/runtime@7.8.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.5", "@babel/runtime@^7.8.4":
+"@babel/runtime@7.8.4":
   version "7.8.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.4.tgz#d79f5a2040f7caa24d53e563aad49cbc05581308"
   integrity sha512-neAp3zt80trRVBI1x0azq6c57aNBqYZH8KhMm3TaB7wEI5Q4A2SHfBHE8w9gOhI/lrqxtEbXZgQIrHP+wvSGwQ==
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.6.3":
-  version "7.7.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.2.tgz#111a78002a5c25fc8e3361bedc9529c696b85a6a"
-  integrity sha512-JONRbXbTXc9WQE2mAZd1p0Z3DZ/6vaQIkgYMSTP3KjRCyd7rCZCcfhCyX+YjwcKxcZ82UrxbRD358bpExNgrjw==
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+  version "7.8.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.7.tgz#8fefce9802db54881ba59f90bb28719b4996324d"
+  integrity sha512-+AATMUFppJDw6aiR5NVPHqIQBlV/Pj8wY/EZH+lmvRdUo9xBaz/rF3alAwFJQavvKfeOlPE7oaaDHVbcySbCsg==
   dependencies:
-    regenerator-runtime "^0.13.2"
+    regenerator-runtime "^0.13.4"
 
 "@babel/template@^7.4.0", "@babel/template@^7.7.0":
   version "7.7.0"
@@ -2282,10 +2282,10 @@
     "@svgr/plugin-svgo" "^4.3.1"
     loader-utils "^1.2.3"
 
-"@tanem/svg-injector@^8.0.40":
-  version "8.0.41"
-  resolved "https://registry.yarnpkg.com/@tanem/svg-injector/-/svg-injector-8.0.41.tgz#538a6f210ea49f173c1ccb9180cbd5c34c931873"
-  integrity sha512-vKomnKsycSS2eF6lNUPFKuPLPmh7UT93ISyrtQPb3HEd64Djp+dz6/rkImre5xTxuptTPwZs0NXztJV2ZIlTuw==
+"@tanem/svg-injector@^8.0.43":
+  version "8.0.43"
+  resolved "https://registry.yarnpkg.com/@tanem/svg-injector/-/svg-injector-8.0.43.tgz#14febd2f90f027fb7c8c4323f2e72b04966393ad"
+  integrity sha512-fbVfy0Vaq8amQOannydGkJ+jAzVbWFDbJJ8n7sd9miY/EX7/xyt+68cxuSXzXtY8fzbbRmNngCGEOUMN/9kl8w==
   dependencies:
     "@babel/runtime" "^7.8.4"
 
@@ -12291,12 +12291,12 @@ react-slick@~0.25.2:
     resize-observer-polyfill "^1.5.0"
 
 react-svg@^11.0.11:
-  version "11.0.11"
-  resolved "https://registry.yarnpkg.com/react-svg/-/react-svg-11.0.11.tgz#4a09fd1440d176fb857cd28c8b80c8568dcf6dd0"
-  integrity sha512-eNop/sMRImwSjS2Jsl7X36QN4J6wuFbh755xsLcRwE5Kcps3wZM71IJlA5zMyD8Mag//a3CsoH9TNP6E2rlxfw==
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/react-svg/-/react-svg-11.0.14.tgz#13f72ba76dc1c7466031196468612f9d27b94fbe"
+  integrity sha512-W+aMO+fvZMP4WJMAOzoTrxkfRwOd62QikXLgkNqPMTKfo0WxJj+hKwTYZZajSZyQ/nHd49o/VgvjEtE3FdVm3g==
   dependencies:
-    "@babel/runtime" "^7.8.4"
-    "@tanem/svg-injector" "^8.0.40"
+    "@babel/runtime" "^7.8.7"
+    "@tanem/svg-injector" "^8.0.43"
     prop-types "^15.7.2"
 
 react-use@^13.3.0:
@@ -12516,6 +12516,11 @@ regenerator-runtime@^0.13.2, regenerator-runtime@^0.13.3:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
   integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
+
+regenerator-runtime@^0.13.4:
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
+  integrity sha512-ZS5w8CpKFinUzOwW3c83oPeVXoNsrLsaCoLtJvAClH135j/R77RuymhiSErhm2lKcwSCIpmvIWSbDkIfAqKQlA==
 
 regenerator-transform@^0.14.0:
   version "0.14.1"
