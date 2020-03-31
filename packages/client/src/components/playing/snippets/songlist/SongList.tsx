@@ -1,13 +1,13 @@
 import { List } from "antd";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Song, SongEntry } from "../../../../core/types";
 import { ListProps } from "antd/lib/list";
-import { useResource } from "react-request-hook";
-import api from "../../../../core/api/model";
 import SongListItem from "./SongListItem";
 import { ContextModalElement } from "../../../util/ContextModal";
 import { useContext } from 'react';
 import PlayerStateContext from '../../../../core/context/PlayerStateContext';
+import DefaultContextModal from "../../../util/DefaultContextModal";
+import { Route } from "react-router-dom";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
