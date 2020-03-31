@@ -11,7 +11,7 @@ import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 
 export const ListenRouter = () => {
-  const {state: playerState} = useContext(PlayerStateContext)
+  const { state: playerState } = useContext(PlayerStateContext);
   const [showFullscreen, toggleFullscreen] = useToggle(false);
   const ref = useRef(null);
   const isFullscreen = useFullscreen(ref, showFullscreen, {
