@@ -7,7 +7,8 @@ import React, {
   useRef,
   useState
 } from "react";
-import { Card, Layout, Icon } from "antd";
+import { CaretRightOutlined, ForwardOutlined, PauseOutlined, SearchOutlined } from '@ant-design/icons';
+import { Card, Layout } from "antd";
 import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
 import api from "../../../core/api/model";
@@ -75,11 +76,11 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       }
       if (configuration.permissions.includes(Permission.SKIP)) {
         actions.push(
-          <Icon type="forward" onClick={() => setPlayerState(Action.SKIP)} />
+          <ForwardOutlined onClick={() => setPlayerState(Action.SKIP)} />
         );
       }
     }
-    actions.push(<Icon type="search" onClick={() => history.push("/add")} />);
+    actions.push(<SearchOutlined onClick={() => history.push("/add")} />);
     return actions;
   }, [currentState, configuration.permissions, history, setPlayerState]);
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
@@ -126,9 +127,9 @@ export const PlayPause = ({
   return useMemo(() => {
     switch (status) {
       case PlayerStatus.PLAY:
-        return <Icon type="pause" onClick={clickPause} />;
+        return <PauseOutlined onClick={clickPause} />;
       default:
-        return <Icon type="caret-right" onClick={clickPlay} />;
+        return <CaretRightOutlined onClick={clickPlay} />;
     }
   }, [status, clickPause, clickPlay]);
 };
