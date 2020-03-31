@@ -4,8 +4,8 @@ import { Song, SongEntry } from "../../../../core/types";
 import { ListProps } from "antd/lib/list";
 import SongListItem from "./SongListItem";
 import { ContextModalElement } from "../../../util/ContextModal";
-import { useContext } from 'react';
-import PlayerStateContext from '../../../../core/context/PlayerStateContext';
+import { useContext } from "react";
+import PlayerStateContext from "../../../../core/context/PlayerStateContext";
 import DefaultContextModal from "../../../util/DefaultContextModal";
 import { Route } from "react-router-dom";
 
@@ -33,7 +33,7 @@ export function SongList<T extends Song | SongEntry>({
   contextModal,
   ...props
 }: SongListProps<T>) {
-  const {queue} = useContext(PlayerStateContext)
+  const { queue } = useContext(PlayerStateContext);
 
   const modalJSX = useMemo(() => {
     return (

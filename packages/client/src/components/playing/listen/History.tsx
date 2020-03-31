@@ -1,15 +1,15 @@
-import React, {useCallback, useMemo, useContext} from 'react';
-import api from '../../../core/api/model';
-import {DefaultSongEntryList} from '../snippets/songlist/SongList';
-import ScreenNavigation from '../../util/ScreenNavigation';
-import {Permission, SongEntry} from '../../../core/types';
-import {useResource} from 'react-request-hook';
-import useHasPermission from '../../../core/hooks/useHasPermission';
-import {FullscreenContext} from '../../../core/context/FullscreenContext';
-import PlayerStateContext from '../../../core/context/PlayerStateContext';
+import React, { useCallback, useMemo, useContext } from "react";
+import api from "../../../core/api/model";
+import { DefaultSongEntryList } from "../snippets/songlist/SongList";
+import ScreenNavigation from "../../util/ScreenNavigation";
+import { Permission, SongEntry } from "../../../core/types";
+import { useResource } from "react-request-hook";
+import useHasPermission from "../../../core/hooks/useHasPermission";
+import { FullscreenContext } from "../../../core/context/FullscreenContext";
+import PlayerStateContext from "../../../core/context/PlayerStateContext";
 
 const History = () => {
-  const { history } = useContext(PlayerStateContext)
+  const { history } = useContext(PlayerStateContext);
   const [, enqueue] = useResource(api.enqueue);
   const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE);
   const toggleFullscreen = useContext(FullscreenContext);
