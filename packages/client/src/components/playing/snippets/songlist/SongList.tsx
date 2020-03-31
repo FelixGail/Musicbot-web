@@ -6,8 +6,8 @@ import { useResource } from "react-request-hook";
 import api from "../../../../core/api/model";
 import SongListItem from "./SongListItem";
 import { ContextModalElement } from "../../../util/ContextModal";
-import { Route } from "react-router";
-import DefaultContextModal from "../../../util/DefaultContextModal";
+import { useContext } from 'react';
+import PlayerStateContext from '../../../../core/context/PlayerStateContext';
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -33,10 +33,7 @@ export function SongList<T extends Song | SongEntry>({
   contextModal,
   ...props
 }: SongListProps<T>) {
-  const [{ data }, getQueue] = useResource(api.getQueue);
-  useEffect(() => {
-    getQueue();
-  }, [getQueue]);
+  const {queue} = useContext(PlayerStateContext)
 
   const modalJSX = useMemo(() => {
     return (
@@ -67,7 +64,7 @@ export function SongList<T extends Song | SongEntry>({
             item={item}
             index={index}
             handleClick={onClick}
-            queue={data || []}
+            queue={queue}
             additional={additional}
           />
         )}

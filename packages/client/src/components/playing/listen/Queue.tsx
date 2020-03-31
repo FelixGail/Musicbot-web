@@ -2,26 +2,26 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FunctionComponent
-} from "react";
-import { useResource } from "react-request-hook";
-import api from "../../../core/api/model";
-import { DefaultSongEntryList } from "../snippets/songlist/SongList";
-import ScreenNavigation from "../../util/ScreenNavigation";
-import { SongEntry, Permission } from "../../../core/types";
-import { ConfigurationContext } from "../../../core/context/Configuration";
-import Conditional from "../../util/Conditional";
-import { Icon } from "antd";
-import { useHistory, useLocation } from "react-router";
-import { ContextModalElement } from "../../util/ContextModal";
-import { useSearchSongModalElements } from "../../util/DefaultContextModal";
-import Permissional from "../../util/Permissional";
-import useHasPermission from "../../../core/hooks/useHasPermission";
-import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
-import { FullscreenContext } from "../../../core/context/FullscreenContext";
+  FunctionComponent,
+} from 'react';
+import {useResource} from 'react-request-hook';
+import api from '../../../core/api/model';
+import {DefaultSongEntryList} from '../snippets/songlist/SongList';
+import ScreenNavigation from '../../util/ScreenNavigation';
+import {SongEntry, Permission} from '../../../core/types';
+import {ConfigurationContext} from '../../../core/context/Configuration';
+import Conditional from '../../util/Conditional';
+import {Icon} from 'antd';
+import {useHistory, useLocation} from 'react-router';
+import {ContextModalElement} from '../../util/ContextModal';
+import {useSearchSongModalElements} from '../../util/DefaultContextModal';
+import Permissional from '../../util/Permissional';
+import useHasPermission from '../../../core/hooks/useHasPermission';
+import {FullscreenContext} from '../../../core/context/FullscreenContext';
+import PlayerStateContext from '../../../core/context/PlayerStateContext';
 
 const Queue: FunctionComponent = () => {
-  const queue = useResourceReload(api.getQueue, []);
+  const { queue } = useContext(PlayerStateContext)
   const hstry = useHistory();
   const location = useLocation();
   const toggleFullscreen = useContext(FullscreenContext);
