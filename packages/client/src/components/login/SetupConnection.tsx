@@ -31,7 +31,7 @@ interface ConnectProp {
 export const SetupConnection = () => {
   const [state, setState] = useState(SetupStates.PINGING);
   const loginContext = useContext(LoginContext);
-  const location = useLocation()
+  const location = useLocation();
 
   const switchState = useMemo(() => {
     switch (state) {
@@ -114,7 +114,7 @@ const LoginNoICBINT = ({ setNextState }: ConnectProp) => {
     if (username) {
       if (password) {
         const cancel = login(username, password);
-        return () => cancel && cancel()
+        return () => cancel && cancel();
       } else {
         setNextState(SetupStates.REGISTER_NO_ICBINT);
       }
