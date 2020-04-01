@@ -37,7 +37,7 @@ function useGenericLogin(
       configuration.axios.defaults.headers.Authorization = `Bearer ${data}`;
       fetchUser()
     }
-  }, [data, isLoading, configuration, state]);
+  }, [data, isLoading, configuration, state, fetchUser]);
 
   useEffect(() => {
     if(fetchUserResult.successful) {
