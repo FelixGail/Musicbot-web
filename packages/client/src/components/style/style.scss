@@ -162,7 +162,6 @@
   .ant-layout-content {
     padding-top: 10px;
     color: white;
-    overflow-y: auto;
   }
 
   .search-router-navigation {
@@ -202,7 +201,14 @@
 }
 
 .ant-layout-content {
-  overflow-y: auto;
+  -ms-overflow-style: none;
+  overflow: scroll;
+}
+
+.ant-layout-content, .songlist, .queue, .ant-list {
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .history,
