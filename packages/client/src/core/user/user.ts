@@ -35,6 +35,9 @@ function useGenericLogin(
       configuration.loggedIn = true;
       configuration.token = data;
       configuration.axios.defaults.headers.Authorization = `Bearer ${data}`;
+      localStorage.setItem("username", state!.username)
+      localStorage.setItem("password", state!.password)
+
       fetchUser()
     }
   }, [data, isLoading, configuration, state, fetchUser]);
