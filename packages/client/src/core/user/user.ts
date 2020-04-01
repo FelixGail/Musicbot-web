@@ -18,6 +18,7 @@ function useGenericLogin(
   const [success, setSuccess] = useState<boolean>(false);
   const { configuration } = useContext(ConfigurationContext);
   const [state, setState] = useState<{ username: string; password: string }>();
+  const [fetchUserResult, fetchUser] = useUserFetch()
 
   const callFunction = useCallback(
     (username: string, password: string) => {
@@ -34,11 +35,17 @@ function useGenericLogin(
       configuration.loggedIn = true;
       configuration.token = data;
       configuration.axios.defaults.headers.Authorization = `Bearer ${data}`;
-      setSuccess(true);
+      fetchUser()
     }
   }, [data, isLoading, configuration, state]);
 
-  return [{ successful: success, isLoading, error }, callFunction];
+  useEffect(() => {
+    if(fetchUserResult.successful) {
+      setSuccess(true)
+    }
+  }, [fetchUserResult, setSuccess])
+
+  return [{ successful: success, isLoading: (isLoading || fetchUserResult.isLoading), error: error || fetchUserResult.error }, callFunction];
 }
 
 export function useUserRegister(): [
