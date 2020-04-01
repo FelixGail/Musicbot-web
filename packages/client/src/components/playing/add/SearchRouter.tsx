@@ -6,8 +6,8 @@ import {
   QuestionOutlined,
   SearchOutlined,
   StarOutlined,
-  UnorderedListOutlined,
-} from '@ant-design/icons';
+  UnorderedListOutlined
+} from "@ant-design/icons";
 
 import { BackTop, Col, Card, Layout, Row } from "antd";
 import { Search } from "./Search";

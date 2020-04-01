@@ -11,7 +11,7 @@ import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import Conditional from "../../util/Conditional";
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
 import { useSearchSongModalElements } from "../../util/DefaultContextModal";
@@ -19,12 +19,21 @@ import Permissional from "../../util/Permissional";
 import useHasPermission from "../../../core/hooks/useHasPermission";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
+import { useSwipeable } from "react-swipeable";
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
   const hstry = useHistory();
   const location = useLocation();
   const toggleFullscreen = useContext(FullscreenContext);
+
+  const left = `/listen`;
+  const right = `history`;
+  const swipeHandler = useSwipeable({
+    onSwipedLeft: () => hstry.push(left),
+    onSwipedRight: () => hstry.push(right),
+    preventDefaultTouchmoveEvent: true
+  });
 
   const [, dequeue] = useResource(api.dequeue);
   const click = useCallback(
@@ -49,7 +58,8 @@ const Queue: FunctionComponent = () => {
           onClick={event => {
             dequeue(item.song);
             event.stopPropagation();
-          }} />
+          }}
+        />
       </Conditional>
     ),
     [configuration.username, dequeue, hasRemovePermission]
@@ -89,12 +99,8 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <div className="queue full-width full-height">
-        <ScreenNavigation
-          left="/listen"
-          right="history"
-          center={toggleFullscreen}
-        />
+      <div className="queue full-width full-height" {...swipeHandler}>
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
         <DefaultSongEntryList
           header="Queue"
           items={queue}
@@ -104,7 +110,16 @@ const Queue: FunctionComponent = () => {
         />
       </div>
     ),
-    [queue, click, additionalArray, combinedElements, toggleFullscreen]
+    [
+      queue,
+      click,
+      additionalArray,
+      combinedElements,
+      toggleFullscreen,
+      left,
+      right,
+      swipeHandler
+    ]
   );
 
   return jsx;

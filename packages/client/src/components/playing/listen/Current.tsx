@@ -5,22 +5,31 @@ import ScreenNavigation from "../../util/ScreenNavigation";
 import { useLocation } from "react-use";
 import { useContext } from "react";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
+import { useHistory } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
   const toggleFullscreen = useContext(FullscreenContext);
+  const history = useHistory();
+  const left = `${location.pathname}/history`;
+  const right = `${location.pathname}/queue`;
+  const swipeHandler = useSwipeable({
+    onSwipedLeft: () => history.push(left),
+    onSwipedRight: () => history.push(right),
+    preventDefaultTouchmoveEvent: true
+  });
   const jsx = useMemo(
     () => (
-      <div className="current full-width full-height vertically-centering centering">
+      <div
+        className="current full-width full-height vertically-centering centering"
+        {...swipeHandler}
+      >
         <AlbumArt song={props.song} />
-        <ScreenNavigation
-          left={`${location.pathname}/history`}
-          right={`${location.pathname}/queue`}
-          center={toggleFullscreen}
-        />
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
       </div>
     ),
-    [props.song, location.pathname, toggleFullscreen]
+    [props.song, left, right, swipeHandler, toggleFullscreen]
   );
 
   return jsx;
