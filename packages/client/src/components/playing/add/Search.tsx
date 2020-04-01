@@ -44,7 +44,7 @@ export const Search = (props: RouteComponentProps) => {
       </Row>
       <Row>
         {providers.data && (
-          <Tabs>
+          <Tabs className="spanning" >
             {providers.data.map((provider, _) => (
               <Tabs.TabPane tab={provider.name} key={provider.id}>
                 <ProviderPane query={query} provider={provider} />

@@ -11,7 +11,7 @@ import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import Conditional from "../../util/Conditional";
-import { Icon } from "antd";
+import { DeleteOutlined } from '@ant-design/icons';
 import { useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
 import { useSearchSongModalElements } from "../../util/DefaultContextModal";
@@ -45,13 +45,11 @@ const Queue: FunctionComponent = () => {
         }
         alt={<div style={{ paddingLeft: "7px", paddingRight: "7px" }}></div>}
       >
-        <Icon
-          type="delete"
+        <DeleteOutlined
           onClick={event => {
             dequeue(item.song);
             event.stopPropagation();
-          }}
-        />
+          }} />
       </Conditional>
     ),
     [configuration.username, dequeue, hasRemovePermission]
