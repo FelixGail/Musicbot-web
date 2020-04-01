@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
-import { RouteComponentProps, Redirect } from "react-router";
+import { Redirect } from "react-router";
 import { Row, Col } from "antd";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
@@ -11,6 +11,7 @@ import {
   useUserLogin
 } from "../../core/user/user";
 import { Canceler } from "axios";
+import { useLocation } from "react-use";
 
 enum SetupStates {
   PINGING,
@@ -27,9 +28,10 @@ interface ConnectProp {
   setNextState: (nextState: SetupStates) => void;
 }
 
-export const SetupConnection = (props: RouteComponentProps) => {
+export const SetupConnection = () => {
   const [state, setState] = useState(SetupStates.PINGING);
   const loginContext = useContext(LoginContext);
+  const location = useLocation()
 
   const switchState = useMemo(() => {
     switch (state) {
@@ -46,11 +48,11 @@ export const SetupConnection = (props: RouteComponentProps) => {
       case SetupStates.FETCH_USER_INFO:
         return <FetchUserInfo setNextState={setState} />;
       case SetupStates.FAILED:
-        return <Redirect to={`${props.location.pathname}/user`} />;
+        return <Redirect to={`${location.pathname}/user`} />;
       case SetupStates.DONE:
         loginContext.redirectToReferrer();
     }
-  }, [state, loginContext, props.location.pathname]);
+  }, [state, loginContext, location.pathname]);
 
   return (
     <Row>
@@ -109,15 +111,13 @@ const LoginNoICBINT = ({ setNextState }: ConnectProp) => {
   useEffect(() => {
     const username = localStorage.getItem("username");
     const password = localStorage.getItem("password");
-    var cancel: Canceler;
     if (username) {
       if (password) {
-        cancel = login(username, password);
+        const cancel = login(username, password);
+        return () => cancel && cancel()
       } else {
         setNextState(SetupStates.REGISTER_NO_ICBINT);
       }
-
-      return () => cancel && cancel();
     } else {
       setNextState(SetupStates.FAILED);
     }
@@ -173,7 +173,7 @@ const FetchUserInfo = ({ setNextState }: ConnectProp) => {
   useEffect(() => {
     const cancel = fetch();
 
-    return () => cancel();
+    return () => cancel && cancel();
   }, [fetch]);
 
   useEffect(() => {
