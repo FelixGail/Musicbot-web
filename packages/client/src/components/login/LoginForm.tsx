@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useCallback } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Col, Row, Checkbox } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons"
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useUserLogin, useUserRegister } from "../../core/user/user";
 
 const MAX_USERNAME_LENGTH = 20;
@@ -42,10 +42,10 @@ export const LoginForm = () => {
 
   const onFinish = useCallback(
     (values: any) => {
-      if(expectPassword) {
-        login(values['username'], values['password'])
+      if (expectPassword) {
+        login(values["username"], values["password"]);
       } else {
-        register(values['username'])
+        register(values["username"]);
       }
     },
     [login, register, expectPassword]
@@ -97,28 +97,29 @@ export const LoginForm = () => {
       <Col {...FormProps}>
         <Form onFinish={onFinish}>
           <Form.Item
-          name="username"
-          rules={[
-                {
-                  required: true,
-                  whitespace: true,
-                  message: "Please select a username."
-                },
-                {
-                  max: MAX_USERNAME_LENGTH,
-                  message: `max. username length is ${MAX_USERNAME_LENGTH}.`
-                }
-              ]}>
-                <Input
-                autoFocus
-                prefix={<UserOutlined />}
-                type="text"
-                placeholder="Username"
-                onChange={hidePasswordField}
-              />
+            name="username"
+            rules={[
+              {
+                required: true,
+                whitespace: true,
+                message: "Please select a username."
+              },
+              {
+                max: MAX_USERNAME_LENGTH,
+                message: `max. username length is ${MAX_USERNAME_LENGTH}.`
+              }
+            ]}
+          >
+            <Input
+              autoFocus
+              prefix={<UserOutlined />}
+              type="text"
+              placeholder="Username"
+              onChange={hidePasswordField}
+            />
           </Form.Item>
           {expectPassword && (
-            <Form.Item 
+            <Form.Item
               name="password"
               rules={[
                 {
@@ -129,15 +130,15 @@ export const LoginForm = () => {
               ]}
             >
               <Input
-                  prefix={<LockOutlined />}
-                  type="password"
-                  placeholder="Password"
-                  autoFocus
-                />
+                prefix={<LockOutlined />}
+                type="password"
+                placeholder="Password"
+                autoFocus
+              />
             </Form.Item>
           )}
           {!configuration.icbintKey && (
-            <Form.Item 
+            <Form.Item
               extra="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server."
               valuePropName="checked"
               rules={[
@@ -145,12 +146,13 @@ export const LoginForm = () => {
                   required: true,
                   validator: checkCheckbox
                 }
-              ]}>
-                <Checkbox>
-                  I accept the risks arising from the missing{" "}
-                  <a href="https://bjoernpetersen.github.io/ICBINT/">ICBINT</a>{" "}
-                  protocol.
-                </Checkbox>
+              ]}
+            >
+              <Checkbox>
+                I accept the risks arising from the missing{" "}
+                <a href="https://bjoernpetersen.github.io/ICBINT/">ICBINT</a>{" "}
+                protocol.
+              </Checkbox>
             </Form.Item>
           )}
           <Form.Item>
@@ -163,4 +165,3 @@ export const LoginForm = () => {
     </Row>
   );
 };
-

@@ -7,7 +7,12 @@ import React, {
   useRef,
   useState
 } from "react";
-import { CaretRightOutlined, ForwardOutlined, PauseOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  CaretRightOutlined,
+  ForwardOutlined,
+  PauseOutlined,
+  SearchOutlined
+} from "@ant-design/icons";
 import { Card, Layout } from "antd";
 import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
