@@ -18,7 +18,7 @@ function useGenericLogin(
   const [success, setSuccess] = useState<boolean>(false);
   const { configuration } = useContext(ConfigurationContext);
   const [state, setState] = useState<{ username: string; password: string }>();
-  const [fetchUserResult, fetchUser] = useUserFetch()
+  const [fetchUserResult, fetchUser] = useUserFetch();
 
   const callFunction = useCallback(
     (username: string, password: string) => {
@@ -35,20 +35,27 @@ function useGenericLogin(
       configuration.loggedIn = true;
       configuration.token = data;
       configuration.axios.defaults.headers.Authorization = `Bearer ${data}`;
-      localStorage.setItem("username", state!.username)
-      localStorage.setItem("password", state!.password)
+      localStorage.setItem("username", state!.username);
+      localStorage.setItem("password", state!.password);
 
-      fetchUser()
+      fetchUser();
     }
   }, [data, isLoading, configuration, state, fetchUser]);
 
   useEffect(() => {
-    if(fetchUserResult.successful) {
-      setSuccess(true)
+    if (fetchUserResult.successful) {
+      setSuccess(true);
     }
-  }, [fetchUserResult, setSuccess])
+  }, [fetchUserResult, setSuccess]);
 
-  return [{ successful: success, isLoading: (isLoading || fetchUserResult.isLoading), error: error || fetchUserResult.error }, callFunction];
+  return [
+    {
+      successful: success,
+      isLoading: isLoading || fetchUserResult.isLoading,
+      error: error || fetchUserResult.error
+    },
+    callFunction
+  ];
 }
 
 export function useUserRegister(): [
