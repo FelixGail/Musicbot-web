@@ -135,14 +135,14 @@ export enum PlayerStatus {
 }
 
 export enum Permission {
-  SKIP = "skip",
-  DISLIKE = "dislike",
-  MOVE = "move",
-  PAUSE = "pause",
-  ENQUEUE = "enqueue",
-  ALTER_SUGGESTIONS = "alter_suggestions",
-  CHANGE_VOLUME = "change_volume",
-  EXIT = "exit"
+  SKIP = "SKIP",
+  DISLIKE = "DISLIKE",
+  MOVE = "MOVE",
+  PAUSE = "PAUSE",
+  ENQUEUE = "ENQUEUE",
+  ALTER_SUGGESTIONS = "ALTER_SUGGESTIONS",
+  CHANGE_VOLUME = "CHANGE_VOLUME",
+  EXIT = "EXIT"
 }
 
 export interface Credentials {
