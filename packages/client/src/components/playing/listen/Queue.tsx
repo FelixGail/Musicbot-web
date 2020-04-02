@@ -6,30 +6,40 @@ import React, {
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
-import { DefaultSongEntryList } from "../snippets/songlist/SongList";
+import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import Conditional from "../../util/Conditional";
-import { Icon } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
 import { useSearchSongModalElements } from "../../util/DefaultContextModal";
 import Permissional from "../../util/Permissional";
 import useHasPermission from "../../../core/hooks/useHasPermission";
-import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
+import PlayerStateContext from "../../../core/context/PlayerStateContext";
+import { useSwipeable } from "react-swipeable";
 
 const Queue: FunctionComponent = () => {
-  const queue = useResourceReload(api.getQueue, []);
+  const { queue } = useContext(PlayerStateContext);
   const hstry = useHistory();
   const location = useLocation();
   const toggleFullscreen = useContext(FullscreenContext);
+
+  const left = `/listen`;
+  const right = `history`;
+  const swipeHandler = useSwipeable({
+    onSwipedLeft: () => hstry.push(left),
+    onSwipedRight: () => hstry.push(right),
+    preventDefaultTouchmoveEvent: true
+  });
 
   const [, dequeue] = useResource(api.dequeue);
   const click = useCallback(
     (_, index: number) => {
       hstry.push(`${location.pathname}/${index}`);
+      return false;
     },
     [hstry, location.pathname]
   );
@@ -45,8 +55,7 @@ const Queue: FunctionComponent = () => {
         }
         alt={<div style={{ paddingLeft: "7px", paddingRight: "7px" }}></div>}
       >
-        <Icon
-          type="delete"
+        <DeleteOutlined
           onClick={event => {
             dequeue(item.song);
             event.stopPropagation();
@@ -91,13 +100,9 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <div className="queue full-width full-height">
-        <ScreenNavigation
-          left="/listen"
-          right="history"
-          center={toggleFullscreen}
-        />
-        <DefaultSongEntryList
+      <div className="queue full-width full-height" {...swipeHandler}>
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+        <SongList
           header="Queue"
           items={queue}
           onClick={click}
@@ -106,7 +111,16 @@ const Queue: FunctionComponent = () => {
         />
       </div>
     ),
-    [queue, click, additionalArray, combinedElements, toggleFullscreen]
+    [
+      queue,
+      click,
+      additionalArray,
+      combinedElements,
+      toggleFullscreen,
+      left,
+      right,
+      swipeHandler
+    ]
   );
 
   return jsx;

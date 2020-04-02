@@ -16,7 +16,7 @@ const Suggest = () => {
     <div className="suggest">
       <Row>
         {suggesters.data && (
-          <Tabs>
+          <Tabs className="spanning">
             {suggesters.data.map((suggester, _) => (
               <Tabs.TabPane tab={suggester.name} key={suggester.id}>
                 <SuggesterPane suggester={suggester} />
