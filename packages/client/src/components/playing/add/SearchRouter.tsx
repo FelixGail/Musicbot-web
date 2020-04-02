@@ -56,7 +56,7 @@ const SearchRouter = () => {
             <Col span={3}>
               <DoubleLeftOutlined className="back-arrow" onClick={goHome} />
             </Col>
-            <Col span={19}>
+            <Col span={20} md={19} xxl={17}>
               <Route exact path="*/add" render={renderCallback} />
               <Route path="*/add/search" component={Search} />
               <Route path="*/add/suggest" component={Suggest} />
