@@ -72,16 +72,3 @@ export function SongList<T extends Song | SongEntry>({
     </div>
   );
 }
-
-export const DefaultSongEntryList = ({
-  additional,
-  ...props
-}: SongListProps<SongEntry> & ListProps<SongEntry>) => {
-  const extendedAdditional = useMemo(() => {
-    const extra = (item: SongEntry) => (
-      <div className="ant-list-item-meta-description">{item.userName}</div>
-    );
-    return additional ? [extra, ...additional] : [extra];
-  }, [additional]);
-  return <SongList additional={extendedAdditional} {...props} />;
-};

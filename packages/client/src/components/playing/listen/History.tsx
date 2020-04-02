@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useContext } from "react";
 import api from "../../../core/api/model";
-import { DefaultSongEntryList } from "../snippets/songlist/SongList";
+import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { Permission, SongEntry } from "../../../core/types";
 import { useResource } from "react-request-hook";
@@ -42,7 +42,7 @@ const History = () => {
         {...swipeHandler}
       >
         <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <DefaultSongEntryList
+        <SongList
           header="History"
           items={history}
           onClick={enqueueWrapper}
