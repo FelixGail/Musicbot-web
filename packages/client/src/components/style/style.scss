@@ -236,7 +236,8 @@
 
 .ant-layout-content {
   -ms-overflow-style: none;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .ant-layout-content, .songlist, .queue, .ant-list {
