@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
-import { NamedPlugin, Song } from "../../../core/types";
+import { NamedPlugin, Song, Permission } from "../../../core/types";
 import { SongList } from "./songlist/SongList";
 import { ListProps } from "antd/lib/list";
+import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
+import { useCallback } from "react";
 
 const SongPane = ({
   songs,
@@ -11,9 +13,15 @@ const SongPane = ({
 }: {
   songs?: Song[];
 } & ListProps<Song>) => {
-  const [, enqueue] = useResource(api.enqueue);
+  const [, enqueue] = useResourceWithPermission(
+    api.enqueue,
+    Permission.ENQUEUE
+  );
+  const callback = useCallback((song: Song) => enqueue([], song) && true, [
+    enqueue
+  ]);
 
-  return <SongList items={songs} onClick={enqueue} {...props} />;
+  return <SongList items={songs} onClick={callback} {...props} />;
 };
 
 export const ProviderPane = ({

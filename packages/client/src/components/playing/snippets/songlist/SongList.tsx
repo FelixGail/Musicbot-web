@@ -16,7 +16,7 @@ export type SongListAdditional<T extends Song | SongEntry> = ((
 export interface SongListProps<T extends Song | SongEntry>
   extends ListProps<T> {
   items?: T[];
-  onClick: (item: T, index: number) => void;
+  onClick: (item: T, index: number) => boolean;
   additional?: SongListAdditional<T>;
   contextModal?: ListContextModal<T>;
 }
