@@ -26,7 +26,11 @@ const History = () => {
 
   const enqueueWrapper = useCallback(
     (value: SongEntry) => {
-      hasEnqueuePermission && enqueue(value.song);
+      if (hasEnqueuePermission) {
+        enqueue(value.song);
+        return true;
+      }
+      return false;
     },
     [enqueue, hasEnqueuePermission]
   );

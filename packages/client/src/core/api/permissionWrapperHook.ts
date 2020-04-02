@@ -20,7 +20,10 @@ type PermissionResourceResult<
   FunctionParam extends any[]
 > = [
   RequestState<TRequest> & { cancel: Canceler },
-  (functionValues: FunctionParam, ...values: Arguments<TRequest>) => Canceler
+  (
+    functionValues: FunctionParam,
+    ...values: Arguments<TRequest>
+  ) => Canceler | false
 ];
 
 function useResourceWithPermission<
@@ -49,9 +52,9 @@ function useResourceWithPermission<
       ) {
         return call(...values);
       }
-      return cancel;
+      return false;
     },
-    [configuration, call, and, cancel, or, permission]
+    [configuration, call, and, or, permission]
   );
 
   return [{ data, isLoading, error, cancel }, wrapper];

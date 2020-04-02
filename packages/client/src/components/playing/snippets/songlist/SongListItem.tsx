@@ -12,7 +12,7 @@ export interface SongListItemProps<T extends Song | SongEntry>
   queue: SongEntry[];
   item: T;
   index: number;
-  handleClick: (item: T, index: number) => void;
+  handleClick: (item: T, index: number) => boolean;
   additional?: SongListAdditional<T>;
 }
 
@@ -40,12 +40,13 @@ function SongListItem<T extends Song | SongEntry>({
   const song = useMemo(() => itemToSong(item), [item]);
 
   const addEnqueuedClass = useCallback(() => {
-    setClassName(className ? `${className} enqueued` : "enqueued");
+    setClassName(`${className} enqueued`);
   }, [setClassName, className]);
 
   const alteredClickHandle = useCallback(() => {
-    addEnqueuedClass();
-    handleClick(item, index);
+    if (handleClick(item, index)) {
+      addEnqueuedClass();
+    }
   }, [handleClick, addEnqueuedClass, item, index]);
 
   useEffect(() => {

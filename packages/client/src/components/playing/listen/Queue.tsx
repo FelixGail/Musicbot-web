@@ -39,6 +39,7 @@ const Queue: FunctionComponent = () => {
   const click = useCallback(
     (_, index: number) => {
       hstry.push(`${location.pathname}/${index}`);
+      return false;
     },
     [hstry, location.pathname]
   );
