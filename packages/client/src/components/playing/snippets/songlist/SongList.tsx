@@ -1,13 +1,13 @@
 import { List } from "antd";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Song, SongEntry } from "../../../../core/types";
 import { ListProps } from "antd/lib/list";
-import { useResource } from "react-request-hook";
-import api from "../../../../core/api/model";
 import SongListItem from "./SongListItem";
 import { ContextModalElement } from "../../../util/ContextModal";
-import { Route } from "react-router";
+import { useContext } from "react";
+import PlayerStateContext from "../../../../core/context/PlayerStateContext";
 import DefaultContextModal from "../../../util/DefaultContextModal";
+import { Route } from "react-router-dom";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -16,7 +16,7 @@ export type SongListAdditional<T extends Song | SongEntry> = ((
 export interface SongListProps<T extends Song | SongEntry>
   extends ListProps<T> {
   items?: T[];
-  onClick: (item: T, index: number) => void;
+  onClick: (item: T, index: number) => boolean;
   additional?: SongListAdditional<T>;
   contextModal?: ListContextModal<T>;
 }
@@ -33,10 +33,7 @@ export function SongList<T extends Song | SongEntry>({
   contextModal,
   ...props
 }: SongListProps<T>) {
-  const [{ data }, getQueue] = useResource(api.getQueue);
-  useEffect(() => {
-    getQueue();
-  }, [getQueue]);
+  const { queue } = useContext(PlayerStateContext);
 
   const modalJSX = useMemo(() => {
     return (
@@ -67,7 +64,7 @@ export function SongList<T extends Song | SongEntry>({
             item={item}
             index={index}
             handleClick={onClick}
-            queue={data || []}
+            queue={queue}
             additional={additional}
           />
         )}
@@ -75,16 +72,3 @@ export function SongList<T extends Song | SongEntry>({
     </div>
   );
 }
-
-export const DefaultSongEntryList = ({
-  additional,
-  ...props
-}: SongListProps<SongEntry> & ListProps<SongEntry>) => {
-  const extendedAdditional = useMemo(() => {
-    const extra = (item: SongEntry) => (
-      <div className="ant-list-item-meta-description">{item.userName}</div>
-    );
-    return additional ? [extra, ...additional] : [extra];
-  }, [additional]);
-  return <SongList additional={extendedAdditional} {...props} />;
-};

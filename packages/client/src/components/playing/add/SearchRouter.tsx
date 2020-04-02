@@ -1,6 +1,15 @@
 import { Route, Redirect, useHistory, useLocation } from "react-router";
 import React, { useCallback, useEffect } from "react";
-import { BackTop, Col, Icon, Card, Layout } from "antd";
+
+import {
+  DoubleLeftOutlined,
+  QuestionOutlined,
+  SearchOutlined,
+  StarOutlined,
+  UnorderedListOutlined
+} from "@ant-design/icons";
+
+import { BackTop, Col, Card, Layout, Row } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
 import Stars from "./Stars";
@@ -43,31 +52,33 @@ const SearchRouter = () => {
       </BackTop>
       <Layout>
         <Layout.Content id="searchContent">
-          <Col span={3}>
-            <Icon className="back-arrow" type="double-left" onClick={goHome} />
-          </Col>
-          <Col span={19}>
-            <Route exact path="*/add" render={renderCallback} />
-            <Route path="*/add/search" component={Search} />
-            <Route path="*/add/suggest" component={Suggest} />
-            <Route path="*/add/stars" component={Stars} />
-          </Col>
+          <Row>
+            <Col span={3}>
+              <DoubleLeftOutlined className="back-arrow" onClick={goHome} />
+            </Col>
+            <Col span={20} md={19} xxl={17}>
+              <Route exact path="*/add" render={renderCallback} />
+              <Route path="*/add/search" component={Search} />
+              <Route path="*/add/suggest" component={Suggest} />
+              <Route path="*/add/stars" component={Stars} />
+            </Col>
+          </Row>
         </Layout.Content>
         <Layout.Footer>
           <Card
             className="search-router-navigation spanning"
             actions={[
               <Link to="/listen">
-                <Icon type="unordered-list" />
+                <UnorderedListOutlined />
               </Link>,
               <Link to="/add/search">
-                <Icon type="search" />
+                <SearchOutlined />
               </Link>,
               <Link to="/add/suggest">
-                <Icon type="question" />
+                <QuestionOutlined />
               </Link>,
               <Link to="/add/stars">
-                <Icon type="star" />
+                <StarOutlined />
               </Link>
             ]}
           ></Card>

@@ -3,21 +3,23 @@ import { LikedSongContext } from "../../../core/context/LikedSongsContext";
 import React from "react";
 import { Row } from "antd";
 import { SongList } from "../snippets/songlist/SongList";
-import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
-import { Song } from "../../../core/types";
+import { Song, Permission } from "../../../core/types";
+import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
 
 const Stars = () => {
   const likedSongs = useContext(LikedSongContext);
-  const [songs, setSongs] = useState(likedSongs.get().slice());
-  const [, enqueue] = useResource(api.enqueue);
+  const [songs] = useState(likedSongs.get().slice());
+  const [, enqueue] = useResourceWithPermission(
+    api.enqueue,
+    Permission.ENQUEUE
+  );
 
   const click = useCallback(
     (song: Song) => {
-      enqueue(song);
-      setSongs(songs.filter(item => item !== song));
+      return enqueue([], song) && true;
     },
-    [enqueue, setSongs, songs]
+    [enqueue]
   );
 
   return (

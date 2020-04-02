@@ -12,7 +12,7 @@ export interface SongListItemProps<T extends Song | SongEntry>
   queue: SongEntry[];
   item: T;
   index: number;
-  handleClick: (item: T, index: number) => void;
+  handleClick: (item: T, index: number) => boolean;
   additional?: SongListAdditional<T>;
 }
 
@@ -22,6 +22,14 @@ export function itemToSong<T extends Song | SongEntry>(item: T): Song {
     return sAny.song;
   }
   return sAny;
+}
+
+export function isSongEntry(item: Song | SongEntry): item is SongEntry {
+  const sAny = item as any;
+  if(sAny.username) {
+    return true
+  }
+  return false
 }
 
 function SongListItem<T extends Song | SongEntry>({
@@ -40,12 +48,13 @@ function SongListItem<T extends Song | SongEntry>({
   const song = useMemo(() => itemToSong(item), [item]);
 
   const addEnqueuedClass = useCallback(() => {
-    setClassName(className ? `${className} enqueued` : "enqueued");
+    setClassName(`${className} enqueued`);
   }, [setClassName, className]);
 
   const alteredClickHandle = useCallback(() => {
-    addEnqueuedClass();
-    handleClick(item, index);
+    if (handleClick(item, index)) {
+      addEnqueuedClass();
+    }
   }, [handleClick, addEnqueuedClass, item, index]);
 
   useEffect(() => {
@@ -77,7 +86,7 @@ function SongListItem<T extends Song | SongEntry>({
       className={alteredClassName}
       key={song.title}
       onClick={() => alteredClickHandle()}
-      extra={<SongItemExtra song={song} />}
+      extra={<SongItemExtra item={item} />}
       actions={[<SongItemAction song={song} />]}
     >
       <List.Item.Meta

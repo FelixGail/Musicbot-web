@@ -1,4 +1,4 @@
-import { Icon } from "antd";
+import { StarFilled } from "@ant-design/icons";
 import React, {
   useContext,
   useState,
@@ -44,7 +44,7 @@ const SongItemAction = (props: { song: Song }) => {
     },
     [likedSongs, isLiked, setLiked, props.song]
   );
-  return <Icon type="star" theme="filled" onClick={click} style={style} />;
+  return <StarFilled onClick={click} style={style} />;
 };
 
 export default SongItemAction;
