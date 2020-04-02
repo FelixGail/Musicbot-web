@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
-import { DefaultSongEntryList } from "../snippets/songlist/SongList";
+import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -102,7 +102,7 @@ const Queue: FunctionComponent = () => {
     () => (
       <div className="queue full-width full-height" {...swipeHandler}>
         <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <DefaultSongEntryList
+        <SongList
           header="Queue"
           items={queue}
           onClick={click}
