@@ -89,10 +89,26 @@
   width: 100%;
 
   h4,
-  .ant-list-item-meta-description,
   .ant-list-header,
   .ant-empty-description {
     color: #e6e6e6;
+  }
+
+  .ant-list-item-meta-title,
+  .ant-list-item-meta-description {
+    overflow: hidden;
+    max-height: 25px;
+    max-width: 100%;
+  }
+
+  h4,
+  .ant-list-item-meta-description,
+  .ant-list-item-action {
+    text-shadow: 1px 1px 2px black;
+  }
+
+  .ant-list-item-meta-description {
+    color: #808080;
   }
 
   .ant-list-header {
@@ -236,14 +252,19 @@
 
 .ant-layout-content {
   -ms-overflow-style: none;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: none;
 }
 
-.ant-layout-content, .songlist, .queue, .ant-list {
-  ::-webkit-scrollbar {
+.ant-list-items::-webkit-scrollbar {
+    width: 0px;
     display: none;
-  }
+}
+
+.ant-list-items {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .history,
@@ -262,6 +283,7 @@
 .text-center{
   text-align: center;
 }
+
 
 .screen-navigation {
   position: absolute;

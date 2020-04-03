@@ -91,7 +91,7 @@ function SongListItem<T extends Song | SongEntry>({
     >
       <List.Item.Meta
         title={song.title}
-        description={song.description.substr(0, 50)}
+        description={song.description}
         avatar={<AlbumArt song={song} />}
       />
       {additionalElements}

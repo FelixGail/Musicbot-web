@@ -14,7 +14,7 @@ function SongItemExtra<T extends Song | SongEntry>(props: {item: T}) {
     return duration
   }, [props.item])
 
-  return (<div className="ant-list-item-meta-description text-center">
+  return (<div className="ant-list-item-meta-description text-center list-item-extra">
   {inner}
 </div>)
 }
