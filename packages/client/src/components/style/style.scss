@@ -25,13 +25,15 @@
 }
 
 .ant-layout {
-  min-height: 100vh;
-  max-height: 100vh;
-  height: 100vh;
+  display: flex;
+  min-height: 100vh !important;
+  min-height: -webkit-fill-available !important;
+
+  max-height: 100vh !important;
+  max-height: -webkit-fill-available !important;
 
   .ant-layout-footer {
     padding: 0;
-    bottom: 0px;
   }
 }
 
