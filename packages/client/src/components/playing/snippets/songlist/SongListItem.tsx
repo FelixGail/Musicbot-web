@@ -48,7 +48,7 @@ function SongListItem<T extends Song | SongEntry>({
   const song = useMemo(() => itemToSong(item), [item]);
 
   const addEnqueuedClass = useCallback(() => {
-    setClassName(`${className} enqueued`);
+    setClassName(className? `${className} enqueued`: 'enqueued');
   }, [setClassName, className]);
 
   const alteredClickHandle = useCallback(() => {
