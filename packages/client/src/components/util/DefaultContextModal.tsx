@@ -1,5 +1,5 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
-import { useContext, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
@@ -73,14 +73,15 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
 
   return ContextModal<T>({
     item: item,
-    visible: true,
     elements: combinedElements,
+    visible: true,
     title: song.title,
     centered: true,
-    mask: false,
+    mask: true,
+    maskClosable: true,
     closable: false,
     footer: null,
-    clickAway: history.goBack,
+    onCancel: history.goBack,
     ...props
   });
 }

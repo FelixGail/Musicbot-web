@@ -54,7 +54,6 @@ export function SongList<T extends Song | SongEntry>({
 
   return (
     <div className="songlist">
-      {modalJSX}
       <List
         className=""
         {...props}
@@ -69,6 +68,7 @@ export function SongList<T extends Song | SongEntry>({
           />
         )}
       />
+      {modalJSX}
     </div>
   );
 }

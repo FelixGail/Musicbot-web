@@ -1,12 +1,10 @@
 import { Modal } from "antd";
-import React, { useMemo, ReactNode, useRef, useCallback } from "react";
+import React, { useMemo, ReactNode, useCallback } from "react";
 import { ModalProps } from "antd/lib/modal";
-import { useClickAway } from "react-use";
 
 export interface ContextModalProps<T> extends ModalProps {
   elements?: ContextModalElement<T>[];
   item: T;
-  clickAway?: () => void;
 }
 
 export interface ContextModalElement<T> {
@@ -17,7 +15,6 @@ export interface ContextModalElement<T> {
 
 export function ContextModal<T>({
   elements,
-  clickAway,
   item,
   ...props
 }: ContextModalProps<T>) {
@@ -44,15 +41,12 @@ export function ContextModal<T>({
     );
   }, [elements, wrapChildren]);
 
-  const ref = useRef(null);
-  useClickAway(ref, clickAway || (() => {}));
-
   return (
-    <Modal className="contextmodal" {...props}>
-      <div ref={ref}>
-        <ul className="contextmodal-list">{wrappedElements}</ul>
-      </div>
-    </Modal>
+    <div>
+      <Modal className="contextmodal" {...props}>
+          <ul className="contextmodal-list">{wrappedElements}</ul>
+      </Modal>
+    </div>
   );
 }
 
