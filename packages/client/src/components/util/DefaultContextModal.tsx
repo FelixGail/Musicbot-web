@@ -5,6 +5,7 @@ import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
 import { ModalProps } from "antd/lib/modal";
+import { Typography } from "antd";
 
 export interface DefaultContextModalProps<T extends Song | SongEntry>
   extends ModalProps {
@@ -75,7 +76,10 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
     item: item,
     elements: combinedElements,
     visible: true,
-    title: song.title,
+    title: 
+      <Typography.Paragraph ellipsis={{ rows: 2, expandable: true }}>
+        {song.title}
+      </Typography.Paragraph>,
     centered: true,
     mask: true,
     maskClosable: true,
