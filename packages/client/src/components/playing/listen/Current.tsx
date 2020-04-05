@@ -15,8 +15,8 @@ const Current = (props: { song?: Song }) => {
   const left = `${location.pathname}/history`;
   const right = `${location.pathname}/queue`;
   const swipeHandler = useSwipeable({
-    onSwipedLeft: () => history.push(left),
-    onSwipedRight: () => history.push(right),
+    onSwipedLeft: () => history.push(right),
+    onSwipedRight: () => history.push(left),
     preventDefaultTouchmoveEvent: true
   });
   const jsx = useMemo(

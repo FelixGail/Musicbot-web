@@ -19,8 +19,8 @@ const History = () => {
   const left = `queue`;
   const right = `/listen`;
   const swipeHandler = useSwipeable({
-    onSwipedLeft: () => browserHistory.push(left),
-    onSwipedRight: () => browserHistory.push(right),
+    onSwipedLeft: () => browserHistory.push(right),
+    onSwipedRight: () => browserHistory.push(left),
     preventDefaultTouchmoveEvent: true
   });
 

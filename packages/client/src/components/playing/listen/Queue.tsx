@@ -30,8 +30,8 @@ const Queue: FunctionComponent = () => {
   const left = `/listen`;
   const right = `history`;
   const swipeHandler = useSwipeable({
-    onSwipedLeft: () => hstry.push(left),
-    onSwipedRight: () => hstry.push(right),
+    onSwipedLeft: () => hstry.push(right),
+    onSwipedRight: () => hstry.push(left),
     preventDefaultTouchmoveEvent: true
   });
 
