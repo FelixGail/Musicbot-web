@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import LinkDiv from "./LinkDiv";
 
 type clickFunction = () => void;
 type ScreenNavigationItem = string | clickFunction;
