@@ -6,6 +6,7 @@ import { AlbumArt } from "../AlbumArt";
 import SongItemExtra from "./SongItemExtra";
 import SongItemAction from "./SongItemAction";
 import { SongListAdditional } from "./SongList";
+import styled from "styled-components";
 
 export interface SongListItemProps<T extends Song | SongEntry>
   extends ListItemProps {
@@ -92,11 +93,16 @@ function SongListItem<T extends Song | SongEntry>({
       <List.Item.Meta
         title={song.title}
         description={song.description}
-        avatar={<AlbumArt song={song} />}
+        avatar={<StyledAlbumArt song={song} />}
       />
       {additionalElements}
     </List.Item>
   );
 }
+
+const StyledAlbumArt = styled(AlbumArt)`
+  width: 50px;
+  height: auto;
+`;
 
 export default SongListItem;

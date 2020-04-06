@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useContext } from "react";
+import React, { useCallback, useMemo, useContext, Fragment } from "react";
 import api from "../../../core/api/model";
 import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
@@ -9,6 +9,8 @@ import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useHistory } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
+import styled from "styled-components";
+import { ContentWrapper } from "../snippets/ContentWrapper";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -37,22 +39,33 @@ const History = () => {
 
   const jsx = useMemo(
     () => (
-      <div
-        className="history full-width full-height centering"
-        {...swipeHandler}
-      >
+      <Fragment>
         <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <SongList
-          header="History"
-          items={history}
-          onClick={enqueueWrapper}
-        />
-      </div>
+        <ContentWrapper>
+          <StyledSongList
+            header="History"
+            items={history}
+            onClick={enqueueWrapper}
+          />
+        </ContentWrapper>
+      </Fragment>
     ),
     [history, enqueueWrapper, toggleFullscreen, left, right, swipeHandler]
   );
 
   return jsx;
 };
+
+const StyledSongList = styled(SongList)`
+  .enqueued {
+    opacity: 0.6;
+    background-color: #68758d;
+
+    h4,
+    .ant-list-item-meta-description {
+      color: #cccccc;
+    }
+  }
+`;
 
 export default History;

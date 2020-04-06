@@ -2,7 +2,8 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FunctionComponent
+  FunctionComponent,
+  Fragment
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
@@ -20,6 +21,7 @@ import useHasPermission from "../../../core/hooks/useHasPermission";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
+import { ContentWrapper } from "../snippets/ContentWrapper";
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
@@ -100,16 +102,18 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <div className="queue full-width full-height" {...swipeHandler}>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <SongList
-          header="Queue"
-          items={queue}
-          onClick={click}
-          additional={additionalArray}
-          contextModal={{ route: "*/queue", elements: combinedElements }}
-        />
-      </div>
+      <Fragment>
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} {...swipeHandler}/>
+        <ContentWrapper>
+          <SongList
+            header="Queue"
+            items={queue}
+            onClick={click}
+            additional={additionalArray}
+            contextModal={{ route: "*/queue", elements: combinedElements }}
+          />
+        </ContentWrapper>
+      </Fragment>
     ),
     [
       queue,

@@ -12,6 +12,7 @@ export interface ScreenNavigationProps {
 }
 
 const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
+  
   const jsx = useMemo(
     () => (
       <ScreenNavigationOuter>

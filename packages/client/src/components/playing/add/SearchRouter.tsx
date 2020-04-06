@@ -1,15 +1,48 @@
 import { Route, Redirect, useHistory, useLocation } from "react-router";
-import React, { useCallback, useEffect } from "react";
-
-import {
-  DoubleLeftOutlined
-} from "@ant-design/icons";
-
-import { BackTop, Col, Layout, Row } from "antd";
+import React, { useCallback, useEffect, Fragment } from "react";
+import { BackTop, Layout } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
 import Stars from "./Stars";
 import NavigationCard from "../snippets/FooterCard";
+import StyledContent from "../StyledContent";
+import styled from "styled-components";
+import { ContentWrapper } from "../snippets/ContentWrapper";
+
+const HighlightingContent = styled(StyledContent)`
+  padding-top: 10px;
+  color: white;
+
+  .ant-tabs {
+    color: #e6e6e6;
+  }
+
+  .enqueued {
+    opacity: 0.6;
+    background-color: #68758d;
+
+    h4,
+    .ant-list-item-meta-description {
+      color: #cccccc;
+    }
+  }
+`;
+
+const BackTopDiv = styled.div`
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+`;
+
+const StyledBackTop = styled(BackTop)`
+  bottom: 55px;
+  left: 5px;
+`;
 
 const SearchRouter = () => {
   const location = useLocation();
@@ -42,32 +75,26 @@ const SearchRouter = () => {
   );
 
   return (
-    <div className="search-router">
-      <BackTop target={backTopTarget}>
-        <div className="ant-back-top-inner">UP</div>
-      </BackTop>
+    <Fragment>
+      <StyledBackTop target={backTopTarget}>
+        <BackTopDiv>UP</BackTopDiv>
+      </StyledBackTop>
       <Layout>
-        <Layout.Content id="searchContent">
-          <Row>
-            <Col span={3}>
-              <DoubleLeftOutlined className="back-arrow" onClick={goHome} />
-            </Col>
-            <Col span={20} md={19} xxl={17}>
-              <Route exact path="*/add" render={renderCallback} />
-              <Route path="*/add/search" component={Search} />
-              <Route path="*/add/suggest" component={Suggest} />
-              <Route path="*/add/stars" component={Stars} />
-            </Col>
-          </Row>
-        </Layout.Content>
+        <HighlightingContent id="searchContent">
+              <ContentWrapper>
+                <Route exact path="*/add" render={renderCallback} />
+                <Route path="*/add/search" component={Search} />
+                <Route path="*/add/suggest" component={Suggest} />
+                <Route path="*/add/stars" component={Stars} />
+              </ContentWrapper>
+        </HighlightingContent>
         <Layout.Footer>
           <NavigationCard />
         </Layout.Footer>
       </Layout>
-    </div>
+    </Fragment>
   );
 };
-
 
 
 export default SearchRouter;

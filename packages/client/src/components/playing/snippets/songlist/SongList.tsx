@@ -1,5 +1,5 @@
 import { List } from "antd";
-import React, { useMemo } from "react";
+import React, { useMemo, Fragment } from "react";
 import { Song, SongEntry } from "../../../../core/types";
 import { ListProps } from "antd/lib/list";
 import SongListItem from "./SongListItem";
@@ -8,6 +8,7 @@ import { useContext } from "react";
 import PlayerStateContext from "../../../../core/context/PlayerStateContext";
 import DefaultContextModal from "../../../util/DefaultContextModal";
 import { Route } from "react-router-dom";
+import styled from "styled-components";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -25,6 +26,83 @@ export interface ListContextModal<T extends Song | SongEntry> {
   route: string;
   elements: ContextModalElement<T>[];
 }
+
+const StyledList = styled(List)`
+  flex: 1;
+
+  h4,
+  .ant-list-header,
+  .ant-empty-description {
+    color: #e6e6e6;
+  }
+
+  .ant-list-item-meta {
+    overflow: hidden;
+    align-items: center;
+  }
+
+  .ant-list-item-meta-title,
+  .ant-list-item-meta-description {
+    overflow: hidden;
+    max-height: 22px;
+    max-width: 100%;
+  }
+
+  h4,
+  .ant-list-item-meta-description,
+  .ant-list-item-action {
+    text-shadow: 1px 1px 2px black;
+  }
+
+  .ant-list-item-meta-description {
+    color: #808080;
+  }
+
+  .ant-list-header {
+    font-size: 18px;
+  }
+
+  .ant-list-item {
+    padding: 5px;
+    flex-wrap: nowrap;
+
+    &:hover {
+      background-color: #1890ff;
+      cursor: pointer;
+
+      h4,
+      .ant-list-item-meta-description {
+        color: #e5e5e5;
+      }
+    }
+  }
+
+  .ant-list-item-action {
+    .anticon {
+      color: #e6e6e6;
+
+      &:hover {
+        color: #68758d;
+      }
+    }
+
+    color: #e6e6e6;
+    padding-left: 12px;
+    margin-left: 0px;
+  }
+
+  .ant-list-item-additional {
+    ul {
+      padding-right: 0px;
+    }
+    padding-left: 24px;
+    margin-left: 0px;
+
+    @media only screen and (max-width: 600px) {
+      padding-left: 8px;
+    }
+  }
+`;
 
 export function SongList<T extends Song | SongEntry>({
   items,
@@ -53,12 +131,11 @@ export function SongList<T extends Song | SongEntry>({
   }, [contextModal, items]);
 
   return (
-    <div className="songlist">
-      <List
-        className=""
+    <Fragment>
+      <StyledList
         {...props}
         dataSource={items}
-        renderItem={(item, index) => (
+        renderItem={(item: T, index: number) => (
           <SongListItem
             item={item}
             index={index}
@@ -69,6 +146,6 @@ export function SongList<T extends Song | SongEntry>({
         )}
       />
       {modalJSX}
-    </div>
+    </Fragment>
   );
 }

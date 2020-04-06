@@ -9,16 +9,7 @@ import ListenFooter from "./ListenFooter";
 import { useToggle, useFullscreen } from "react-use";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
-import styled from "styled-components";
-
-const StyledContent = styled(Layout.Content)`
-  background-color: #272c35;
-  -ms-overflow-style: none;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  position: relative;
-`;
+import StyledContent from "../StyledContent";
 
 export const ListenRouter = () => {
   const { state: playerState } = useContext(PlayerStateContext);

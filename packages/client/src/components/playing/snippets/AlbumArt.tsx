@@ -23,7 +23,8 @@ export const BackgroundAlbumArt = styled.div`
 `;
 
 export const AlbumArt = ({
-  song
+  song,
+  ...props
 }: { song?: Song } & React.DetailedHTMLProps<
   React.ImgHTMLAttributes<HTMLImageElement>,
   HTMLImageElement
@@ -32,12 +33,12 @@ export const AlbumArt = ({
   const jsx = useMemo(
     () => (
       <img
+        className={props.className}
         alt="cover"
-        className="album-art"
         src={urlFromSong(configuration, song)}
       />
     ),
-    [configuration, song]
+    [configuration, song, props.className]
   );
   return jsx;
 };
