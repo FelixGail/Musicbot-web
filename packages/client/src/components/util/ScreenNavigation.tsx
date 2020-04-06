@@ -44,7 +44,7 @@ const ScreenNavigationItem = ({
   children?: React.ReactNode;
 }) => {
   if (isString(action)) {
-    return <LinkDiv className={className} children={children} to={action} />;
+    return <a className={className} children={children} href={action} />;
   }
   return <div className={className} children={children} onClick={action} />;
 };
