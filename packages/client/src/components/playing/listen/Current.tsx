@@ -1,12 +1,13 @@
 import { Song } from "../../../core/types";
-import { AlbumArt } from "../snippets/AlbumArt";
-import React, { useMemo } from "react";
+import React, { useMemo, Fragment } from "react";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { useLocation } from "react-use";
 import { useContext } from "react";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import { useHistory } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
+import { ConfigurationContext } from "../../../core/context/Configuration";
+import { BackgroundAlbumArt } from "../snippets/AlbumArt";
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
@@ -19,17 +20,16 @@ const Current = (props: { song?: Song }) => {
     onSwipedRight: () => history.push(left),
     preventDefaultTouchmoveEvent: true
   });
+  const {configuration} = useContext(ConfigurationContext)
+  
   const jsx = useMemo(
     () => (
-      <div
-        className="current full-width full-height vertically-centering centering"
-        {...swipeHandler}
-      >
-        <AlbumArt song={props.song} />
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-      </div>
+      <Fragment>
+        <BackgroundAlbumArt song={props.song} config={configuration} />
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} {...swipeHandler}/>
+      </Fragment>
     ),
-    [props.song, left, right, swipeHandler, toggleFullscreen]
+    [props.song, left, right, swipeHandler, toggleFullscreen, configuration]
   );
 
   return jsx;

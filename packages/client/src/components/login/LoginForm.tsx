@@ -4,6 +4,7 @@ import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Col, Row, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useUserLogin, useUserRegister } from "../../core/user/user";
+import styled from "styled-components";
 
 const MAX_USERNAME_LENGTH = 20;
 
@@ -95,7 +96,7 @@ export const LoginForm = () => {
   return (
     <Row>
       <Col {...FormProps}>
-        <Form onFinish={onFinish}>
+        <StyledForm onFinish={onFinish}>
           <Form.Item
             name="username"
             rules={[
@@ -160,8 +161,16 @@ export const LoginForm = () => {
               Log in
             </Button>
           </Form.Item>
-        </Form>
+        </StyledForm>
       </Col>
     </Row>
   );
 };
+
+const StyledForm = styled(Form)`
+  background-color: white;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 2px 2px 2px 3px #181b20;
+  margin-top: 25px;
+`;

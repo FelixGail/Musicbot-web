@@ -8,10 +8,9 @@ import React, {
   useState
 } from "react";
 import {
-  CaretRightOutlined,
   ForwardOutlined,
-  PauseOutlined,
-  SearchOutlined
+  PauseCircleTwoTone,
+  PlayCircleTwoTone
 } from "@ant-design/icons";
 import { Card, Layout } from "antd";
 import { Link } from "react-router-dom";
@@ -25,8 +24,55 @@ import {
   PlayerState
 } from "../../../core/types";
 import moment from "moment";
-import { useHistory } from "react-router";
 import deepEqual from "deep-equal";
+import NavigationCard from "../snippets/FooterCard";
+import styled from "styled-components";
+import Permissional from "../../util/Permissional";
+
+const Actions = styled.div`
+  height: 55px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
+
+interface ActionProps {
+  size: number
+}
+
+const ActionDiv = styled.div`
+  height: ${(props: ActionProps) => `${props.size}px`};
+  width: ${(props: ActionProps) => `${props.size}px`};
+  padding-top: 5px;
+  padding-right: 5px;
+
+  span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 80%;
+      height: 80%;
+    }
+  }
+`;
+
+const StyledCard = styled(Card)`
+  .ant-card-body {
+    padding-bottom: ${(props: {showActions: boolean}) => `${props.showActions? 5 : 24}px`};
+  }
+`
+
+const ForwardIcon = styled(ForwardOutlined)`
+  &:hover {
+    color: #1890ff;
+    background-color: #cccccc;
+`;
 
 export interface ListenFooterProps {
   current: PlayerState;
@@ -39,7 +85,6 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
 }) => {
   const [, setPlayerState] = useResource(api.setPlayerState);
   const { configuration } = useContext(ConfigurationContext);
-  const history = useHistory();
 
   const currentRef = useRef(current);
   const [currentState, setCurrentState] = useState<PlayerState>(current);
@@ -69,25 +114,25 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
     };
   }, [currentState]);
   const actions = useMemo(() => {
-    const actions = [];
     if (configuration.permissions) {
-      if (configuration.permissions.includes(Permission.PAUSE)) {
-        actions.push(
-          <PlayPause
-            status={currentState ? currentState.state : PlayerStatus.ERROR}
-            changePlayerState={setPlayerState}
-          />
-        );
-      }
-      if (configuration.permissions.includes(Permission.SKIP)) {
-        actions.push(
-          <ForwardOutlined onClick={() => setPlayerState(Action.SKIP)} />
-        );
-      }
+      return <Actions>
+          <ActionDiv size={30}/>
+          <Permissional permission={Permission.PAUSE}>
+            <ActionDiv size={50}>
+              <PlayPause
+                status={currentState ? currentState.state : PlayerStatus.ERROR}
+                changePlayerState={setPlayerState}
+              />
+            </ActionDiv>
+          </Permissional>
+          <ActionDiv size={30}>
+            <Permissional permission={Permission.SKIP}>
+              <ForwardIcon onClick={() => setPlayerState(Action.SKIP)} />
+            </Permissional>
+          </ActionDiv>
+      </Actions>
     }
-    actions.push(<SearchOutlined onClick={() => history.push("/add")} />);
-    return actions;
-  }, [currentState, configuration.permissions, history, setPlayerState]);
+  }, [currentState, configuration.permissions, setPlayerState]);
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
     songInfo.title
   ]);
@@ -101,12 +146,14 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   const jsx = useMemo(
     () => (
       <Layout.Footer>
-        <Card className="spanning" actions={showActions ? actions : undefined}>
+        <StyledCard showActions={showActions}>
           <Card.Meta
             title={<Link to={searchLink}>{songInfo.title}</Link>}
             description={description}
           />
-        </Card>
+          {showActions && actions }
+        </StyledCard>
+        {showActions && <NavigationCard />}
       </Layout.Footer>
     ),
     [actions, searchLink, songInfo.title, description, showActions]
@@ -132,9 +179,9 @@ export const PlayPause = ({
   return useMemo(() => {
     switch (status) {
       case PlayerStatus.PLAY:
-        return <PauseOutlined onClick={clickPause} />;
+        return <PauseCircleTwoTone onClick={clickPause} />;
       default:
-        return <CaretRightOutlined onClick={clickPlay} />;
+        return <PlayCircleTwoTone onClick={clickPlay} />;
     }
   }, [status, clickPause, clickPlay]);
 };

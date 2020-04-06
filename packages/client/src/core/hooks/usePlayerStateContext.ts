@@ -9,7 +9,7 @@ export function useResourceReload<T>(
 ): T {
   const [{ data }, getResource] = useResource(resourceFunction);
   const dataRef = useRef(defaultValue);
-  const cancelRef = useRef<NodeJS.Timeout | undefined>();
+  const cancelRef = useRef<number>();
 
   const reloadFunction = useCallback(() => {
     getResource();

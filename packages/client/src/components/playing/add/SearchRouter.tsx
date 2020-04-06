@@ -2,18 +2,14 @@ import { Route, Redirect, useHistory, useLocation } from "react-router";
 import React, { useCallback, useEffect } from "react";
 
 import {
-  DoubleLeftOutlined,
-  QuestionOutlined,
-  SearchOutlined,
-  StarOutlined,
-  UnorderedListOutlined
+  DoubleLeftOutlined
 } from "@ant-design/icons";
 
-import { BackTop, Col, Card, Layout, Row } from "antd";
+import { BackTop, Col, Layout, Row } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
 import Stars from "./Stars";
-import { Link } from "react-router-dom";
+import NavigationCard from "../snippets/FooterCard";
 
 const SearchRouter = () => {
   const location = useLocation();
@@ -65,27 +61,13 @@ const SearchRouter = () => {
           </Row>
         </Layout.Content>
         <Layout.Footer>
-          <Card
-            className="search-router-navigation spanning"
-            actions={[
-              <Link to="/listen">
-                <UnorderedListOutlined />
-              </Link>,
-              <Link to="/add/search">
-                <SearchOutlined />
-              </Link>,
-              <Link to="/add/suggest">
-                <QuestionOutlined />
-              </Link>,
-              <Link to="/add/stars">
-                <StarOutlined />
-              </Link>
-            ]}
-          ></Card>
+          <NavigationCard />
         </Layout.Footer>
       </Layout>
     </div>
   );
 };
+
+
 
 export default SearchRouter;

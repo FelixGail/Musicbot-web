@@ -39,7 +39,6 @@ const App = () => {
   }, [configuration, setConfiguration]);
 
   return (
-    <div className="App">
       <ConfigurationContext.Provider value={configurationContext}>
         <LikedSongContext.Provider value={likedSongs}>
           <RequestContext.Provider value={axios}>
@@ -60,7 +59,6 @@ const App = () => {
           </RequestContext.Provider>
         </LikedSongContext.Provider>
       </ConfigurationContext.Provider>
-    </div>
   );
 };
 

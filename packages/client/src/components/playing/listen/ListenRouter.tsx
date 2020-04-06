@@ -9,6 +9,16 @@ import ListenFooter from "./ListenFooter";
 import { useToggle, useFullscreen } from "react-use";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
+import styled from "styled-components";
+
+const StyledContent = styled(Layout.Content)`
+  background-color: #272c35;
+  -ms-overflow-style: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  position: relative;
+`;
 
 export const ListenRouter = () => {
   const { state: playerState } = useContext(PlayerStateContext);
@@ -28,15 +38,14 @@ export const ListenRouter = () => {
 
   const jsx = useMemo(
     () => (
-      <div className="currently-playing">
         <FullscreenContext.Provider value={toggleFullscreen}>
-          <div ref={ref} className="fullscreen">
+          <div ref={ref}>
             <Layout>
-              <Layout.Content>
+              <StyledContent>
                 <Route exact path="*/listen" render={renderCurrent} />
                 <Route path="*/listen/history" component={History} />
                 <Route path="*/listen/queue" component={Queue} />
-              </Layout.Content>
+              </StyledContent>
               {playerState && (
                 <ListenFooter
                   current={playerState}
@@ -46,7 +55,6 @@ export const ListenRouter = () => {
             </Layout>
           </div>
         </FullscreenContext.Provider>
-      </div>
     ),
     [renderCurrent, playerState, toggleFullscreen, ref, isFullscreen]
   );
