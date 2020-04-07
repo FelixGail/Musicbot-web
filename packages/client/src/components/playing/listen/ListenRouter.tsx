@@ -9,7 +9,7 @@ import ListenFooter from "./ListenFooter";
 import { useToggle, useFullscreen } from "react-use";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
-import StyledContent from "../StyledContent";
+import { StyledLayout, StyledContent } from "../StyledLayout";
 
 export const ListenRouter = () => {
   const { state: playerState } = useContext(PlayerStateContext);
@@ -31,7 +31,7 @@ export const ListenRouter = () => {
     () => (
         <FullscreenContext.Provider value={toggleFullscreen}>
           <div ref={ref}>
-            <Layout>
+            <StyledLayout>
               <StyledContent>
                 <Route exact path="*/listen" render={renderCurrent} />
                 <Route path="*/listen/history" component={History} />
@@ -43,7 +43,7 @@ export const ListenRouter = () => {
                   showActions={!isFullscreen}
                 />
               )}
-            </Layout>
+            </StyledLayout>
           </div>
         </FullscreenContext.Provider>
     ),

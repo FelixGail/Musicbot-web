@@ -5,7 +5,7 @@ import { Search } from "./Search";
 import Suggest from "./Suggest";
 import Stars from "./Stars";
 import NavigationCard from "../snippets/FooterCard";
-import StyledContent from "../StyledContent";
+import { StyledContent, StyledLayout } from "../StyledLayout";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 
@@ -79,7 +79,7 @@ const SearchRouter = () => {
       <StyledBackTop target={backTopTarget}>
         <BackTopDiv>UP</BackTopDiv>
       </StyledBackTop>
-      <Layout>
+      <StyledLayout>
         <HighlightingContent id="searchContent">
               <ContentWrapper>
                 <Route exact path="*/add" render={renderCallback} />
@@ -91,7 +91,7 @@ const SearchRouter = () => {
         <Layout.Footer>
           <NavigationCard />
         </Layout.Footer>
-      </Layout>
+      </StyledLayout>
     </Fragment>
   );
 };

@@ -10,7 +10,6 @@ import {
 import Axios from "axios";
 import { RequestContext } from "react-request-hook";
 import { useSetState } from "react-use";
-import "./style/style.scss";
 import { PlayRouter } from "./playing/PlayRouter";
 import { LikedSongContext } from "../core/context/LikedSongsContext";
 import LikedSongs from "../core/LikedSongs";
