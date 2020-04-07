@@ -1,7 +1,6 @@
 import { useContext, useState, useCallback } from "react";
 import { LikedSongContext } from "../../../core/context/LikedSongsContext";
 import React from "react";
-import { Row } from "antd";
 import { SongList } from "../snippets/songlist/SongList";
 import api from "../../../core/api/model";
 import { Song, Permission } from "../../../core/types";
@@ -23,11 +22,7 @@ const Stars = () => {
   );
 
   return (
-    <div className="stars">
-      <Row>
-        <SongList header="Stars" items={songs} onClick={click} />
-      </Row>
-    </div>
+    <SongList header="Stars" items={songs} onClick={click} />
   );
 };
 
