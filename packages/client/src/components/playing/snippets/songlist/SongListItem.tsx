@@ -69,17 +69,15 @@ function SongListItem<T extends Song | SongEntry>({
     }
   }, [queue, song, addEnqueuedClass]);
 
-  const additionalElements = useMemo(() => {
-    return (
-      additional && (
-        <ul className="ant-list-item-action ant-list-item-additional">
-          {additional.map((fn, index) => (
-            <li key={index}>{fn(item)}</li>
-          ))}
-        </ul>
-      )
-    );
-  }, [additional, item]);
+  const actions = useMemo(() => {
+    const songAction = <SongItemAction song={song} />
+    if(additional) {
+      const mapped = additional?.map(it => it(item))
+      mapped.push(songAction)
+      return mapped
+    }
+    return [songAction]
+  }, [additional, item, song]);
 
   return (
     <List.Item
@@ -88,14 +86,13 @@ function SongListItem<T extends Song | SongEntry>({
       key={song.title}
       onClick={() => alteredClickHandle()}
       extra={<SongItemExtra item={item} />}
-      actions={[<SongItemAction song={song} />]}
+      actions={actions}
     >
       <List.Item.Meta
         title={song.title}
         description={song.description}
         avatar={<StyledAlbumArt song={song} />}
       />
-      {additionalElements}
     </List.Item>
   );
 }
