@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";
+import SwipeDiv from "../../util/SwipeDiv";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -39,7 +40,7 @@ const History = () => {
 
   const jsx = useMemo(
     () => (
-      <Fragment>
+      <SwipeDiv {...swipeHandler}>
         <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
         <ContentWrapper>
           <StyledSongList
@@ -48,7 +49,7 @@ const History = () => {
             onClick={enqueueWrapper}
           />
         </ContentWrapper>
-      </Fragment>
+      </SwipeDiv>
     ),
     [history, enqueueWrapper, toggleFullscreen, left, right, swipeHandler]
   );

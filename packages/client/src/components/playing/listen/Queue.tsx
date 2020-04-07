@@ -22,6 +22,7 @@ import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
 import { ContentWrapper } from "../snippets/ContentWrapper";
+import SwipeDiv from "../../util/SwipeDiv";
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
@@ -102,8 +103,8 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <Fragment>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} {...swipeHandler}/>
+      <SwipeDiv {...swipeHandler}>
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen}/>
         <ContentWrapper>
           <SongList
             header="Queue"
@@ -113,7 +114,7 @@ const Queue: FunctionComponent = () => {
             contextModal={{ route: "*/queue", elements: combinedElements }}
           />
         </ContentWrapper>
-      </Fragment>
+      </SwipeDiv>
     ),
     [
       queue,

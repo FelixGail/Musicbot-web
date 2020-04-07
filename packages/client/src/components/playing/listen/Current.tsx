@@ -8,6 +8,8 @@ import { useHistory } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import { BackgroundAlbumArt } from "../snippets/AlbumArt";
+import styled from "styled-components";
+import SwipeDiv from "../../util/SwipeDiv";
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
@@ -24,10 +26,10 @@ const Current = (props: { song?: Song }) => {
   
   const jsx = useMemo(
     () => (
-      <Fragment>
+      <SwipeDiv {...swipeHandler}>
         <BackgroundAlbumArt song={props.song} config={configuration} />
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} {...swipeHandler}/>
-      </Fragment>
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+      </SwipeDiv>
     ),
     [props.song, left, right, swipeHandler, toggleFullscreen, configuration]
   );
