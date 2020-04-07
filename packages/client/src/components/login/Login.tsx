@@ -31,7 +31,7 @@ export const Login = (props: RouteComponentProps) => {
   const provider = useMemo(() => {
     return {
       setError: error,
-      redirectToReferrer: redirect
+      redirectToReferrer: redirect,
     };
   }, [error, redirect]);
 
@@ -44,10 +44,7 @@ export const Login = (props: RouteComponentProps) => {
       <LoginContext.Provider value={provider}>
         <Row>
           <Col offset={8} span={8}>
-            <ReactSVG
-              src={logo}
-              id="loginLogo"
-            ></ReactSVG>
+            <ReactSVG src={logo} id="loginLogo"></ReactSVG>
           </Col>
         </Row>
         {errorMessage && (

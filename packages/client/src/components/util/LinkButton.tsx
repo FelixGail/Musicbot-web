@@ -16,7 +16,7 @@ const LinkButton = (props: any) => {
   return (
     <button
       {...rest} // `children` is just another prop!
-      onClick={event => {
+      onClick={(event) => {
         onClick && onClick(event);
         history.push(to);
       }}
@@ -26,7 +26,7 @@ const LinkButton = (props: any) => {
 
 LinkButton.propTypes = {
   to: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default withRouter(LinkButton);

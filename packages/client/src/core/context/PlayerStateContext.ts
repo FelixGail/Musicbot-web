@@ -10,7 +10,7 @@ export interface CombinedPlayerState {
 const PlayerStateContext = createContext<CombinedPlayerState>({
   state: undefined,
   queue: [],
-  history: []
+  history: [],
 });
 
 export default PlayerStateContext;

@@ -5,7 +5,7 @@ import { Login } from "./login/Login";
 import {
   ConfigurationContext,
   IConfiguration,
-  IConfigurationContext
+  IConfigurationContext,
 } from "../core/context/Configuration";
 import Axios from "axios";
 import { RequestContext } from "react-request-hook";
@@ -20,44 +20,41 @@ const App = () => {
     () =>
       Axios.create({
         timeout: 1000,
-        baseURL: "/api"
+        baseURL: "/api",
       }),
     []
   );
   const [likedSongs] = useState(new LikedSongs());
   const [configuration, setConfiguration] = useSetState<IConfiguration>({
     loggedIn: false,
-    axios: axios
+    axios: axios,
   });
 
   const configurationContext = useMemo<IConfigurationContext>(() => {
     return {
       configuration,
-      setConfiguration
+      setConfiguration,
     };
   }, [configuration, setConfiguration]);
 
   return (
-      <ConfigurationContext.Provider value={configurationContext}>
-        <LikedSongContext.Provider value={likedSongs}>
-          <RequestContext.Provider value={axios}>
-            <InterceptorLayer>
-              <Router>
-                <PrivateRoute
-                  exact
-                  path="/"
-                  component={() => <Redirect to="listen" />}
-                />
-                <PrivateRoute
-                  path={["/listen", "/add"]}
-                  component={PlayRouter}
-                />
-                <Route path="/login" component={Login}></Route>
-              </Router>
-            </InterceptorLayer>
-          </RequestContext.Provider>
-        </LikedSongContext.Provider>
-      </ConfigurationContext.Provider>
+    <ConfigurationContext.Provider value={configurationContext}>
+      <LikedSongContext.Provider value={likedSongs}>
+        <RequestContext.Provider value={axios}>
+          <InterceptorLayer>
+            <Router>
+              <PrivateRoute
+                exact
+                path="/"
+                component={() => <Redirect to="listen" />}
+              />
+              <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
+              <Route path="/login" component={Login}></Route>
+            </Router>
+          </InterceptorLayer>
+        </RequestContext.Provider>
+      </LikedSongContext.Provider>
+    </ConfigurationContext.Provider>
   );
 };
 

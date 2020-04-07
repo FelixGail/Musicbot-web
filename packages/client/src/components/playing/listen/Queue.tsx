@@ -2,7 +2,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FunctionComponent
+  FunctionComponent,
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
@@ -34,7 +34,7 @@ const Queue: FunctionComponent = () => {
   const swipeHandler = useSwipeable({
     onSwipedLeft: () => hstry.push(right),
     onSwipedRight: () => hstry.push(left),
-    preventDefaultTouchmoveEvent: true
+    preventDefaultTouchmoveEvent: true,
   });
 
   const [, dequeue] = useResource(api.dequeue);
@@ -58,7 +58,7 @@ const Queue: FunctionComponent = () => {
         alt={<div style={{ paddingLeft: "7px", paddingRight: "7px" }}></div>}
       >
         <DeleteOutlined
-          onClick={event => {
+          onClick={(event) => {
             dequeue(item.song);
             event.stopPropagation();
           }}
@@ -77,11 +77,11 @@ const Queue: FunctionComponent = () => {
         element: () => (
           <Permissional permission={Permission.MOVE}>Move to top</Permissional>
         ),
-        onClick: item => move(0, item.song),
-        close: true
+        onClick: (item) => move(0, item.song),
+        close: true,
       },
       {
-        element: item => (
+        element: (item) => (
           <Conditional
             condition={
               hasRemovePermission || item.userName === configuration.username
@@ -90,9 +90,9 @@ const Queue: FunctionComponent = () => {
             Remove
           </Conditional>
         ),
-        onClick: item => dequeue(item.song),
-        close: true
-      }
+        onClick: (item) => dequeue(item.song),
+        close: true,
+      },
     ];
   }, [move, hasRemovePermission, configuration.username, dequeue]);
   const combinedElements = useMemo(
@@ -103,7 +103,7 @@ const Queue: FunctionComponent = () => {
   const jsx = useMemo(
     () => (
       <SwipeDiv {...swipeHandler}>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen}/>
+        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
         <ContentWrapper>
           <SongList
             header="Queue"
@@ -123,7 +123,7 @@ const Queue: FunctionComponent = () => {
       toggleFullscreen,
       left,
       right,
-      swipeHandler
+      swipeHandler,
     ]
   );
 

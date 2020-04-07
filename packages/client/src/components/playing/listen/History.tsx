@@ -24,7 +24,7 @@ const History = () => {
   const swipeHandler = useSwipeable({
     onSwipedLeft: () => browserHistory.push(right),
     onSwipedRight: () => browserHistory.push(left),
-    preventDefaultTouchmoveEvent: true
+    preventDefaultTouchmoveEvent: true,
   });
 
   const enqueueWrapper = useCallback(

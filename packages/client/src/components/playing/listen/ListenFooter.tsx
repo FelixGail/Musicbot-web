@@ -5,12 +5,12 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import {
   ForwardOutlined,
   PauseCircleTwoTone,
-  PlayCircleTwoTone
+  PlayCircleTwoTone,
 } from "@ant-design/icons";
 import { Card, Layout } from "antd";
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ import {
   Permission,
   Action,
   PlayerStatus,
-  PlayerState
+  PlayerState,
 } from "../../../core/types";
 import moment from "moment";
 import deepEqual from "deep-equal";
@@ -39,7 +39,7 @@ const Actions = styled.div`
 `;
 
 interface ActionProps {
-  size: number
+  size: number;
 }
 
 const ActionDiv = styled.div`
@@ -64,9 +64,10 @@ const ActionDiv = styled.div`
 
 const StyledCard = styled(Card)`
   .ant-card-body {
-    padding-bottom: ${(props: {showActions: boolean}) => `${props.showActions? 5 : 24}px`};
+    padding-bottom: ${(props: { showActions: boolean }) =>
+      `${props.showActions ? 5 : 24}px`};
   }
-`
+`;
 
 const ForwardIcon = styled(ForwardOutlined)`
   &:hover {
@@ -81,7 +82,7 @@ export interface ListenFooterProps {
 
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   current,
-  showActions
+  showActions,
 }) => {
   const [, setPlayerState] = useResource(api.setPlayerState);
   const { configuration } = useContext(ConfigurationContext);
@@ -110,13 +111,14 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       duration: moment
         .duration((song && song.duration) || 0, "s")
         .format("mm:ss"),
-      enqueuedBy: (songEntry && songEntry.userName) || "Suggested"
+      enqueuedBy: (songEntry && songEntry.userName) || "Suggested",
     };
   }, [currentState]);
   const actions = useMemo(() => {
     if (configuration.permissions) {
-      return <Actions>
-          <ActionDiv size={30}/>
+      return (
+        <Actions>
+          <ActionDiv size={30} />
           <Permissional permission={Permission.PAUSE}>
             <ActionDiv size={50}>
               <PlayPause
@@ -130,11 +132,12 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
               <ForwardIcon onClick={() => setPlayerState(Action.SKIP)} />
             </Permissional>
           </ActionDiv>
-      </Actions>
+        </Actions>
+      );
     }
   }, [currentState, configuration.permissions, setPlayerState]);
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
-    songInfo.title
+    songInfo.title,
   ]);
   const description = useMemo(
     () =>
@@ -151,7 +154,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
             title={<Link to={searchLink}>{songInfo.title}</Link>}
             description={description}
           />
-          {showActions && actions }
+          {showActions && actions}
         </StyledCard>
         {showActions && <NavigationCard />}
       </Layout.Footer>
@@ -163,7 +166,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
 
 export const PlayPause = ({
   status,
-  changePlayerState
+  changePlayerState,
 }: {
   status: PlayerStatus;
   changePlayerState: RequestDispatcher<
@@ -171,10 +174,10 @@ export const PlayPause = ({
   >;
 }) => {
   const clickPause = useCallback(() => changePlayerState(Action.PAUSE), [
-    changePlayerState
+    changePlayerState,
   ]);
   const clickPlay = useCallback(() => changePlayerState(Action.PLAY), [
-    changePlayerState
+    changePlayerState,
   ]);
   return useMemo(() => {
     switch (status) {

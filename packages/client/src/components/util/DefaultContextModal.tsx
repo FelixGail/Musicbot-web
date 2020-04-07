@@ -40,7 +40,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   const likedSongs = useContext(LikedSongContext);
   const isLikedSong = useMemo(() => likedSongs.contains(song), [
     likedSongs,
-    song
+    song,
   ]);
   const history = useHistory();
 
@@ -51,13 +51,13 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
         onClick: () => {
           isLikedSong ? likedSongs.removeSong(song) : likedSongs.addSong(song);
         },
-        close: true
+        close: true,
       },
       {
         element: () => "Close",
         onClick: () => {},
-        close: true
-      }
+        close: true,
+      },
     ];
     return (elements ? elements.concat(defaultElements) : defaultElements).map(
       ({ element, onClick, close }) => {
@@ -66,7 +66,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
           onClick: (item: T) => {
             onClick(item);
             close && history.goBack();
-          }
+          },
         };
       }
     );
@@ -76,17 +76,18 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
     item: item,
     elements: combinedElements,
     visible: true,
-    title: 
+    title: (
       <Typography.Paragraph ellipsis={{ rows: 2, expandable: true }}>
         {song.title}
-      </Typography.Paragraph>,
+      </Typography.Paragraph>
+    ),
     centered: true,
     mask: true,
     maskClosable: true,
     closable: false,
     footer: null,
     onCancel: history.goBack,
-    ...props
+    ...props,
   });
 }
 
@@ -97,24 +98,24 @@ export function useSearchSongModalElements<
   return useMemo(
     () => [
       {
-        element: item => `Search for '${itemToSong(item).title}'`,
-        onClick: item => {
+        element: (item) => `Search for '${itemToSong(item).title}'`,
+        onClick: (item) => {
           history.push(`/add/search?${encodeURI(itemToSong(item).title)}`);
         },
-        close: false
+        close: false,
       },
       {
-        element: item =>
+        element: (item) =>
           `Search for '${itemToSong(item).description.substr(0, 50)}'`,
-        onClick: item => {
+        onClick: (item) => {
           history.push(
             `/add/search?${encodeURI(
               itemToSong(item).description.substr(0, 50)
             )}`
           );
         },
-        close: false
-      }
+        close: false,
+      },
     ],
     [history]
   );

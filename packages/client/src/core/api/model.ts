@@ -7,7 +7,7 @@ import {
   NamedPlugin,
   Song,
   SongEntry,
-  Volume
+  Volume,
 } from "../types";
 import { request } from "react-request-hook";
 
@@ -15,19 +15,19 @@ const api = {
   getVersion: () => {
     return request<VersionInfo>({
       method: "GET",
-      url: "/version"
+      url: "/version",
     });
   },
   exit: () => {
     return request<void>({
       url: "/exit",
-      method: "POST"
+      method: "POST",
     });
   },
   getICBINT: () => {
     return request<string>({
       method: "GET",
-      url: "/icbint"
+      url: "/icbint",
     });
   },
   registerUser: (username: string, userId: string) => {
@@ -36,14 +36,14 @@ const api = {
       method: "POST",
       data: {
         name: username,
-        userId: userId
-      }
+        userId: userId,
+      },
     });
   },
   getMe: () => {
     return request<UserInfo>({
       url: "/user",
-      method: "GET"
+      method: "GET",
     });
   },
   setPassword: (password: string) => {
@@ -51,33 +51,33 @@ const api = {
       url: "/user",
       method: "PUT",
       data: {
-        newPassword: password
-      }
+        newPassword: password,
+      },
     });
   },
   deleteUser: () => {
     return request<void>({
       url: "/user",
-      method: "DELETE"
+      method: "DELETE",
     });
   },
   loginUser: (username: string, password: string) => {
     return request<Token>({
       url: "/token",
       method: "GET",
-      headers: { Authorization: `Basic ${btoa(`${username}:${password}`)}` }
+      headers: { Authorization: `Basic ${btoa(`${username}:${password}`)}` },
     });
   },
   deleteToken: () => {
     return request<void>({
       url: "/token",
-      method: "DELETE"
+      method: "DELETE",
     });
   },
   getPlayerState: () => {
     return request<PlayerState>({
       url: "/player",
-      method: "GET"
+      method: "GET",
     });
   },
   setPlayerState: (action: Action) => {
@@ -85,20 +85,20 @@ const api = {
       url: "/player",
       method: "PUT",
       data: {
-        action: action
-      }
+        action: action,
+      },
     });
   },
   getHistory: () => {
     return request<SongEntry[]>({
       url: "/player/queue/history",
-      method: "GET"
+      method: "GET",
     });
   },
   getQueue: () => {
     return request<SongEntry[]>({
       url: "/player/queue",
-      method: "GET"
+      method: "GET",
     });
   },
   enqueue: (song: Song) => {
@@ -107,8 +107,8 @@ const api = {
       method: "PUT",
       params: {
         songId: song.id,
-        providerId: song.provider.id
-      }
+        providerId: song.provider.id,
+      },
     });
   },
   dequeue: (song: Song) => {
@@ -117,8 +117,8 @@ const api = {
       method: "DELETE",
       params: {
         songId: song.id,
-        providerId: song.provider.id
-      }
+        providerId: song.provider.id,
+      },
     });
   },
   moveEntry: (index: number, song: Song) => {
@@ -128,20 +128,20 @@ const api = {
       params: {
         index: index,
         songId: song.id,
-        providerId: song.provider.id
-      }
+        providerId: song.provider.id,
+      },
     });
   },
   getProviders: () => {
     return request<NamedPlugin[]>({
       url: "/provider",
-      method: "GET"
+      method: "GET",
     });
   },
   lookupSong: (songId: string, provider: NamedPlugin) => {
     return request<Song>({
       url: `/provider/${provider.id}/${songId}`,
-      method: "GET"
+      method: "GET",
     });
   },
   search: (
@@ -156,14 +156,14 @@ const api = {
       params: {
         query: query,
         limit: limit,
-        offset: offset
-      }
+        offset: offset,
+      },
     });
   },
   getSuggesters: () => {
     return request<NamedPlugin[]>({
       url: "/suggester",
-      method: "GET"
+      method: "GET",
     });
   },
   getSuggestions: (suggester: NamedPlugin, max?: number) => {
@@ -171,8 +171,8 @@ const api = {
       url: `/suggester/${suggester.id}`,
       method: "GET",
       params: {
-        max: max
-      }
+        max: max,
+      },
     });
   },
   removeSuggestion: (
@@ -185,14 +185,14 @@ const api = {
       method: "DELETE",
       params: {
         songId: song.id,
-        providerId: provider.id
-      }
+        providerId: provider.id,
+      },
     });
   },
   getVolume: () => {
     return request<Volume>({
       url: "/volume",
-      method: "GET"
+      method: "GET",
     });
   },
   setVolume: (volume: number) => {
@@ -200,10 +200,10 @@ const api = {
       url: "/volume",
       method: "PUT",
       params: {
-        value: volume
-      }
+        value: volume,
+      },
     });
-  }
+  },
 };
 
 export default api;

@@ -13,7 +13,7 @@ export const PrivateRoute: FunctionComponent<RouteProps> = ({
       {...rest}
       render={(props: RouteComponentProps) => (
         <ConfigurationContext.Consumer>
-          {value =>
+          {(value) =>
             value.configuration.loggedIn ? (
               props.match ? (
                 component ? (
@@ -26,7 +26,7 @@ export const PrivateRoute: FunctionComponent<RouteProps> = ({
               <Redirect
                 to={{
                   pathname: "/login",
-                  state: { from: props.location }
+                  state: { from: props.location },
                 }}
               />
             )

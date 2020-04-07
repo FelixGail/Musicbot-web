@@ -8,7 +8,7 @@ import { useResource } from "react-request-hook";
 import {
   useUserRegister,
   useUserFetch,
-  useUserLogin
+  useUserLogin,
 } from "../../core/user/user";
 import { Canceler } from "axios";
 import { useLocation } from "react-use";
@@ -21,7 +21,7 @@ enum SetupStates {
   REGISTER_NO_ICBINT,
   FETCH_USER_INFO,
   DONE,
-  FAILED
+  FAILED,
 }
 
 interface ConnectProp {

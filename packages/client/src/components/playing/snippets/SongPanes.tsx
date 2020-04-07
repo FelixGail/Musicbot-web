@@ -18,7 +18,7 @@ const SongPane = ({
     Permission.ENQUEUE
   );
   const callback = useCallback((song: Song) => enqueue([], song) && true, [
-    enqueue
+    enqueue,
   ]);
 
   return <SongList items={songs} onClick={callback} {...props} />;

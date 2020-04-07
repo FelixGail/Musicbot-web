@@ -17,18 +17,18 @@ const Suggest = () => {
     width: 100%;
   `;
 
-  if(!suggesters.data) {
-    return null
+  if (!suggesters.data) {
+    return null;
   }
 
-  return (<StyledTabs>
-            {suggesters.data.map((suggester, _) => (
-              <Tabs.TabPane tab={suggester.name} key={suggester.id}>
-                <SuggesterPane suggester={suggester} />
-              </Tabs.TabPane>
-            ))}
-          </StyledTabs>
-        
+  return (
+    <StyledTabs>
+      {suggesters.data.map((suggester, _) => (
+        <Tabs.TabPane tab={suggester.name} key={suggester.id}>
+          <SuggesterPane suggester={suggester} />
+        </Tabs.TabPane>
+      ))}
+    </StyledTabs>
   );
 };
 

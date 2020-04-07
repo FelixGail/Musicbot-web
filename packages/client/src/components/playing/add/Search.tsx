@@ -40,8 +40,8 @@ export const Search = (props: RouteComponentProps) => {
         <Input.Search
           placeholder="Search"
           defaultValue={query}
-          onSearch={value => setQuery(value)}
-          onChange={value => setUndebounced(value.target.value)}
+          onSearch={(value) => setQuery(value)}
+          onChange={(value) => setUndebounced(value.target.value)}
           enterButton="Search"
           size="large"
           allowClear

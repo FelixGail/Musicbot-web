@@ -64,9 +64,7 @@ export function ContextModal<T>({
     ({ element, onClick }: ContextModalElement<T>, index: number) => {
       return (
         <ContextModalListItem key={index}>
-          <ContextModalListItemDiv
-            onClick={() => onClick(item)}
-          >
+          <ContextModalListItemDiv onClick={() => onClick(item)}>
             {element(item)}
           </ContextModalListItemDiv>
         </ContextModalListItem>
@@ -85,7 +83,7 @@ export function ContextModal<T>({
   return (
     <div>
       <StyledModal {...props}>
-          <ContextModalList>{wrappedElements}</ContextModalList>
+        <ContextModalList>{wrappedElements}</ContextModalList>
       </StyledModal>
     </div>
   );

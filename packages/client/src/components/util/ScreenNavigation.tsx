@@ -12,7 +12,6 @@ export interface ScreenNavigationProps {
 }
 
 const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
-  
   const jsx = useMemo(
     () => (
       <ScreenNavigationOuter>
@@ -42,7 +41,7 @@ const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
 const UnstyledScreenNavigationItem = ({
   className,
   children,
-  action
+  action,
 }: {
   action?: ScreenNavigationAction;
   className?: string;
@@ -59,7 +58,7 @@ const isString = (f: any): f is String => {
 };
 
 const ScreenNavigationItem = styled(UnstyledScreenNavigationItem)`
-  flex: ${(props: {size: number}) => props.size}%;
+  flex: ${(props: { size: number }) => props.size}%;
   cursor: default;
 `;
 

@@ -9,7 +9,7 @@ export const StyledContent = styled(Layout.Content)`
   position: relative;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  
+
   &::-webkit-scrollbar {
     width: 0px;
     display: none;

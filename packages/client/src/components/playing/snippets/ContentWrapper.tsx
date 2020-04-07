@@ -35,5 +35,4 @@ export const ContentWrapper = styled.div`
   @media only screen and (min-height: 1200) {
     margin-top: 50px;
   }
-  
 `;

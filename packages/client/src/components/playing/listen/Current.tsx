@@ -19,10 +19,10 @@ const Current = (props: { song?: Song }) => {
   const swipeHandler = useSwipeable({
     onSwipedLeft: () => history.push(right),
     onSwipedRight: () => history.push(left),
-    preventDefaultTouchmoveEvent: true
+    preventDefaultTouchmoveEvent: true,
   });
-  const {configuration} = useContext(ConfigurationContext)
-  
+  const { configuration } = useContext(ConfigurationContext);
+
   const jsx = useMemo(
     () => (
       <SwipeDiv {...swipeHandler}>

@@ -81,12 +81,12 @@ const SearchRouter = () => {
       </StyledBackTop>
       <StyledLayout>
         <HighlightingContent id="searchContent">
-              <ContentWrapper>
-                <Route exact path="*/add" render={renderCallback} />
-                <Route path="*/add/search" component={Search} />
-                <Route path="*/add/suggest" component={Suggest} />
-                <Route path="*/add/stars" component={Stars} />
-              </ContentWrapper>
+          <ContentWrapper>
+            <Route exact path="*/add" render={renderCallback} />
+            <Route path="*/add/search" component={Search} />
+            <Route path="*/add/suggest" component={Suggest} />
+            <Route path="*/add/stars" component={Stars} />
+          </ContentWrapper>
         </HighlightingContent>
         <Layout.Footer>
           <NavigationCard />
@@ -95,6 +95,5 @@ const SearchRouter = () => {
     </Fragment>
   );
 };
-
 
 export default SearchRouter;

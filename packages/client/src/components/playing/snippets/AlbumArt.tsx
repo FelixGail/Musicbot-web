@@ -1,14 +1,18 @@
 import { Song } from "../../../core/types";
-import { IConfiguration, ConfigurationContext } from "../../../core/context/Configuration";
+import {
+  IConfiguration,
+  ConfigurationContext,
+} from "../../../core/context/Configuration";
 import React, { useContext, useMemo } from "react";
 import unknown_cover from "../../../img/unknown_cover.svg";
 import styled from "styled-components";
 
-export const urlFromSong = (config: IConfiguration, song?: Song ) => song && song.albumArtPath
-? `${config.axios.defaults.baseURL}${song.albumArtPath}`
-: song && song.albumArtUrl
-? song.albumArtUrl
-: unknown_cover
+export const urlFromSong = (config: IConfiguration, song?: Song) =>
+  song && song.albumArtPath
+    ? `${config.axios.defaults.baseURL}${song.albumArtPath}`
+    : song && song.albumArtUrl
+    ? song.albumArtUrl
+    : unknown_cover;
 
 export const BackgroundAlbumArt = styled.div`
   position: absolute;
@@ -16,7 +20,13 @@ export const BackgroundAlbumArt = styled.div`
   top: 7%;
   right: 7%;
   bottom: 7%;
-  background-image: url("${({song, config}: {song: Song, config: IConfiguration}) => urlFromSong(config, song)}");
+  background-image: url("${({
+    song,
+    config,
+  }: {
+    song: Song;
+    config: IConfiguration;
+  }) => urlFromSong(config, song)}");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -29,7 +39,7 @@ export const AlbumArt = ({
   React.ImgHTMLAttributes<HTMLImageElement>,
   HTMLImageElement
 >) => {
-  const {configuration} = useContext(ConfigurationContext);
+  const { configuration } = useContext(ConfigurationContext);
   const jsx = useMemo(
     () => (
       <img

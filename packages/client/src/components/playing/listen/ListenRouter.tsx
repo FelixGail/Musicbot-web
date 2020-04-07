@@ -15,7 +15,7 @@ export const ListenRouter = () => {
   const [showFullscreen, toggleFullscreen] = useToggle(false);
   const ref = useRef(null);
   const isFullscreen = useFullscreen(ref, showFullscreen, {
-    onClose: () => toggleFullscreen(false)
+    onClose: () => toggleFullscreen(false),
   });
 
   const renderCurrent = useCallback(
@@ -28,23 +28,20 @@ export const ListenRouter = () => {
 
   const jsx = useMemo(
     () => (
-        <FullscreenContext.Provider value={toggleFullscreen}>
-          <div ref={ref}>
-            <StyledLayout>
-              <StyledContent>
-                <Route exact path="*/listen" render={renderCurrent} />
-                <Route path="*/listen/history" component={History} />
-                <Route path="*/listen/queue" component={Queue} />
-              </StyledContent>
-              {playerState && (
-                <ListenFooter
-                  current={playerState}
-                  showActions={!isFullscreen}
-                />
-              )}
-            </StyledLayout>
-          </div>
-        </FullscreenContext.Provider>
+      <FullscreenContext.Provider value={toggleFullscreen}>
+        <div ref={ref}>
+          <StyledLayout>
+            <StyledContent>
+              <Route exact path="*/listen" render={renderCurrent} />
+              <Route path="*/listen/history" component={History} />
+              <Route path="*/listen/queue" component={Queue} />
+            </StyledContent>
+            {playerState && (
+              <ListenFooter current={playerState} showActions={!isFullscreen} />
+            )}
+          </StyledLayout>
+        </div>
+      </FullscreenContext.Provider>
     ),
     [renderCurrent, playerState, toggleFullscreen, ref, isFullscreen]
   );

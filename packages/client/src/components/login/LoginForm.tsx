@@ -11,16 +11,16 @@ const MAX_USERNAME_LENGTH = 20;
 const FormProps = {
   xs: {
     offset: 2,
-    span: 20
+    span: 20,
   },
   sm: {
     offset: 6,
-    span: 12
+    span: 12,
   },
   xl: {
     offset: 9,
-    span: 6
-  }
+    span: 6,
+  },
 };
 
 type FormData = {
@@ -35,7 +35,7 @@ export const LoginForm = () => {
   const [successful, isLoading, error] = [
     loginResult.successful || registerResult.successful,
     loginResult.isLoading || registerResult.isLoading,
-    loginResult.error || registerResult.error
+    loginResult.error || registerResult.error,
   ];
   const { setError, redirectToReferrer } = useContext(LoginContext);
   const { configuration } = useContext(ConfigurationContext);
@@ -103,12 +103,12 @@ export const LoginForm = () => {
               {
                 required: true,
                 whitespace: true,
-                message: "Please select a username."
+                message: "Please select a username.",
               },
               {
                 max: MAX_USERNAME_LENGTH,
-                message: `max. username length is ${MAX_USERNAME_LENGTH}.`
-              }
+                message: `max. username length is ${MAX_USERNAME_LENGTH}.`,
+              },
             ]}
           >
             <Input
@@ -126,8 +126,8 @@ export const LoginForm = () => {
                 {
                   required: true,
                   whitespace: true,
-                  message: "Please insert your password"
-                }
+                  message: "Please insert your password",
+                },
               ]}
             >
               <Input
@@ -145,8 +145,8 @@ export const LoginForm = () => {
               rules={[
                 {
                   required: true,
-                  validator: checkCheckbox
-                }
+                  validator: checkCheckbox,
+                },
               ]}
             >
               <Checkbox>

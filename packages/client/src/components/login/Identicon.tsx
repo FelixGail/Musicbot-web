@@ -33,7 +33,10 @@ export class IdenticonComponent extends Component<IdenticonProps> {
 
   render() {
     return (
-      <canvas className={this.props.className} ref={ref => (this.canvas = ref)}>
+      <canvas
+        className={this.props.className}
+        ref={(ref) => (this.canvas = ref)}
+      >
         Drawing of an Identicon
       </canvas>
     );
