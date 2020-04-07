@@ -49,56 +49,6 @@
   width: 100%;
 }
 
-.ant-list-items::-webkit-scrollbar {
-    width: 0px;
-    display: none;
-}
-
-.ant-list-items {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
 .text-center{
   text-align: center;
-}
-
-.contextmodal {
-  min-width: 300px;
-  width: auto !important;
-
-  .contextmodal-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-  .ant-modal-header {
-    padding: 10px 20px 10px 20px;
-  }
-
-  .ant-modal-title {
-    font-weight: bolder;
-    color: #949494;
-  }
-
-  .ant-modal-body {
-    padding: 10px 0px;
-  }
-
-  .contextmodal-list-element-div {
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .contextmodal-list-element {
-    div:not(:empty) {
-      padding: 4px 20px;
-    }
-  }
-
-  .contextmodal-list-element:hover {
-    color: #1890ff;
-    background-color: #cccccc;
-  }
 }

@@ -1,6 +1,7 @@
 import { Modal } from "antd";
 import React, { useMemo, ReactNode, useCallback } from "react";
 import { ModalProps } from "antd/lib/modal";
+import styled from "styled-components";
 
 export interface ContextModalProps<T> extends ModalProps {
   elements?: ContextModalElement<T>[];
@@ -13,6 +14,47 @@ export interface ContextModalElement<T> {
   close?: boolean;
 }
 
+const StyledModal = styled(Modal)`
+  min-width: 300px;
+  width: auto !important;
+
+  .ant-modal-header {
+    padding: 10px 20px 10px 20px;
+  }
+
+  .ant-modal-title {
+    font-weight: bolder;
+    color: #949494;
+  }
+
+  .ant-modal-body {
+    padding: 10px 0px;
+  }
+`;
+
+const ContextModalList = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+`;
+
+const ContextModalListItem = styled.li`
+  div:not(:empty) {
+    padding: 4px 20px;
+  }
+
+  &:hover {
+    color: #1890ff;
+    background-color: #cccccc;
+  }
+`;
+
+const ContextModalListItemDiv = styled.div`
+  font-weight: bold;
+  cursor: pointer;
+`;
+
 export function ContextModal<T>({
   elements,
   item,
@@ -21,14 +63,13 @@ export function ContextModal<T>({
   const wrapChildren = useCallback(
     ({ element, onClick }: ContextModalElement<T>, index: number) => {
       return (
-        <li className="contextmodal-list-element centering" key={index}>
-          <div
-            className="contextmodal-list-element-div centering"
+        <ContextModalListItem key={index}>
+          <ContextModalListItemDiv
             onClick={() => onClick(item)}
           >
             {element(item)}
-          </div>
-        </li>
+          </ContextModalListItemDiv>
+        </ContextModalListItem>
       );
     },
     [item]
@@ -43,9 +84,9 @@ export function ContextModal<T>({
 
   return (
     <div>
-      <Modal className="contextmodal" {...props}>
-          <ul className="contextmodal-list">{wrappedElements}</ul>
-      </Modal>
+      <StyledModal {...props}>
+          <ContextModalList>{wrappedElements}</ContextModalList>
+      </StyledModal>
     </div>
   );
 }
