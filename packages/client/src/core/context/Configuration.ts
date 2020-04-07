@@ -17,5 +17,5 @@ export interface IConfigurationContext {
 }
 export const ConfigurationContext = createContext<IConfigurationContext>({
   configuration: { loggedIn: false, axios: Axios.create() },
-  setConfiguration: () => {}
+  setConfiguration: () => {},
 });

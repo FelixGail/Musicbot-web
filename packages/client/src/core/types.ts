@@ -113,25 +113,25 @@ export interface Volume {
 
 export enum UserType {
   GUEST = "Guest",
-  FULL = "Full"
+  FULL = "Full",
 }
 
 export enum AuthFormat {
   TOKEN = "Token",
-  BASIC = "Basic"
+  BASIC = "Basic",
 }
 
 export enum Action {
   PLAY = "PLAY",
   PAUSE = "PAUSE",
-  SKIP = "SKIP"
+  SKIP = "SKIP",
 }
 
 export enum PlayerStatus {
   PLAY = "PLAY",
   PAUSE = "PAUSE",
   STOP = "STOP",
-  ERROR = "ERROR"
+  ERROR = "ERROR",
 }
 
 export enum Permission {
@@ -142,7 +142,7 @@ export enum Permission {
   ENQUEUE = "ENQUEUE",
   ALTER_SUGGESTIONS = "ALTER_SUGGESTIONS",
   CHANGE_VOLUME = "CHANGE_VOLUME",
-  EXIT = "EXIT"
+  EXIT = "EXIT",
 }
 
 export interface Credentials {

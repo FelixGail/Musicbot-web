@@ -4,7 +4,7 @@ import { FingerprintContext } from "../../core/context/FingerprintContext";
 export const IdenticonModal = (match: any, history: any) => {
   return (
     <FingerprintContext.Consumer>
-      {fingerprint => {
+      {(fingerprint) => {
         const identicon = fingerprint.identicons[parseInt(match.params.id, 10)];
         if (!identicon) return null;
         const back = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

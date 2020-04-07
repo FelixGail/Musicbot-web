@@ -2,7 +2,7 @@ import React, {
   useContext,
   useEffect,
   Fragment,
-  FunctionComponent
+  FunctionComponent,
 } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { AxiosError } from "axios";
@@ -14,7 +14,7 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
 
   useEffect(() => {
     const id = configuration.axios.interceptors.response.use(
-      value => value,
+      (value) => value,
       (error: AxiosError) => {
         console.log("intercepted error: ", error);
         if (
@@ -35,7 +35,7 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
     configuration.username,
     configuration.password,
     configuration.loggedIn,
-    login
+    login,
   ]);
   return <Fragment>{children}</Fragment>;
 };

@@ -23,7 +23,7 @@ class LikedSongs {
 
   removeSong(song: Song): void {
     this.songs = this.songs.filter(
-      item => item.id !== song.id || item.provider.id !== song.provider.id
+      (item) => item.id !== song.id || item.provider.id !== song.provider.id
     );
     this.save();
   }

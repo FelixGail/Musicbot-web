@@ -1,10 +1,11 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
-import { useContext, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
 import { ModalProps } from "antd/lib/modal";
+import { Typography } from "antd";
 
 export interface DefaultContextModalProps<T extends Song | SongEntry>
   extends ModalProps {
@@ -39,7 +40,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   const likedSongs = useContext(LikedSongContext);
   const isLikedSong = useMemo(() => likedSongs.contains(song), [
     likedSongs,
-    song
+    song,
   ]);
   const history = useHistory();
 
@@ -50,13 +51,13 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
         onClick: () => {
           isLikedSong ? likedSongs.removeSong(song) : likedSongs.addSong(song);
         },
-        close: true
+        close: true,
       },
       {
         element: () => "Close",
         onClick: () => {},
-        close: true
-      }
+        close: true,
+      },
     ];
     return (elements ? elements.concat(defaultElements) : defaultElements).map(
       ({ element, onClick, close }) => {
@@ -65,7 +66,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
           onClick: (item: T) => {
             onClick(item);
             close && history.goBack();
-          }
+          },
         };
       }
     );
@@ -73,15 +74,20 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
 
   return ContextModal<T>({
     item: item,
-    visible: true,
     elements: combinedElements,
-    title: song.title,
+    visible: true,
+    title: (
+      <Typography.Paragraph ellipsis={{ rows: 2, expandable: true }}>
+        {song.title}
+      </Typography.Paragraph>
+    ),
     centered: true,
-    mask: false,
+    mask: true,
+    maskClosable: true,
     closable: false,
     footer: null,
-    clickAway: history.goBack,
-    ...props
+    onCancel: history.goBack,
+    ...props,
   });
 }
 
@@ -92,24 +98,24 @@ export function useSearchSongModalElements<
   return useMemo(
     () => [
       {
-        element: item => `Search for '${itemToSong(item).title}'`,
-        onClick: item => {
+        element: (item) => `Search for '${itemToSong(item).title}'`,
+        onClick: (item) => {
           history.push(`/add/search?${encodeURI(itemToSong(item).title)}`);
         },
-        close: false
+        close: false,
       },
       {
-        element: item =>
+        element: (item) =>
           `Search for '${itemToSong(item).description.substr(0, 50)}'`,
-        onClick: item => {
+        onClick: (item) => {
           history.push(
             `/add/search?${encodeURI(
               itemToSong(item).description.substr(0, 50)
             )}`
           );
         },
-        close: false
-      }
+        close: false,
+      },
     ],
     [history]
   );

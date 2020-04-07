@@ -4,22 +4,23 @@ import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Col, Row, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useUserLogin, useUserRegister } from "../../core/user/user";
+import styled from "styled-components";
 
 const MAX_USERNAME_LENGTH = 20;
 
 const FormProps = {
   xs: {
     offset: 2,
-    span: 20
+    span: 20,
   },
   sm: {
     offset: 6,
-    span: 12
+    span: 12,
   },
   xl: {
     offset: 9,
-    span: 6
-  }
+    span: 6,
+  },
 };
 
 type FormData = {
@@ -34,7 +35,7 @@ export const LoginForm = () => {
   const [successful, isLoading, error] = [
     loginResult.successful || registerResult.successful,
     loginResult.isLoading || registerResult.isLoading,
-    loginResult.error || registerResult.error
+    loginResult.error || registerResult.error,
   ];
   const { setError, redirectToReferrer } = useContext(LoginContext);
   const { configuration } = useContext(ConfigurationContext);
@@ -95,19 +96,19 @@ export const LoginForm = () => {
   return (
     <Row>
       <Col {...FormProps}>
-        <Form onFinish={onFinish}>
+        <StyledForm onFinish={onFinish}>
           <Form.Item
             name="username"
             rules={[
               {
                 required: true,
                 whitespace: true,
-                message: "Please select a username."
+                message: "Please select a username.",
               },
               {
                 max: MAX_USERNAME_LENGTH,
-                message: `max. username length is ${MAX_USERNAME_LENGTH}.`
-              }
+                message: `max. username length is ${MAX_USERNAME_LENGTH}.`,
+              },
             ]}
           >
             <Input
@@ -125,8 +126,8 @@ export const LoginForm = () => {
                 {
                   required: true,
                   whitespace: true,
-                  message: "Please insert your password"
-                }
+                  message: "Please insert your password",
+                },
               ]}
             >
               <Input
@@ -144,8 +145,8 @@ export const LoginForm = () => {
               rules={[
                 {
                   required: true,
-                  validator: checkCheckbox
-                }
+                  validator: checkCheckbox,
+                },
               ]}
             >
               <Checkbox>
@@ -160,8 +161,16 @@ export const LoginForm = () => {
               Log in
             </Button>
           </Form.Item>
-        </Form>
+        </StyledForm>
       </Col>
     </Row>
   );
 };
+
+const StyledForm = styled(Form)`
+  background-color: white;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 2px 2px 2px 3px #181b20;
+  margin-top: 25px;
+`;

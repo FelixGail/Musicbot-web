@@ -9,6 +9,9 @@ import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useHistory } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
+import styled from "styled-components";
+import { ContentWrapper } from "../snippets/ContentWrapper";
+import SwipeDiv from "../../util/SwipeDiv";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -19,9 +22,9 @@ const History = () => {
   const left = `queue`;
   const right = `/listen`;
   const swipeHandler = useSwipeable({
-    onSwipedLeft: () => browserHistory.push(left),
-    onSwipedRight: () => browserHistory.push(right),
-    preventDefaultTouchmoveEvent: true
+    onSwipedLeft: () => browserHistory.push(right),
+    onSwipedRight: () => browserHistory.push(left),
+    preventDefaultTouchmoveEvent: true,
   });
 
   const enqueueWrapper = useCallback(
@@ -37,22 +40,33 @@ const History = () => {
 
   const jsx = useMemo(
     () => (
-      <div
-        className="history full-width full-height centering"
-        {...swipeHandler}
-      >
+      <SwipeDiv {...swipeHandler}>
         <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <SongList
-          header="History"
-          items={history}
-          onClick={enqueueWrapper}
-        />
-      </div>
+        <ContentWrapper>
+          <StyledSongList
+            header="History"
+            items={history}
+            onClick={enqueueWrapper}
+          />
+        </ContentWrapper>
+      </SwipeDiv>
     ),
     [history, enqueueWrapper, toggleFullscreen, left, right, swipeHandler]
   );
 
   return jsx;
 };
+
+const StyledSongList = styled(SongList)`
+  .enqueued {
+    opacity: 0.6;
+    background-color: #68758d;
+
+    h4,
+    .ant-list-item-meta-description {
+      color: #cccccc;
+    }
+  }
+`;
 
 export default History;

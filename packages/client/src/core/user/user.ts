@@ -52,9 +52,9 @@ function useGenericLogin(
     {
       successful: success,
       isLoading: isLoading || fetchUserResult.isLoading,
-      error: error || fetchUserResult.error
+      error: error || fetchUserResult.error,
     },
-    callFunction
+    callFunction,
   ];
 }
 

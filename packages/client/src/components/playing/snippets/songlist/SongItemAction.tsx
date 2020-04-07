@@ -4,7 +4,7 @@ import React, {
   useState,
   useEffect,
   useMemo,
-  useCallback
+  useCallback,
 } from "react";
 import { Song } from "../../../../core/types";
 import { LikedSongContext } from "../../../../core/context/LikedSongsContext";
@@ -19,16 +19,16 @@ const SongItemAction = (props: { song: Song }) => {
     likedSongs,
     likedSongs.songs,
     likedSongs.songs.length,
-    props.song
+    props.song,
   ]);
   const style = useMemo(() => {
     if (isLiked) {
       return {
-        color: "#00b300"
+        color: "#00b300",
       };
     }
     return {
-      color: "#e6e6e6"
+      color: "#e6e6e6",
     };
   }, [isLiked]);
   const click = useCallback(

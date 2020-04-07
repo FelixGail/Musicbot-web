@@ -6,5 +6,5 @@ export interface ILoginContext {
 }
 export const LoginContext = createContext<ILoginContext>({
   setError: () => {},
-  redirectToReferrer: () => {}
+  redirectToReferrer: () => {},
 });

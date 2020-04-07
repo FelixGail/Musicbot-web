@@ -6,6 +6,7 @@ import { AlbumArt } from "../AlbumArt";
 import SongItemExtra from "./SongItemExtra";
 import SongItemAction from "./SongItemAction";
 import { SongListAdditional } from "./SongList";
+import styled from "styled-components";
 
 export interface SongListItemProps<T extends Song | SongEntry>
   extends ListItemProps {
@@ -26,10 +27,10 @@ export function itemToSong<T extends Song | SongEntry>(item: T): Song {
 
 export function isSongEntry(item: Song | SongEntry): item is SongEntry {
   const sAny = item as any;
-  if(sAny.username) {
-    return true
+  if (sAny.username) {
+    return true;
   }
-  return false
+  return false;
 }
 
 function SongListItem<T extends Song | SongEntry>({
@@ -48,7 +49,7 @@ function SongListItem<T extends Song | SongEntry>({
   const song = useMemo(() => itemToSong(item), [item]);
 
   const addEnqueuedClass = useCallback(() => {
-    setClassName(`${className} enqueued`);
+    setClassName(className ? `${className} enqueued` : "enqueued");
   }, [setClassName, className]);
 
   const alteredClickHandle = useCallback(() => {
@@ -59,7 +60,7 @@ function SongListItem<T extends Song | SongEntry>({
 
   useEffect(() => {
     const contains = queue.some(
-      item =>
+      (item) =>
         item.song.id === song.id && item.song.provider.id === song.provider.id
     );
 
@@ -91,12 +92,17 @@ function SongListItem<T extends Song | SongEntry>({
     >
       <List.Item.Meta
         title={song.title}
-        description={song.description.substr(0, 50)}
-        avatar={<AlbumArt song={song} />}
+        description={song.description}
+        avatar={<StyledAlbumArt song={song} />}
       />
       {additionalElements}
     </List.Item>
   );
 }
+
+const StyledAlbumArt = styled(AlbumArt)`
+  width: 50px;
+  height: auto;
+`;
 
 export default SongListItem;

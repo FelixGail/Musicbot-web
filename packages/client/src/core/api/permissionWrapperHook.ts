@@ -3,7 +3,7 @@ import {
   Request,
   Arguments,
   Payload,
-  RequestError
+  RequestError,
 } from "react-request-hook";
 import { Permission } from "../types";
 import { useContext, useCallback } from "react";

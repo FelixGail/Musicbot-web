@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Row, Input, Tabs } from "antd";
 import { RouteComponentProps } from "react-router";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
 import { useDebounce } from "react-use";
 import { ProviderPane } from "../snippets/SongPanes";
+import styled from "styled-components";
+
+const StyledTabs = styled(Tabs)`
+  width: 100%;
+`;
 
 export const Search = (props: RouteComponentProps) => {
   const [providers, getProviders] = useResource(api.getProviders);
@@ -30,13 +35,13 @@ export const Search = (props: RouteComponentProps) => {
   }, [getProviders]);
 
   return (
-    <div className="search">
+    <Fragment>
       <Row>
         <Input.Search
           placeholder="Search"
           defaultValue={query}
-          onSearch={value => setQuery(value)}
-          onChange={value => setUndebounced(value.target.value)}
+          onSearch={(value) => setQuery(value)}
+          onChange={(value) => setUndebounced(value.target.value)}
           enterButton="Search"
           size="large"
           allowClear
@@ -44,15 +49,15 @@ export const Search = (props: RouteComponentProps) => {
       </Row>
       <Row>
         {providers.data && (
-          <Tabs className="spanning">
+          <StyledTabs>
             {providers.data.map((provider, _) => (
               <Tabs.TabPane tab={provider.name} key={provider.id}>
                 <ProviderPane query={query} provider={provider} />
               </Tabs.TabPane>
             ))}
-          </Tabs>
+          </StyledTabs>
         )}
       </Row>
-    </div>
+    </Fragment>
   );
 };

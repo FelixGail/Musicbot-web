@@ -2,7 +2,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FunctionComponent
+  FunctionComponent,
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
@@ -20,6 +20,8 @@ import useHasPermission from "../../../core/hooks/useHasPermission";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
+import { ContentWrapper } from "../snippets/ContentWrapper";
+import SwipeDiv from "../../util/SwipeDiv";
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
@@ -30,9 +32,9 @@ const Queue: FunctionComponent = () => {
   const left = `/listen`;
   const right = `history`;
   const swipeHandler = useSwipeable({
-    onSwipedLeft: () => hstry.push(left),
-    onSwipedRight: () => hstry.push(right),
-    preventDefaultTouchmoveEvent: true
+    onSwipedLeft: () => hstry.push(right),
+    onSwipedRight: () => hstry.push(left),
+    preventDefaultTouchmoveEvent: true,
   });
 
   const [, dequeue] = useResource(api.dequeue);
@@ -56,7 +58,7 @@ const Queue: FunctionComponent = () => {
         alt={<div style={{ paddingLeft: "7px", paddingRight: "7px" }}></div>}
       >
         <DeleteOutlined
-          onClick={event => {
+          onClick={(event) => {
             dequeue(item.song);
             event.stopPropagation();
           }}
@@ -75,11 +77,11 @@ const Queue: FunctionComponent = () => {
         element: () => (
           <Permissional permission={Permission.MOVE}>Move to top</Permissional>
         ),
-        onClick: item => move(0, item.song),
-        close: true
+        onClick: (item) => move(0, item.song),
+        close: true,
       },
       {
-        element: item => (
+        element: (item) => (
           <Conditional
             condition={
               hasRemovePermission || item.userName === configuration.username
@@ -88,9 +90,9 @@ const Queue: FunctionComponent = () => {
             Remove
           </Conditional>
         ),
-        onClick: item => dequeue(item.song),
-        close: true
-      }
+        onClick: (item) => dequeue(item.song),
+        close: true,
+      },
     ];
   }, [move, hasRemovePermission, configuration.username, dequeue]);
   const combinedElements = useMemo(
@@ -100,16 +102,18 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <div className="queue full-width full-height" {...swipeHandler}>
+      <SwipeDiv {...swipeHandler}>
         <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <SongList
-          header="Queue"
-          items={queue}
-          onClick={click}
-          additional={additionalArray}
-          contextModal={{ route: "*/queue", elements: combinedElements }}
-        />
-      </div>
+        <ContentWrapper>
+          <SongList
+            header="Queue"
+            items={queue}
+            onClick={click}
+            additional={additionalArray}
+            contextModal={{ route: "*/queue", elements: combinedElements }}
+          />
+        </ContentWrapper>
+      </SwipeDiv>
     ),
     [
       queue,
@@ -119,7 +123,7 @@ const Queue: FunctionComponent = () => {
       toggleFullscreen,
       left,
       right,
-      swipeHandler
+      swipeHandler,
     ]
   );
 

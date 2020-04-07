@@ -24,7 +24,7 @@ export const VerifyFingerprint = (props: RouteComponentProps) => {
             (MORE INFORMATION)
           </a>
           <ConfigurationContext.Consumer>
-            {value => {
+            {(value) => {
               const fingerprint = new Fingerprint(
                 value.configuration.icbintKey!
               );
