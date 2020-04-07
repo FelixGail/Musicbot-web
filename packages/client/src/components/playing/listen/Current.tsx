@@ -1,5 +1,5 @@
 import { Song } from "../../../core/types";
-import React, { useMemo, Fragment } from "react";
+import React, { useMemo } from "react";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { useLocation } from "react-use";
 import { useContext } from "react";
@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import { BackgroundAlbumArt } from "../snippets/AlbumArt";
-import styled from "styled-components";
 import SwipeDiv from "../../util/SwipeDiv";
 
 const Current = (props: { song?: Song }) => {

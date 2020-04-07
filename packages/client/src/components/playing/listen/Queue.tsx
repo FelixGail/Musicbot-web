@@ -2,8 +2,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FunctionComponent,
-  Fragment
+  FunctionComponent
 } from "react";
 import { useResource } from "react-request-hook";
 import api from "../../../core/api/model";
