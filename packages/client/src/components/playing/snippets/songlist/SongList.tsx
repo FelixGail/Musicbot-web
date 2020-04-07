@@ -102,6 +102,16 @@ const StyledList = styled(List)`
       padding-left: 8px;
     }
   }
+
+  .ant-list-items::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+
+  .ant-list-items {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
 `;
 
 export function SongList<T extends Song | SongEntry>({
