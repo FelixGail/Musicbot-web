@@ -77,7 +77,12 @@ const StyledList = styled(List)`
     }
   }
 
+  .ant-list-item-action-split {
+    display: none;
+  }
+
   .ant-list-item-action {
+
     .anticon {
       color: #e6e6e6;
 
@@ -86,20 +91,14 @@ const StyledList = styled(List)`
       }
     }
 
+    padding-left: 6px;
+    padding-right: 6px;
     color: #e6e6e6;
-    padding-left: 12px;
-    margin-left: 0px;
-  }
-
-  .ant-list-item-additional {
-    ul {
-      padding-right: 0px;
-    }
-    padding-left: 24px;
     margin-left: 0px;
 
-    @media only screen and (max-width: 600px) {
-      padding-left: 8px;
+    li {
+      padding-left: 2px;
+      padding-right: 2px;
     }
   }
 
