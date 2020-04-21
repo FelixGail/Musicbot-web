@@ -157,3 +157,9 @@ export interface AdvancedToken {
 }
 
 export type Token = string;
+
+export interface BotInstance {
+  name: string;
+  updated: number;
+  address: string;
+}

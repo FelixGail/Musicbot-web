@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { Redirect } from "react-router";
-import { Row, Col } from "antd";
+import { Row, Col, List } from "antd";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import api from "../../core/api/model";
@@ -12,8 +12,12 @@ import {
 } from "../../core/user/user";
 import { Canceler } from "axios";
 import { useLocation } from "react-use";
+import { BotInstance } from "../../core/types";
+import moment from "moment";
+
 
 enum SetupStates {
+  SELECT,
   PINGING,
   TEST_ICBINT,
   LOGIN_ICBINT,
@@ -29,12 +33,14 @@ interface ConnectProp {
 }
 
 export const SetupConnection = () => {
-  const [state, setState] = useState(SetupStates.PINGING);
+  const [state, setState] = useState(SetupStates.SELECT);
   const loginContext = useContext(LoginContext);
   const location = useLocation();
 
   const switchState = useMemo(() => {
     switch (state) {
+      case SetupStates.SELECT:
+        return <Select setNextState={setState} />;
       case SetupStates.PINGING:
         return <Ping setNextState={setState} />;
       case SetupStates.TEST_ICBINT:
@@ -62,6 +68,42 @@ export const SetupConnection = () => {
     </Row>
   );
 };
+
+const Select = ({setNextState}: ConnectProp) => {
+  const {configuration, setConfiguration} = useContext(ConfigurationContext)
+  const [{data}, getInstances] = useResource(api.getInstances)
+  useEffect(() => {
+    const cancel = getInstances(configuration.registryUrl)
+    return () => cancel();
+  }, [configuration.registryUrl, getInstances])
+
+  const elementCallback = useCallback((instance: BotInstance) => {
+    configuration.axios.defaults.baseURL = `http://${instance.address}`;
+    setConfiguration({instance: instance});
+    setNextState(SetupStates.PINGING)
+    console.log(configuration.axios.getUri, configuration.axios.defaults)
+  }, [setNextState, setConfiguration, configuration])
+
+  const renderListElement = useCallback((item: BotInstance, index: number) => (
+    <List.Item
+      onClick={() => elementCallback(item)}
+      key={index}
+      extra={ moment.duration(Date.now() - item.updated, "ms").format("s")}
+    >
+      <List.Item.Meta
+        title={item.name}
+        description={item.address}
+      >
+      </List.Item.Meta>
+    </List.Item>
+  ), [elementCallback])
+
+  return (
+    <List 
+      dataSource={data}
+      renderItem={renderListElement}
+    />)
+}
 
 const Ping = ({ setNextState }: ConnectProp) => {
   const [{ data, error }, getVersion] = useResource(api.getVersion);
