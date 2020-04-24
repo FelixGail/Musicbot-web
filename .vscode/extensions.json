@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+      "ms-vscode.vscode-typescript-tslint-plugin",
+      "dbaeumer.vscode-eslint",
+      "msjsdiag.debugger-for-chrome",
+      "jpoissonnier.vscode-styled-components",
+      "remimarsal.prettier-now",
+      "davidanson.vscode-markdownlint",
+      "chrmarti.regex"
+    ]
+  }

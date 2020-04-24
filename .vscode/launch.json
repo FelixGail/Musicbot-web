@@ -1,0 +1,22 @@
+{
+    "version": "0.1.0",
+    "configurations": [
+        
+        {
+            "name": "Launch Chrome debugger",
+            "type": "chrome",
+            "request": "launch",
+            "port": 9222,
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/packages/client/src"
+        },
+        {
+            "name": "Attach to localhost:3000",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/packages/client/src"
+        },
+    ]
+}
