@@ -1,4 +1,3 @@
-import { List } from "antd";
 import React, { useMemo, Fragment } from "react";
 import { Song, SongEntry } from "../../../../core/types";
 import { ListProps } from "antd/lib/list";
@@ -9,6 +8,7 @@ import PlayerStateContext from "../../../../core/context/PlayerStateContext";
 import DefaultContextModal from "../../../util/DefaultContextModal";
 import { Route } from "react-router-dom";
 import styled from "styled-components";
+import { StyledList } from "../../../util/StyledList";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -27,14 +27,7 @@ export interface ListContextModal<T extends Song | SongEntry> {
   elements: ContextModalElement<T>[];
 }
 
-const StyledList = styled(List)`
-  flex: 1;
-
-  h4,
-  .ant-list-header,
-  .ant-empty-description {
-    color: #e6e6e6;
-  }
+const StyledSongList = styled(StyledList)`
 
   .ant-list-item-meta {
     overflow: hidden;
@@ -48,16 +41,6 @@ const StyledList = styled(List)`
     max-width: 100%;
   }
 
-  h4,
-  .ant-list-item-meta-description,
-  .ant-list-item-action {
-    text-shadow: 1px 1px 2px black;
-  }
-
-  .ant-list-item-meta-description {
-    color: #808080;
-  }
-
   .ant-list-header {
     font-size: 18px;
   }
@@ -65,16 +48,6 @@ const StyledList = styled(List)`
   .ant-list-item {
     padding: 5px;
     flex-wrap: nowrap;
-
-    &:hover {
-      background-color: #1890ff;
-      cursor: pointer;
-
-      h4,
-      .ant-list-item-meta-description {
-        color: #e5e5e5;
-      }
-    }
   }
 
   .ant-list-item-action-split {
@@ -141,7 +114,7 @@ export function SongList<T extends Song | SongEntry>({
 
   return (
     <Fragment>
-      <StyledList
+      <StyledSongList
         {...props}
         dataSource={items}
         renderItem={(item: T, index: number) => (

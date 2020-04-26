@@ -8,9 +8,9 @@ import PlayerStateContext from "../../core/context/PlayerStateContext";
 import { useMemo } from "react";
 
 export const PlayRouter = () => {
-  const playerState = useResourceReload(api.getPlayerState, undefined);
-  const history = useResourceReload(api.getHistory, []);
-  const queue = useResourceReload(api.getQueue, []);
+  const playerState = useResourceReload(api.getPlayerState, undefined, 1000, false);
+  const history = useResourceReload(api.getHistory, [], 1000, false);
+  const queue = useResourceReload(api.getQueue, [], 1000, false);
 
   const jsx = useMemo(
     () => (
