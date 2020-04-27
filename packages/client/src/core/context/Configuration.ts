@@ -4,7 +4,6 @@ import { Token, Permission } from "../types";
 
 export interface IConfiguration {
   username?: string;
-  password?: string;
   token?: Token;
   permissions?: Permission[];
   icbintKey?: string;

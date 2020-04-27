@@ -8,6 +8,7 @@ import {
   Song,
   SongEntry,
   Volume,
+  TokenWithRefresh,
 } from "../types";
 import { request } from "react-request-hook";
 
@@ -66,6 +67,13 @@ const api = {
       url: "/token",
       method: "GET",
       headers: { Authorization: `Basic ${btoa(`${username}:${password}`)}` },
+    });
+  },
+  refreshUser: (token: TokenWithRefresh) => {
+    return request<Token>({
+      url: "/token",
+      method: "GET",
+      headers: { Authorization: `Bearer ${token.refreshToken}` },
     });
   },
   deleteToken: () => {

@@ -151,9 +151,18 @@ export interface Credentials {
   token: string;
 }
 
-export interface AdvancedToken {
+export interface Token {
   accessToken: string;
-  refreshToken: string | null;
+  refreshToken?: string;
 }
 
-export type Token = string;
+export interface TokenWithRefresh extends Token {
+  refreshToken: string
+}
+
+export function hasRefreshToken(token: Token | TokenWithRefresh): token is TokenWithRefresh {
+  if(token.refreshToken) {
+    return true;
+  }
+  return false;
+}
