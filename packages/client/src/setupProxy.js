@@ -9,4 +9,12 @@ module.exports = function(app) {
       }
     )
   );
+  app.use(
+    createProxyMiddleware(
+      '/registry', {
+        target: 'http://localhost:8000',
+        pathRewrite: {'^/registry': ''}
+      }
+    )
+  );
 };

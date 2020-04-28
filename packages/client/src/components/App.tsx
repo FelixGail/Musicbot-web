@@ -15,12 +15,15 @@ import { LikedSongContext } from "../core/context/LikedSongsContext";
 import LikedSongs from "../core/LikedSongs";
 import InterceptorLayer from "./util/InterceptorLayer";
 
-const App = () => {
+interface Config {
+  registry: string;
+}
+
+const App = (props: ({config: Config})) => {
   const axios = useMemo(
     () =>
       Axios.create({
         timeout: 1000,
-        baseURL: "/api",
       }),
     []
   );
@@ -28,6 +31,7 @@ const App = () => {
   const [configuration, setConfiguration] = useSetState<IConfiguration>({
     loggedIn: false,
     axios: axios,
+    registryUrl: props.config.registry
   });
 
   const configurationContext = useMemo<IConfigurationContext>(() => {

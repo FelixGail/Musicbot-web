@@ -166,3 +166,9 @@ export function hasRefreshToken(token: Token | TokenWithRefresh): token is Token
   }
   return false;
 }
+
+export interface BotInstance {
+  name: string;
+  updated: number;
+  address: string;
+}

@@ -8,6 +8,7 @@ import {
   Song,
   SongEntry,
   Volume,
+  BotInstance,
   TokenWithRefresh,
 } from "../types";
 import { request } from "react-request-hook";
@@ -212,6 +213,12 @@ const api = {
       },
     });
   },
+  getInstances: (registryUrl: string) => {
+    return request<BotInstance[]>({
+      url: registryUrl,
+      method: "GET"
+    });
+  }
 };
 
 export default api;
