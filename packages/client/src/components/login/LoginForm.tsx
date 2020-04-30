@@ -72,7 +72,6 @@ export const LoginForm = () => {
           }
         } else {
           setError(`Unexpected error: ${error.message}`);
-          throw error;
         }
       }
     }
