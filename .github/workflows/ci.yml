@@ -139,7 +139,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: production
-          path: docker
+          path: docker/production
       - name: Build & Publish
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
