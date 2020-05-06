@@ -1,6 +1,6 @@
 import { useResource, RequestError, Resource, RequestDispatcher } from "react-request-hook";
 import api from "../api/model";
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ConfigurationContext } from "../context/Configuration";
 import { Canceler } from "axios";
@@ -18,18 +18,24 @@ function useGenericLogin
 ): [CallResult, RequestDispatcher<T>] {
   const [{ data, error, isLoading }, login] = useResource(loginFunction);
   const [success, setSuccess] = useState<boolean>(false);
-  const { configuration } = useContext(ConfigurationContext);
+  const { configuration, setConfiguration } = useContext(ConfigurationContext);
   const [fetchUserResult, fetchUser] = useUserFetch();
+  const configurationRef = useRef(configuration)
 
+  useEffect(() => {
+    configurationRef.current = configuration
+  }, [configurationRef, configuration])
 
   useEffect(() => {
     if (data && !isLoading) {
-      configuration.loggedIn = true;
-      configuration.token = data;
-      configuration.axios.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+      setConfiguration({loggedIn: true, token: {...configurationRef.current.token, ...data}})
+      configurationRef.current.axios.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+      if(data.refreshToken) {
+        localStorage.setItem(configurationRef.current.instance!.address, data.refreshToken)
+      }
       fetchUser();
     }
-  }, [data, isLoading, configuration, fetchUser]);
+  }, [data, isLoading, configurationRef, setConfiguration, fetchUser]);
 
   useEffect(() => {
     if (fetchUserResult.successful) {
@@ -79,15 +85,15 @@ export function useUserRefresh(): [
 export function useUserFetch(): [CallResult, () => Canceler] {
   const [{ data, error, isLoading }, getUser] = useResource(api.getMe);
   const [success, setSuccess] = useState<boolean>(false);
-  const { configuration } = useContext(ConfigurationContext);
+  const { setConfiguration } = useContext(ConfigurationContext);
 
   useEffect(() => {
     if (data && !isLoading) {
-      configuration.username = data.name;
-      configuration.permissions = data.permissions;
+      setConfiguration({username: data.name, permissions: data.permissions})
+      localStorage.setItem("username", data.name)
       setSuccess(true);
     }
-  }, [data, isLoading, setSuccess, configuration]);
+  }, [data, isLoading, setSuccess, setConfiguration]);
 
   return [{ successful: success, isLoading, error }, getUser];
 }

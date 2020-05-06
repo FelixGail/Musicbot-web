@@ -1,25 +1,29 @@
-import React, { useEffect } from "react";
-import { useUserLogin } from "../../../core/user/user";
+import React, { useEffect, useContext } from "react";
+import { useUserRefresh } from "../../../core/user/user";
 import { ConnectProp, SetupStates } from "./SetupConnection";
+import { ConfigurationContext } from "../../../core/context/Configuration";
+import { TokenWithRefresh } from "../../../core/types";
 
 export const LoginNoICBINT = ({ setNextState }: ConnectProp) => {
-  const [{ successful, error, isLoading }, login] = useUserLogin();
+  const [{ successful, error, isLoading }, login] = useUserRefresh();
+  const {configuration, setConfiguration} = useContext(ConfigurationContext);
+
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    const password = localStorage.getItem("password");
-    if (username) {
-      if (password) {
-        const cancel = login(username, password);
+    if (configuration.instance) {
+      const refreshToken = localStorage.getItem(configuration.instance.address)
+      if (refreshToken) {
+        const token: TokenWithRefresh = {accessToken: "", refreshToken}
+        setConfiguration({token: token})
+        const cancel = login(token)
         return () => cancel && cancel();
-      }
-      else {
+      } else {
         setNextState(SetupStates.REGISTER_NO_ICBINT);
       }
+    } else {
+      setNextState(SetupStates.FETCH_INSTANCES)
     }
-    else {
-      setNextState(SetupStates.FAILED);
-    }
-  }, [setNextState, login]);
+  }, [configuration.instance, login, setNextState, setConfiguration])
+
   useEffect(() => {
     if (!isLoading) {
       if (successful) {

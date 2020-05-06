@@ -63,18 +63,24 @@ const api = {
       method: "DELETE",
     });
   },
-  loginUser: (username: string, password: string) => {
+  loginUser: (username: string, password: string, includeRefresh?: boolean) => {
     return request<Token>({
       url: "/token",
       method: "GET",
       headers: { Authorization: `Basic ${btoa(`${username}:${password}`)}` },
+      params: {
+        includeRefresh: includeRefresh
+      }
     });
   },
-  refreshUser: (token: TokenWithRefresh) => {
+  refreshUser: (token: TokenWithRefresh, includeNewToken?: boolean) => {
     return request<Token>({
       url: "/token",
       method: "GET",
       headers: { Authorization: `Bearer ${token.refreshToken}` },
+      params: {
+        includeRefresh: includeNewToken
+      }
     });
   },
   deleteToken: () => {

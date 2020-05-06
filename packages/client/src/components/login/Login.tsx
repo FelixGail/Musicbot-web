@@ -13,6 +13,7 @@ import styled from "styled-components";
 export const Login = (props: RouteComponentProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [redirectToReferrer, setRedirectToReferrer] = useState<boolean>(false);
+  
   const error = useCallback(
     (error: string | null) => {
       setErrorMessage(error);

@@ -18,6 +18,11 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
       (value) => value,
       (error: AxiosError) => {
         console.log("intercepted error: ", error);
+        console.log(
+          configuration.token,
+          configuration.token && hasRefreshToken(configuration.token),
+          error
+        )
         if (
           configuration.token &&
           hasRefreshToken(configuration.token) &&

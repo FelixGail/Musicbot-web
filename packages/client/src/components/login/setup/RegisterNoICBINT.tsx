@@ -5,12 +5,12 @@ import { ConnectProp, SetupStates } from "./SetupConnection";
 
 export const RegisterNoICBINT = ({ setNextState }: ConnectProp) => {
   const [{ successful, isLoading, error }, register] = useUserRegister();
+
   useEffect(() => {
     const username = localStorage.getItem("username");
-    const password = localStorage.getItem("password");
     let cancel: Canceler;
     if (username) {
-      cancel = register(username, password || undefined);
+      cancel = register(username, undefined);
     }
     else {
       setNextState(SetupStates.FAILED);

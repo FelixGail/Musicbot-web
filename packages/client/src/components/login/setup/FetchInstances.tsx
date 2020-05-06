@@ -55,6 +55,7 @@ const StyledSVG = styled(ReactSVG)`
 
 export const FetchInstances = ({ setNextState }: ConnectProp) => {
   const { configuration, setConfiguration } = useContext(ConfigurationContext);
+  useEffect(() => {configuration.axios.defaults.baseURL = ""}, [configuration.axios])
   const instances = useResourceReload(
       api.getInstances,
       [],
