@@ -6,16 +6,16 @@ import { Tabs } from "antd";
 import { SuggesterPane } from "../snippets/SongPanes";
 import styled from "styled-components";
 
+const StyledTabs = styled(Tabs)`
+    width: 100%;
+  `;
+
 const Suggest = () => {
   const [suggesters, getSuggesters] = useResource(api.getSuggesters);
 
   useEffect(() => {
     getSuggesters();
   }, [getSuggesters]);
-
-  const StyledTabs = styled(Tabs)`
-    width: 100%;
-  `;
 
   if (!suggesters.data) {
     return null;

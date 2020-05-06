@@ -7,6 +7,7 @@ import SongItemExtra from "./SongItemExtra";
 import SongItemAction from "./SongItemAction";
 import { SongListAdditional } from "./SongList";
 import styled from "styled-components";
+import { StyledListItem } from "../../../util/StyledList";
 
 export interface SongListItemProps<T extends Song | SongEntry>
   extends ListItemProps {
@@ -80,7 +81,7 @@ function SongListItem<T extends Song | SongEntry>({
   }, [additional, item, song]);
 
   return (
-    <List.Item
+    <StyledListItem
       {...props}
       className={alteredClassName}
       key={song.title}
@@ -93,7 +94,7 @@ function SongListItem<T extends Song | SongEntry>({
         description={song.description}
         avatar={<StyledAlbumArt song={song} />}
       />
-    </List.Item>
+    </StyledListItem>
   );
 }
 

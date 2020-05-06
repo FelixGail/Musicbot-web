@@ -28,6 +28,7 @@ import deepEqual from "deep-equal";
 import NavigationCard from "../snippets/FooterCard";
 import styled from "styled-components";
 import Permissional from "../../util/Permissional";
+import { CardProps } from "antd/lib/card";
 
 const Actions = styled.div`
   height: 55px;
@@ -62,10 +63,15 @@ const ActionDiv = styled.div`
   }
 `;
 
-const StyledCard = styled(Card)`
+interface StyledCardProps {
+  readonly showActions: boolean;
+};
+
+const StyledCard = styled(
+  ({showActions: showactions, ...props}: StyledCardProps & CardProps) => <Card {...props}/>)
+  <StyledCardProps>`
   .ant-card-body {
-    padding-bottom: ${(props: { showActions: boolean }) =>
-      `${props.showActions ? 5 : 24}px`};
+    padding-bottom: ${`${(props: StyledCardProps) => props.showActions ? 5 : 24}px`};
   }
 `;
 
@@ -73,6 +79,7 @@ const ForwardIcon = styled(ForwardOutlined)`
   &:hover {
     color: #1890ff;
     background-color: #cccccc;
+  }
 `;
 
 export interface ListenFooterProps {

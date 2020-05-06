@@ -1,26 +1,34 @@
-import { useResource, Resource } from "react-request-hook";
-import { useEffect, useCallback, useRef } from "react";
-import deepEqual from "deep-equal";
+import {useResource, Arguments, Resource} from 'react-request-hook';
+import {useEffect, useCallback, useRef, useState} from 'react';
+import deepEqual from 'deep-equal';
 
 export function useResourceReload<T>(
-  resourceFunction: () => Resource<T>,
-  defaultValue: T,
-  interval: number = 1000
+    resourceFunction: (...args: any[]) => Resource<T>,
+    defaultValue: T,
+    interval: number,
+    clearOnError: boolean,
+    ...args: Arguments<(...args: any[]) => Resource<T>>
 ): T {
-  const [{ data }, getResource] = useResource(resourceFunction);
+  const [{data, error}, getResource] = useResource(resourceFunction);
+  const [returnValue, setReturnValue] = useState(defaultValue);
   const dataRef = useRef(defaultValue);
+  const argsRef = useRef(args);
   const cancelRef = useRef<number>();
 
   const reloadFunction = useCallback(() => {
-    getResource();
+    getResource(...argsRef.current);
     cancelRef.current = setTimeout(() => reloadFunction(), interval);
-  }, [interval, getResource, cancelRef]);
+  }, [getResource, cancelRef, argsRef, interval]);
 
   useEffect(() => {
     if (data && !deepEqual(data, dataRef.current)) {
       dataRef.current = data;
-    }
-  }, [data, dataRef]);
+      setReturnValue(data);
+    } else if (clearOnError && error) {
+      dataRef.current = defaultValue
+      setReturnValue(defaultValue)
+    } 
+  }, [data, error, dataRef, defaultValue, clearOnError, setReturnValue]);
 
   useEffect(() => {
     reloadFunction();
@@ -32,5 +40,5 @@ export function useResourceReload<T>(
     };
   }, [reloadFunction, cancelRef]);
 
-  return dataRef.current;
+  return returnValue;
 }

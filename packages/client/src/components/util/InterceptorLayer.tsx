@@ -6,25 +6,31 @@ import React, {
 } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { AxiosError } from "axios";
-import { useUserLogin } from "../../core/user/user";
+import { useUserRefresh } from "../../core/user/user";
+import { hasRefreshToken } from "../../core/types";
 
 const InterceptorLayer: FunctionComponent = ({ children }) => {
   const { configuration } = useContext(ConfigurationContext);
-  const [, login] = useUserLogin();
+  const [, login] = useUserRefresh();
 
   useEffect(() => {
     const id = configuration.axios.interceptors.response.use(
       (value) => value,
       (error: AxiosError) => {
         console.log("intercepted error: ", error);
+        console.log(
+          configuration.token,
+          configuration.token && hasRefreshToken(configuration.token),
+          error
+        )
         if (
-          configuration.username &&
-          configuration.password &&
+          configuration.token &&
+          hasRefreshToken(configuration.token) &&
           configuration.loggedIn &&
           error.response &&
           error.response.status === 401
         ) {
-          login(configuration.username, configuration.password);
+          login(configuration.token);
         }
         return Promise.reject(error);
       }
@@ -32,8 +38,7 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
     return () => configuration.axios.interceptors.response.eject(id);
   }, [
     configuration.axios,
-    configuration.username,
-    configuration.password,
+    configuration.token,
     configuration.loggedIn,
     login,
   ]);

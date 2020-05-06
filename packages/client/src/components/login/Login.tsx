@@ -4,7 +4,7 @@ import { Row, Col, Alert } from "antd";
 import { ReactSVG } from "react-svg";
 import logo from "../../img/kiu.svg";
 import { LoginContext } from "../../core/context/LoginContext";
-import { SetupConnection } from "./SetupConnection";
+import { SetupConnection } from "./setup/SetupConnection";
 import { VerifyFingerprint } from "./VerifyFingerprint";
 import { IdenticonModal } from "./IdenticonModal";
 import { LoginForm } from "./LoginForm";
@@ -13,6 +13,7 @@ import styled from "styled-components";
 export const Login = (props: RouteComponentProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [redirectToReferrer, setRedirectToReferrer] = useState<boolean>(false);
+  
   const error = useCallback(
     (error: string | null) => {
       setErrorMessage(error);
@@ -87,6 +88,10 @@ const StyledLogin = styled.div`
 
       .logoColor2 {
         fill: #e5e5e5;
+      }
+
+      .label {
+        fill: #3d4452;
       }
     }
   }

@@ -40,6 +40,12 @@ export const LoginForm = () => {
   const { setError, redirectToReferrer } = useContext(LoginContext);
   const { configuration } = useContext(ConfigurationContext);
   const [form] = Form.useForm();
+  
+  useEffect(() => {
+    if (!configuration.instance) {
+      redirectToReferrer();
+    }
+  }, [configuration.instance, redirectToReferrer])
 
   const onFinish = useCallback(
     (values: any) => {
@@ -72,7 +78,6 @@ export const LoginForm = () => {
           }
         } else {
           setError(`Unexpected error: ${error.message}`);
-          throw error;
         }
       }
     }

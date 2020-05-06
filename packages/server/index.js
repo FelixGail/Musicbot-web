@@ -17,7 +17,7 @@ nconf
       .help()
       .alias("h", "help")
       .showHelpOnFail()
-      .usage("Usage: $0 [-p <port>] [-r <url>] [-l <string>]")
+      .usage("Usage: $0 [-p <port>] [-r <url>] [-l <string>] [-reg <url>]")
       .check(argv => {
         if (argv.p && isNaN(argv.p)) {
           throw new Error("'port' has to be a number");
@@ -25,6 +25,11 @@ nconf
         if (argv.remote && !argv.remote.match(/^https?:\/\/[\S]+:\d+$/i)) {
           throw new Error(
             "'remote' has to be of format 'http(s)://<host>:<port>'"
+          );
+        }
+        if (argv.registry && !argv.registry.match(/^https?:\/\/[\S]+:\d+$/i)) {
+          throw new Error(
+            "'registry' has to be of format 'http(s)://<host>:<port>'"
           );
         }
         if (argv.domain && argv.domain.match(/^\S+$/i)) {
@@ -44,6 +49,12 @@ nconf
           describe: "Address of the MusicBot-instance",
           nargs: 1
         },
+        reg: {
+          alias: "registry",
+          type: "string",
+          describe: "Address of the registry instance",
+          nargs: 1
+        },
         l: {
           alias: "domain",
           type: "string",
@@ -56,11 +67,10 @@ nconf
   .file("config", { file: "config/config.json" })
   .defaults({
     port: 8080,
-    remote: "http://localhost:42945",
-    domain: "musicbot"
+    domain: "musicbot",
+    registry: "http://localhost:8000"
   });
 
-console.log(`\nApi requests will be proxied to ${nconf.get("remote")}\n`);
 
 bonjour.publish({
   name: nconf.get("domain"),
@@ -79,7 +89,19 @@ process.on("exit", function() {
 const app = express();
 const buildDir = path.join(__dirname, "build");
 app.use(express.static(buildDir));
-app.use("/api", proxy(nconf.get("remote")));
+if(nconf.get("remote")) {
+  app.get("/registry", (req, res) => {
+    res.json([
+      {
+        "name": "Default",
+        "updated": Date.now(),
+        "address": nconf.get("remote")
+      }
+    ])
+  })
+} else {
+  app.use("/registry", proxy(nconf.get("registry")));
+}
 app.get("/*", (req, res) => {
   res.sendFile(path.join(buildDir, "index.html"));
 });
