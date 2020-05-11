@@ -2,9 +2,10 @@ import React, { useContext, useEffect } from "react";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import api from "../../../core/api/model";
 import { useResource } from "react-request-hook";
-import { ConnectProp, SetupStates } from "./SetupConnection";
+import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
-export const TestIcbint = ({ setNextState }: ConnectProp) => {
+export const TestIcbint = () => {
+  const { setNextState } = useContext(ConnectionSetupContext);
   const [{ data, error, isLoading }, getICBINT] = useResource(api.getICBINT);
   const { setConfiguration } = useContext(ConfigurationContext);
   useEffect(() => {

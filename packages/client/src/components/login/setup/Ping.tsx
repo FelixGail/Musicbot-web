@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import api from "../../../core/api/model";
 import { useResource } from "react-request-hook";
-import { ConnectProp, SetupStates } from "./SetupConnection";
+import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
-export const Ping = ({ setNextState }: ConnectProp) => {
+export const Ping = () => {
+  const { setNextState } = useContext(ConnectionSetupContext);
   const [{ data, error }, getVersion] = useResource(api.getVersion);
   useEffect(() => {
     const cancel = getVersion();

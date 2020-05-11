@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useUserRegister } from "../../../core/user/user";
 import { Canceler } from "axios";
-import { ConnectProp, SetupStates } from "./SetupConnection";
+import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
-export const RegisterNoICBINT = ({ setNextState }: ConnectProp) => {
+export const RegisterNoICBINT = () => {
+  const { setNextState } = useContext(ConnectionSetupContext);
   const [{ successful, isLoading, error }, register] = useUserRegister();
 
   useEffect(() => {
