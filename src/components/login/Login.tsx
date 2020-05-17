@@ -9,10 +9,12 @@ import { VerifyFingerprint } from "./VerifyFingerprint";
 import { IdenticonModal } from "./IdenticonModal";
 import { LoginForm } from "./LoginForm";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 export const Login = (props: RouteComponentProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [redirectToReferrer, setRedirectToReferrer] = useState<boolean>(false);
+  const location = useLocation<{from: { pathname: string}}>();
   
   const error = useCallback(
     (error: string | null) => {
@@ -25,8 +27,8 @@ export const Login = (props: RouteComponentProps) => {
   }, [setRedirectToReferrer]);
 
   const { from } = useMemo(
-    () => props.location.state || { from: { pathname: "/" } },
-    [props.location.state]
+    () => location.state || { from: { pathname: "/" } },
+    [location.state]
   );
 
   const provider = useMemo(() => {

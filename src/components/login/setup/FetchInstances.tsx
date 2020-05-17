@@ -7,11 +7,11 @@ import { duration } from "moment";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
 import formatDuration from "../../util/FormatDuration";
-import { ConnectProp, SetupStates } from "./SetupConnection";
 import { StyledList, StyledListItem } from "../../util/StyledList";
 import styled from "styled-components";
 import { ReactSVG } from "react-svg";
 import logo from "../../../img/kiu_striked.svg"
+import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -53,21 +53,28 @@ const StyledSVG = styled(ReactSVG)`
   }
 `;
 
-export const FetchInstances = ({ setNextState }: ConnectProp) => {
+export const FetchInstances = () => {
+  const { setNextState } = useContext(ConnectionSetupContext);
   const { configuration, setConfiguration } = useContext(ConfigurationContext);
-  useEffect(() => {configuration.axios.defaults.baseURL = ""}, [configuration.axios])
+  useEffect(() => {
+    if(configuration.axios.defaults.baseURL?.length !== 0) {
+      configuration.axios.defaults.baseURL = ""
+    }
+  }, [configuration.axios.defaults.baseURL])
+
   const instances = useResourceReload(
-      api.getInstances,
-      [],
-      20000,
-      true,
-      configuration.registryUrl);
+    api.getInstances,
+    [],
+    20000,
+    true,
+    configuration.registryUrl
+  );
 
   const elementCallback = useCallback((instance: BotInstance) => {
-    configuration.axios.defaults.baseURL = `http://${instance.address}`;
+    configuration.axios.defaults.baseURL = `https://${instance.domain}:${instance.port}/`;
     setConfiguration({ instance: instance });
     setNextState(SetupStates.PINGING);
-  }, [setNextState, setConfiguration, configuration]);
+  }, [setNextState, setConfiguration, configuration.axios.defaults.baseURL]);
 
   useEffect(() => {
     if (instances.length === 1) {
@@ -84,7 +91,7 @@ export const FetchInstances = ({ setNextState }: ConnectProp) => {
             <ClockCircleOutlined /> {formatDuration(duration(Date.now() - item.updated))} ago
           </div>}
         >
-          <List.Item.Meta title={item.name} description={item.address}/>
+          <List.Item.Meta title={item.name} description={`${item.domain}:${item.port}`} />
         </StyledInstanceListItem>)
       , [elementCallback]);
 
