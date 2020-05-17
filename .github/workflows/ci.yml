@@ -84,7 +84,7 @@ jobs:
         run: |
           export VERSION=$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
           export BRANCH=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')
-          echo ::set-output name=version_tag::$([ "$(echo $BRANCH)" = 'master' ] && echo "latest,${VERSION}" || echo "${VERSION}-${BRANCH}")
+          echo ::set-output name=version_tag::$([ "$(echo $BRANCH)" = 'master' ] && echo "latest,${VERSION}" || echo "latest-${BRANCH},${VERSION}-${BRANCH}")
       - name: Build & Publish
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
