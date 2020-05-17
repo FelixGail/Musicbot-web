@@ -44,7 +44,7 @@ jobs:
           path: build
   release:
     name: Create Release
-    needs: [package]
+    needs: [build]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
