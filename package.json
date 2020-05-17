@@ -1,27 +1,62 @@
 {
-  "author": "Felix Gail <felix.clemens.gail@gmail.com>",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "lerna": "^3.20.2",
-    "pkg": "^4.4.3"
-  },
-  "scripts": {
-    "start": "lerna run start --stream",
-    "build": "lerna run build --stream",
-    "setVersion": "lerna run setVersion --stream",
-    "lerna": "lerna",
-    "pkg": "pkg",
-    "pkg-cache": "pkg-cache",
-    "bootstrap": "lerna bootstrap"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
-  "name": "musicbot-web",
-  "version": "0.5.0",
-  "main": "index.js",
-  "dependencies": {}
+	"name": "musicbot-web",
+	"author": "Felix Gail <felix.clemens.gail@gmail.com>",
+	"version": "0.6.0",
+	"private": true,
+	"license": "MIT",
+	"dependencies": {
+		"@ant-design/icons": "^4.0.5",
+		"@types/deep-equal": "^1.0.1",
+		"@types/jest": "^25.1.3",
+		"@types/moment-duration-format": "^2.2.2",
+		"@types/node": "^13.7.6",
+		"@types/react": "^16.9.23",
+		"@types/react-dom": "^16.9.5",
+		"@types/react-router-dom": "^5.1.3",
+		"@types/styled-components": "^5.0.1",
+		"@types/uuid": "^7.0.0",
+		"antd": "^4.1.0",
+		"axios": "^0.19.0",
+		"babel-plugin-import": "^1.12.1",
+		"customize-cra": "^0.9.1",
+		"deep-equal": "^2.0.1",
+		"http-proxy-middleware": "^1.0.0",
+		"icbint": "^0.1.7",
+		"moment-duration-format": "^2.3.2",
+		"node-gyp": "6.1.0",
+		"react": "^16.12.0",
+		"react-app-rewired": "^2.1.3",
+		"react-dom": "^16.12.0",
+		"react-request-hook": "^2.1.1",
+		"react-router-dom": "^5.0.1",
+		"react-scripts": "3.4.1",
+		"react-svg": "^11.0.11",
+		"react-swipeable": "^5.5.1",
+		"react-use": "^13.3.0",
+		"styled-components": "^5.0.1",
+		"typescript": "^3.8.2",
+		"uuid": "^7.0.1"
+	},
+	"scripts": {
+		"start": "react-app-rewired start",
+		"build": "react-app-rewired build",
+		"test": "react-app-rewired test",
+		"eject": "react-app-rewired eject"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
+		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^2.21.0",
+		"@typescript-eslint/parser": "^2.7.0",
+		"eslint": "^6.8.0",
+		"eslint-config-google": "^0.14.0",
+		"eslint-plugin-react": "^7.18.3",
+		"eslint-plugin-react-hooks": "^3.0.0",
+		"prettier": "^2.0.2"
+	}
 }

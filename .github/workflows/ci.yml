@@ -35,89 +35,13 @@ jobs:
             v1-${{ runner.os }}-yarn-
       - name: install dependencies
         run: yarn
-      - name: Bootstrap
-        run: yarn bootstrap
-      - name: Set server version
-        run: yarn setVersion
       - name: Build
         run: yarn build
-      - name: Build arm
-        run: |
-          yarn pkg packages/server/package.json -o bin/musicbot-arm -t node12.2.0-linux-armv7 --no-bytecode
-      - name: Upload arm executable
-        uses: actions/upload-artifact@v2
-        with:
-          name: musicbot-executables
-          path: bin/
-      - name: Remove server dependencies
-        run: rm -rf packages/server/node_modules
-      - name: Copy additional Server files
-        run: |
-          mkdir packages/server/windows && cp -r windows/*.ps1 packages/server/windows
-          cp yarn.lock packages/server/
       - name: Upload client production build
         uses: actions/upload-artifact@v2
         with:
-          name: production
-          path: packages/server
-  package:
-    strategy:
-      matrix:
-        node-version: [12.x]
-        os: [ubuntu, windows, macos]
-
-    name: Package
-    runs-on: ${{ matrix.os }}-latest
-    needs: [build]
-
-    steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Download client production build
-        uses: actions/download-artifact@v2
-        with:
-          name: production
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            node_modules
-            */*/node_modules
-          key: v1-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            v1-${{ runner.os }}-yarn-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Install pkg module
-        run: yarn add pkg -D
-      - name: Package
-        run: yarn pkg package.json -o bin/musicbot-web-${{ matrix.os }}
-      # - name: Add Nuget PackageSource
-      #   if: matrix.os == 'windows'
-      #   run: Register-PackageSource -Name NuGetGallery -Location https://www.nuget.org/api/v2 -ProviderName NuGet -Trusted
-      # - name: Install SignTool
-      #   if: matrix.os == 'windows'
-      #   run: Install-Package signtool -Source NuGetGallery -Destination signtool -RequiredVersion 10.0.17763.132
-      # - name: Create Certificate
-      #   if: matrix.os == 'windows'
-      #   run: |
-      #     $kvSecretBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_CERT }}")
-      #     [System.IO.File]::WriteAllBytes("cert.pfx", $kvSecretBytes)
-      # - name: Sign Executable
-      #   if: matrix.os == 'windows'
-      #   run: |
-      #     .\signtool\signtool.10.0.17763.132\tools\signtool.exe sign /f cert.pfx /p ${{ secrets.CERT_PASSWORD }} bin/musicbot-web-${{ matrix.os }}.exe
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: musicbot-executables
-          path: bin/
+          name: musicbot-web
+          path: build
   release:
     name: Create Release
     needs: [package]
@@ -127,30 +51,20 @@ jobs:
       - name: Install zip
         run: sudo apt install zip -y
       - uses: actions/checkout@v1
-      - uses: actions/download-artifact@v2
-        with:
-          name: musicbot-executables
-          path: musicbot-executables/
       - name: Download client production build
         uses: actions/download-artifact@v2
         with:
-          name: production
-          path: production/
+          name: musicbot-web
+          path: build
       - name: Zip build artifact
-        run: cd production && zip -r ../musicbot-web.zip ./* && cd ..
+        run: cd build && zip -r ../musicbot-web.zip ./* && cd ..
       - name: Calculate variables
         id: vars
         run: |
           echo ::set-output name=version_tag::$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
-          echo ::set-output name=win_hash::$(sha512sum musicbot-executables/musicbot-web-windows.exe | awk '{print $1}')
-      - name: Create scoop manifest
-        run: |
-          cp windows/scoop-template.json musicbot-web.json
-          sed -i -e 's/{{version}}/${{ steps.vars.outputs.version_tag }}/g' musicbot-web.json
-          sed -i -e 's/{{hash}}/${{ steps.vars.outputs.win_hash }}/g' musicbot-web.json
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "musicbot-executables/*, musicbot-web.zip, musicbot-web.json"
+          artifacts: "musicbot-web.zip"
           body: ${{ github.event.head_commit.message }}
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.vars.outputs.version_tag }}
@@ -161,11 +75,17 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
     steps:
       - uses: actions/checkout@v1
-      - name: Download client production build
+      - name: Download production build
         uses: actions/download-artifact@v2
         with:
-          name: production
-          path: docker/production
+          name: musicbot-web
+          path: docker/build
+      - name: Calculate variables
+        id: vars
+        run: |
+          export VERSION=$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]')
+          export BRANCH=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')
+          echo ::set-output name=version_tag::$([ "$(echo $BRANCH)" = 'master' ] && echo "latest,${VERSION}" || echo "${VERSION}-${BRANCH}")
       - name: Build & Publish
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
@@ -173,3 +93,4 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           workdir: docker
+          tags: "${{ steps.vars.outputs.version_tag }}"

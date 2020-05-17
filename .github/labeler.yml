@@ -2,12 +2,9 @@ repository:
   - ./*
 
 client:
-  - packages/client/*
-  - packages/client/**/*
-
-server:
-  - packages/server/*
-  - packages/server/**/*
+  - src/*
+  - src/**/*
+  - public/*
 
 ci:
   - .github/*
