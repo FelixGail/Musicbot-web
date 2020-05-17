@@ -29,7 +29,6 @@ jobs:
           path: |
             ${{ steps.yarn-cache-dir-path.outputs.dir }}
             node_modules
-            */*/node_modules
           key: v1-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             v1-${{ runner.os }}-yarn-
