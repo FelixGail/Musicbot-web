@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import { List, Empty } from "antd";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import api from "../../../core/api/model";
@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { ReactSVG } from "react-svg";
 import logo from "../../../img/kiu_striked.svg"
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
+import { isInstanceAvailable } from "../../../core/instance";
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -53,9 +54,12 @@ const StyledSVG = styled(ReactSVG)`
   }
 `;
 
+
 export const FetchInstances = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const { configuration, setConfiguration } = useContext(ConfigurationContext);
+  const [availableInstances, setAvailableInstances] = useState<BotInstance[]>([]);
+
   useEffect(() => {
     if(configuration.axios.defaults.baseURL?.length !== 0) {
       configuration.axios.defaults.baseURL = ""
@@ -77,10 +81,11 @@ export const FetchInstances = () => {
   }, [setNextState, setConfiguration, configuration.axios.defaults.baseURL]);
 
   useEffect(() => {
-    if (instances.length === 1) {
-      elementCallback(instances[0]);
+    if (instances.length > 0) {
+      Promise.all(instances.map(i =>isInstanceAvailable(i))).then(arr => {
+        setAvailableInstances(arr.reduce<BotInstance[]>((c, b, i) => b? c.concat(instances[i]): c, []))})
     }
-  }, [elementCallback, instances]);
+  }, [instances, elementCallback]);
 
   const renderListElement = useCallback(
       (item: BotInstance, index: number) => 
@@ -97,7 +102,7 @@ export const FetchInstances = () => {
 
   return (
     <StyledInstanceList
-      dataSource={instances}
+      dataSource={availableInstances}
       renderItem={renderListElement}
       locale={{
         emptyText: <InstanceEmpty
