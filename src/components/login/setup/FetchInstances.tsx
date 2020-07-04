@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useCallback, useState } from "react";
-import { List, Empty } from "antd";
+import React, { useContext, useEffect, useCallback, useState, Fragment } from "react";
+import { List, Empty, Input } from "antd";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import api from "../../../core/api/model";
 import { BotInstance } from "../../../core/types";
@@ -12,7 +12,7 @@ import styled from "styled-components";
 import { ReactSVG } from "react-svg";
 import logo from "../../../img/kiu_striked.svg"
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
-import { isInstanceAvailable } from "../../../core/instance";
+import { isInstanceAvailable, fromString } from "../../../core/instance";
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -101,14 +101,27 @@ export const FetchInstances = () => {
       , [elementCallback]);
 
   return (
-    <StyledInstanceList
-      dataSource={availableInstances}
-      renderItem={renderListElement}
-      locale={{
-        emptyText: <InstanceEmpty
-          description='Could not find any MusicBot instances on your network.'
-          image={<StyledSVG src={logo}/>}
-        />,
-      }}
-    />);
+    <Fragment>
+      <StyledInstanceList
+        dataSource={availableInstances}
+        renderItem={renderListElement}
+        locale={{
+          emptyText: <InstanceEmpty
+            description='Could not find any MusicBot instances on your network.'
+            image={<StyledSVG src={logo}/>}
+          />,
+        }}
+      />
+      <Input.Search
+        placeholder="Input manually"
+        enterButton="Connect"
+        onSearch= {(value) => {
+          const instance = fromString(value)
+          if(instance) {
+            elementCallback(instance)
+          }
+        }}
+      />
+    </Fragment>
+    );
 };
