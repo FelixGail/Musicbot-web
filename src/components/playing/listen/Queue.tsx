@@ -5,7 +5,7 @@ import React, {
   FunctionComponent,
 } from "react";
 import { useResource } from "react-request-hook";
-import api from "../../../core/api/model";
+import api, { getHookRequest } from "../../../core/api/model";
 import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
@@ -37,7 +37,7 @@ const Queue: FunctionComponent = () => {
     preventDefaultTouchmoveEvent: true,
   });
 
-  const [, dequeue] = useResource(api.dequeue);
+  const [, dequeue] = useResource(getHookRequest(api.dequeue));
   const click = useCallback(
     (_, index: number) => {
       hstry.push(`${location.pathname}/${index}`);
@@ -70,7 +70,7 @@ const Queue: FunctionComponent = () => {
   const additionalArray = useMemo(() => [additional], [additional]);
 
   const searchElements = useSearchSongModalElements<SongEntry>();
-  const [, move] = useResource(api.moveEntry);
+  const [, move] = useResource(getHookRequest(api.moveEntry));
   const contextElements: ContextModalElement<SongEntry>[] = useMemo(() => {
     return [
       {

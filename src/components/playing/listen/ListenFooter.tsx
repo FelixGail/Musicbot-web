@@ -15,7 +15,7 @@ import {
 import { Card, Layout } from "antd";
 import { Link } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
-import api from "../../../core/api/model";
+import api, { getHookRequest } from "../../../core/api/model";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import {
   Permission,
@@ -91,7 +91,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   current,
   showActions,
 }) => {
-  const [, setPlayerState] = useResource(api.setPlayerState);
+  const [, setPlayerState] = useResource(getHookRequest(api.setPlayerState));
   const { configuration } = useContext(ConfigurationContext);
 
   const currentRef = useRef(current);

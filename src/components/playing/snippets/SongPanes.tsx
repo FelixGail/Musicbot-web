@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
-import api from "../../../core/api/model";
+import api, { getHookRequest } from "../../../core/api/model";
 import { NamedPlugin, Song, Permission } from "../../../core/types";
 import { SongList } from "./songlist/SongList";
 import { ListProps } from "antd/lib/list";
@@ -32,7 +32,7 @@ export const ProviderPane = ({
   provider: NamedPlugin;
   query: string;
 } & ListProps<Song>) => {
-  const [songs, search] = useResource(api.search);
+  const [songs, search] = useResource(getHookRequest(api.search));
 
   useEffect(() => {
     search(provider, query);
@@ -45,7 +45,7 @@ export const SuggesterPane = ({
   suggester,
   ...props
 }: { suggester: NamedPlugin } & ListProps<Song>) => {
-  const [songs, getSuggestions] = useResource(api.getSuggestions);
+  const [songs, getSuggestions] = useResource(getHookRequest(api.getSuggestions));
 
   useEffect(() => {
     getSuggestions(suggester);

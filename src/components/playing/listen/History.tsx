@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useContext } from "react";
-import api from "../../../core/api/model";
+import api, { getHookRequest } from "../../../core/api/model";
 import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { Permission, SongEntry } from "../../../core/types";
@@ -15,7 +15,7 @@ import SwipeDiv from "../../util/SwipeDiv";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
-  const [, enqueue] = useResource(api.enqueue);
+  const [, enqueue] = useResource(getHookRequest(api.enqueue));
   const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE);
   const toggleFullscreen = useContext(FullscreenContext);
   const browserHistory = useHistory();

@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from "react";
-import api from "../../../core/api/model";
+import api, { getHookRequest } from "../../../core/api/model";
 import { useResource } from "react-request-hook";
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
 export const Ping = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
-  const [{ data, error }, getVersion] = useResource(api.getVersion);
+  const [{ data, error }, getVersion] = useResource(getHookRequest(api.getVersion));
   useEffect(() => {
     const cancel = getVersion();
     return () => cancel();
