@@ -5,7 +5,7 @@ import React, {
   FunctionComponent,
 } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
-import Axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useUserRefresh } from "../../core/user/user";
 import { hasRefreshToken } from "../../core/types";
 

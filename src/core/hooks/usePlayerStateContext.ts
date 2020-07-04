@@ -1,4 +1,4 @@
-import { useResource, Arguments, Resource } from 'react-request-hook';
+import { useResource, Arguments } from 'react-request-hook';
 import { useEffect, useCallback, useRef, useState } from 'react';
 import deepEqual from 'deep-equal';
 import { getHookRequest, RequestConfig } from '../api/model';

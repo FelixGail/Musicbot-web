@@ -1,4 +1,4 @@
-import { useResource, RequestError, Resource, RequestDispatcher, Request } from 'react-request-hook';
+import { useResource, RequestError, RequestDispatcher, Request } from 'react-request-hook';
 import api, { getHookRequest, RequestConfig } from '../api/model';
 import { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
