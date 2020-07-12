@@ -28,7 +28,7 @@
 		"react-app-rewired": "^2.1.3",
 		"react-dom": "^16.13.1",
 		"react-request-hook": "^2.1.1",
-		"react-router-dom": "^5.0.1",
+		"react-router-dom": "^5.2.0",
 		"react-scripts": "3.4.1",
 		"react-svg": "^11.0.29",
 		"react-swipeable": "^5.5.1",
