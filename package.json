@@ -20,6 +20,7 @@
 		"babel-plugin-import": "^1.12.1",
 		"customize-cra": "^0.9.1",
 		"deep-equal": "^2.0.1",
+		"dexie": "^3.0.1",
 		"http-proxy-middleware": "^1.0.0",
 		"icbint": "^0.1.7",
 		"moment-duration-format": "^2.3.2",
@@ -47,8 +48,16 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^2.21.0",

@@ -11,8 +11,6 @@ import Axios from "axios";
 import { RequestContext } from "react-request-hook";
 import { useSetState } from "react-use";
 import { PlayRouter } from "./playing/PlayRouter";
-import { LikedSongContext } from "../core/context/LikedSongsContext";
-import LikedSongs from "../core/LikedSongs";
 import InterceptorLayer from "./util/InterceptorLayer";
 
 interface Config {
@@ -27,7 +25,6 @@ const App = (props: ({config: Config})) => {
       }),
     []
   );
-  const [likedSongs] = useState(new LikedSongs());
   const [configuration, setConfiguration] = useSetState<IConfiguration>({
     loggedIn: false,
     axios: axios,
@@ -43,7 +40,6 @@ const App = (props: ({config: Config})) => {
 
   return (
     <ConfigurationContext.Provider value={configurationContext}>
-      <LikedSongContext.Provider value={likedSongs}>
         <RequestContext.Provider value={axios}>
           <InterceptorLayer>
             <Router>
@@ -57,7 +53,6 @@ const App = (props: ({config: Config})) => {
             </Router>
           </InterceptorLayer>
         </RequestContext.Provider>
-      </LikedSongContext.Provider>
     </ConfigurationContext.Provider>
   );
 };
