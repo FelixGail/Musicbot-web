@@ -1,11 +1,12 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
-import React, { useContext, useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
-import { LikedSongContext } from "../../core/context/LikedSongsContext";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
 import { ModalProps } from "antd/lib/modal";
 import { Typography } from "antd";
+import { db } from "../../core/db/AppDB";
+import { fromSong } from "../../core/db/LikedSong";
 
 export interface DefaultContextModalProps<T extends Song | SongEntry>
   extends ModalProps {
@@ -37,40 +38,40 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
 }: DefaultContextModalProps<T> & { id: number }) {
   const item = useMemo(() => data[id], [data, id]);
   const song = useMemo(() => itemToSong(item), [item]);
-  const likedSongs = useContext(LikedSongContext);
-  const isLikedSong = useMemo(() => likedSongs.contains(song), [
-    likedSongs,
-    song,
-  ]);
+  const [combinedElements, setElements] = useState<ContextModalElement<T>[]>();
   const history = useHistory();
 
-  const combinedElements: ContextModalElement<T>[] = useMemo(() => {
-    const defaultElements: ContextModalElement<T>[] = [
-      {
-        element: () => `${isLikedSong ? "Remove from" : "Add to"} my songs`,
-        onClick: () => {
-          isLikedSong ? likedSongs.removeSong(song) : likedSongs.addSong(song);
-        },
-        close: true,
-      },
-      {
-        element: () => "Close",
-        onClick: () => {},
-        close: true,
-      },
-    ];
-    return (elements ? elements.concat(defaultElements) : defaultElements).map(
-      ({ element, onClick, close }) => {
-        return {
-          element: element,
-          onClick: (item: T) => {
-            onClick(item);
-            close && history.goBack();
+  useEffect(() => {
+    db.songs.get(song.id).then(value => {
+      const isLikedSong = value !== undefined
+      const defaultElements: ContextModalElement<T>[] = [
+        {
+          element: () => `${isLikedSong ? "Remove from" : "Add to"} my songs`,
+          onClick: () => {
+            isLikedSong ? db.songs.delete(song.id) : fromSong(song).save();
           },
-        };
-      }
-    );
-  }, [likedSongs, song, history, elements, isLikedSong]);
+          close: true,
+        },
+        {
+          element: () => "Close",
+          onClick: () => {},
+          close: true,
+        },
+      ];
+      const combined = (elements ? elements.concat(defaultElements) : defaultElements).map(
+        ({ element, onClick, close }) => {
+          return {
+            element: element,
+            onClick: (item: T) => {
+              onClick(item);
+              close && history.goBack();
+            },
+          };
+        }
+      );
+      setElements(combined);
+    })
+  }, [setElements, elements, history, song])
 
   return ContextModal<T>({
     item: item,

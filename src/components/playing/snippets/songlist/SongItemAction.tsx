@@ -1,24 +1,20 @@
 import { StarFilled } from "@ant-design/icons";
 import React, {
-  useContext,
   useState,
   useEffect,
   useMemo,
   useCallback,
 } from "react";
 import { Song } from "../../../../core/types";
-import { LikedSongContext } from "../../../../core/context/LikedSongsContext";
+import { db } from "../../../../core/db/AppDB";
+import { fromSong } from "../../../../core/db/LikedSong";
 
 const SongItemAction = (props: { song: Song }) => {
-  const likedSongs = useContext(LikedSongContext);
   const [isLiked, setLiked] = useState<boolean>(false);
   useEffect(() => {
-    setLiked(likedSongs.contains(props.song));
+    db.songs.get(props.song.id).then(value => value && setLiked(true))
   }, [
     setLiked,
-    likedSongs,
-    likedSongs.songs,
-    likedSongs.songs.length,
     props.song,
   ]);
   const style = useMemo(() => {
@@ -34,15 +30,15 @@ const SongItemAction = (props: { song: Song }) => {
   const click = useCallback(
     (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
       if (isLiked) {
-        likedSongs.removeSong(props.song);
+        db.songs.delete(props.song.id)
         setLiked(false);
       } else {
-        likedSongs.addSong(props.song);
+        fromSong(props.song).save()
         setLiked(true);
       }
       event.stopPropagation();
     },
-    [likedSongs, isLiked, setLiked, props.song]
+    [isLiked, setLiked, props.song]
   );
   return <StarFilled onClick={click} style={style} />;
 };
