@@ -3,11 +3,11 @@ import {
   IConfiguration,
   ConfigurationContext,
 } from "../../../core/context/Configuration";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState, useCallback } from "react";
 import unknown_cover from "../../../img/unknown_cover.svg";
 import styled from "styled-components";
 
-export const urlFromSong = (config: IConfiguration, song?: Song) =>
+export const urlFromSong = (config: IConfiguration, song?: Song, includeUnknown: boolean = true) =>
   song && song.albumArtPath
     ? `${config.axios.defaults.baseURL}${song.albumArtPath}`
     : song && song.albumArtUrl
@@ -40,15 +40,22 @@ export const AlbumArt = ({
   HTMLImageElement
 >) => {
   const { configuration } = useContext(ConfigurationContext);
+  const [state, setState] = useState({errored: false, src: urlFromSong(configuration, song)});
+  const onError = useCallback(() => {
+    if(!state.errored) {
+      setState({errored: true, src: (song && song.savedArt) || unknown_cover})
+    }
+  }, [setState, state.errored, song])
   const jsx = useMemo(
     () => (
       <img
         className={props.className}
         alt="cover"
-        src={urlFromSong(configuration, song)}
+        src={state.src}
+        onError={onError}
       />
     ),
-    [configuration, song, props.className]
+    [props.className, state.src, onError]
   );
   return jsx;
 };
