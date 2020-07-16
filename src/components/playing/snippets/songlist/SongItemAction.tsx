@@ -4,13 +4,16 @@ import React, {
   useEffect,
   useMemo,
   useCallback,
+  useContext,
 } from "react";
 import { Song } from "../../../../core/types";
 import { db } from "../../../../core/db/AppDB";
 import { fromSong } from "../../../../core/db/LikedSong";
+import { ConfigurationContext } from "../../../../core/context/Configuration";
 
 const SongItemAction = (props: { song: Song }) => {
   const [isLiked, setLiked] = useState<boolean>(false);
+  const {configuration} = useContext(ConfigurationContext)
   useEffect(() => {
     db.songs.get(props.song.id).then(value => value && setLiked(true))
   }, [
@@ -33,12 +36,12 @@ const SongItemAction = (props: { song: Song }) => {
         db.songs.delete(props.song.id)
         setLiked(false);
       } else {
-        fromSong(props.song).save()
+        fromSong(props.song).save(configuration)
         setLiked(true);
       }
       event.stopPropagation();
     },
-    [isLiked, setLiked, props.song]
+    [isLiked, setLiked, props.song, configuration]
   );
   return <StarFilled onClick={click} style={style} />;
 };

@@ -11,8 +11,8 @@ const Stars = () => {
   const [songs, setSongs] = useState<LikedSong[]>([]);
 
   useEffect(() => {
-    db.songs.orderBy('title').toArray().then(songs => {
-      songs.forEach(song => song.loadNavigationProperties())
+    db.songs.orderBy('title').toArray().then(async songs => {
+      await Promise.all(songs.map(async (song) => await song.loadNavigationProperties()))
       setSongs(songs)
     })
   },[setSongs])

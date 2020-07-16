@@ -1,5 +1,7 @@
 import { Song, NamedPlugin } from '../types';
 import { db } from './AppDB';
+import { IConfiguration } from '../context/Configuration';
+import { urlFromSong } from '../../components/playing/snippets/AlbumArt';
 
 export const fromSong = (song: Song) => {
 	const ls = new LikedSong(song.id, song.title, song.description, song.provider.id, song.duration, song.albumArtUrl, song.albumArtPath)
@@ -16,6 +18,8 @@ export class LikedSong implements Song {
 	duration?: number;
 	albumArtUrl?: string;
 	albumArtPath?: string;
+	savedArt?: string
+	blob?: Blob;
 
 	constructor(
 		id: string,
@@ -24,7 +28,8 @@ export class LikedSong implements Song {
 		providerId?: string,
 		duration?: number,
 		albumArtUrl?: string,
-		albumArtPath?: string
+		albumArtPath?: string,
+		blob?: Blob
 	) {
 		this.id = id;
 		this.providerId = providerId;
@@ -33,6 +38,7 @@ export class LikedSong implements Song {
 		this.duration = duration;
 		this.albumArtUrl = albumArtUrl;
 		this.albumArtPath = albumArtPath;
+		this.blob = blob;
 	}
 
 	setProvider(provider: NamedPlugin) {
@@ -47,14 +53,21 @@ export class LikedSong implements Song {
 		} else {
 			throw new Error(`no provider found for song ${this.id}`)
 		}
+		if (this.blob) {
+			this.savedArt = URL.createObjectURL(this.blob)
+		}
 		
 	}
 	
-	save() {
-		return db.transaction('rw', db.songs, db.provider, async() => {
+	async save(configuration: IConfiguration) {
+		const response = await fetch(urlFromSong(configuration, this))
+		if(response.ok) {
+			this.blob = await response.blob()
+		}
+		return db.transaction('rw', db.songs, db.provider, async () => {
 			this.providerId = await db.provider.put(this.provider, this.id)
 
-			await db.songs.put(new LikedSong(this.id, this.title, this.description, this.providerId, this.duration, this.albumArtUrl, this.albumArtPath))
+			await db.songs.put(new LikedSong(this.id, this.title, this.description, this.providerId, this.duration, this.albumArtUrl, this.albumArtPath, this.blob))
 		})
 	}
 }

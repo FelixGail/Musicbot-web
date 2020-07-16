@@ -1,5 +1,5 @@
 import ContextModal, { ContextModalElement } from "./ContextModal";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useContext } from "react";
 import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
 import { itemToSong } from "../playing/snippets/songlist/SongListItem";
@@ -7,6 +7,7 @@ import { ModalProps } from "antd/lib/modal";
 import { Typography } from "antd";
 import { db } from "../../core/db/AppDB";
 import { fromSong } from "../../core/db/LikedSong";
+import { ConfigurationContext } from "../../core/context/Configuration";
 
 export interface DefaultContextModalProps<T extends Song | SongEntry>
   extends ModalProps {
@@ -38,6 +39,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
 }: DefaultContextModalProps<T> & { id: number }) {
   const item = useMemo(() => data[id], [data, id]);
   const song = useMemo(() => itemToSong(item), [item]);
+  const {configuration} = useContext(ConfigurationContext)
   const [combinedElements, setElements] = useState<ContextModalElement<T>[]>();
   const history = useHistory();
 
@@ -48,7 +50,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
         {
           element: () => `${isLikedSong ? "Remove from" : "Add to"} my songs`,
           onClick: () => {
-            isLikedSong ? db.songs.delete(song.id) : fromSong(song).save();
+            isLikedSong ? db.songs.delete(song.id) : fromSong(song).save(configuration);
           },
           close: true,
         },
@@ -71,7 +73,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
       );
       setElements(combined);
     })
-  }, [setElements, elements, history, song])
+  }, [setElements, elements, history, song, configuration])
 
   return ContextModal<T>({
     item: item,

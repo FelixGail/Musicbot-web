@@ -60,6 +60,7 @@ export interface Song {
 	duration?: number;
 	albumArtUrl?: string;
 	albumArtPath?: string;
+	savedArt?: string;
 }
 
 export function songEquals(a?: Song, b?: Song) {
