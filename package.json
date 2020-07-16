@@ -1,7 +1,7 @@
 {
 	"name": "musicbot-web",
 	"author": "Felix Gail <felix.clemens.gail@gmail.com>",
-	"version": "0.7.1",
+	"version": "0.8.1",
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
@@ -48,16 +48,8 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
+		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^2.21.0",
