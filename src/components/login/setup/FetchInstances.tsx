@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useCallback } from "react";
-import { List, Empty } from "antd";
+import React, { useContext, useEffect, useCallback, useState, Fragment } from "react";
+import { List, Empty, Input } from "antd";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import api from "../../../core/api/model";
 import { BotInstance } from "../../../core/types";
@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { ReactSVG } from "react-svg";
 import logo from "../../../img/kiu_striked.svg"
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
+import { isInstanceAvailable, fromString } from "../../../core/instance";
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -53,9 +54,12 @@ const StyledSVG = styled(ReactSVG)`
   }
 `;
 
+
 export const FetchInstances = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const { configuration, setConfiguration } = useContext(ConfigurationContext);
+  const [availableInstances, setAvailableInstances] = useState<BotInstance[]>([]);
+
   useEffect(() => {
     if(configuration.axios.defaults.baseURL?.length !== 0) {
       configuration.axios.defaults.baseURL = ""
@@ -77,10 +81,11 @@ export const FetchInstances = () => {
   }, [setNextState, setConfiguration, configuration.axios.defaults.baseURL]);
 
   useEffect(() => {
-    if (instances.length === 1) {
-      elementCallback(instances[0]);
+    if (instances.length > 0) {
+      Promise.all(instances.map(i =>isInstanceAvailable(i))).then(arr => {
+        setAvailableInstances(arr.reduce<BotInstance[]>((c, b, i) => b? c.concat(instances[i]): c, []))})
     }
-  }, [elementCallback, instances]);
+  }, [instances, elementCallback]);
 
   const renderListElement = useCallback(
       (item: BotInstance, index: number) => 
@@ -96,14 +101,27 @@ export const FetchInstances = () => {
       , [elementCallback]);
 
   return (
-    <StyledInstanceList
-      dataSource={instances}
-      renderItem={renderListElement}
-      locale={{
-        emptyText: <InstanceEmpty
-          description='Could not find any MusicBot instances on your network.'
-          image={<StyledSVG src={logo}/>}
-        />,
-      }}
-    />);
+    <Fragment>
+      <StyledInstanceList
+        dataSource={availableInstances}
+        renderItem={renderListElement}
+        locale={{
+          emptyText: <InstanceEmpty
+            description='Could not find any MusicBot instances on your network.'
+            image={<StyledSVG src={logo}/>}
+          />,
+        }}
+      />
+      <Input.Search
+        placeholder="Input manually"
+        enterButton="Connect"
+        onSearch= {(value) => {
+          const instance = fromString(value)
+          if(instance) {
+            elementCallback(instance)
+          }
+        }}
+      />
+    </Fragment>
+    );
 };

@@ -1,14 +1,22 @@
-import { useContext, useState, useCallback } from "react";
-import { LikedSongContext } from "../../../core/context/LikedSongsContext";
+import { useState, useCallback, useEffect } from "react";
 import React from "react";
 import { SongList } from "../snippets/songlist/SongList";
 import api from "../../../core/api/model";
 import { Song, Permission } from "../../../core/types";
 import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
+import { db } from "../../../core/db/AppDB";
+import { LikedSong } from "../../../core/db/LikedSong";
 
 const Stars = () => {
-  const likedSongs = useContext(LikedSongContext);
-  const [songs] = useState(likedSongs.get().slice());
+  const [songs, setSongs] = useState<LikedSong[]>([]);
+
+  useEffect(() => {
+    db.songs.orderBy('title').toArray().then(async songs => {
+      await Promise.all(songs.map(async (song) => await song.loadNavigationProperties()))
+      setSongs(songs)
+    })
+  },[setSongs])
+
   const [, enqueue] = useResourceWithPermission(
     api.enqueue,
     Permission.ENQUEUE

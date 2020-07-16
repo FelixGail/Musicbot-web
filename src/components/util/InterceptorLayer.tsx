@@ -16,21 +16,24 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
   useEffect(() => {
     const id = configuration.axios.interceptors.response.use(
       (value) => value,
-      (error: AxiosError) => {
-        console.log("intercepted error: ", error);
+      (error: Error) => {
+        console.log("intercepted error: ", error.message, error.stack);
         console.log(
           configuration.token,
           configuration.token && hasRefreshToken(configuration.token),
           error
         )
-        if (
-          configuration.token &&
-          hasRefreshToken(configuration.token) &&
-          configuration.loggedIn &&
-          error.response &&
-          error.response.status === 401
-        ) {
-          login(configuration.token);
+        if( (error as AxiosError).isAxiosError) {
+          const axiosError = error as AxiosError
+          if (
+            configuration.token &&
+            hasRefreshToken(configuration.token) &&
+            configuration.loggedIn &&
+            axiosError.response &&
+            axiosError.response.status === 401
+          ) {
+            login(configuration.token);
+          }
         }
         return Promise.reject(error);
       }

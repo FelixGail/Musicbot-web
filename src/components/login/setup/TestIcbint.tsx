@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { ConfigurationContext } from "../../../core/context/Configuration";
-import api from "../../../core/api/model";
+import api, { getHookRequest } from "../../../core/api/model";
 import { useResource } from "react-request-hook";
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
 export const TestIcbint = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
-  const [{ data, error, isLoading }, getICBINT] = useResource(api.getICBINT);
+  const [{ data, error, isLoading }, getICBINT] = useResource(getHookRequest(api.getICBINT));
   const { setConfiguration } = useContext(ConfigurationContext);
   useEffect(() => {
     const cancel = getICBINT();

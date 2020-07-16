@@ -1,15 +1,16 @@
-import { useResource, Arguments, Resource } from 'react-request-hook';
+import { useResource, Arguments } from 'react-request-hook';
 import { useEffect, useCallback, useRef, useState } from 'react';
 import deepEqual from 'deep-equal';
+import { getHookRequest, RequestConfig } from '../api/model';
 
 export function useResourceReload<T>(
-	resourceFunction: (...args: any[]) => Resource<T>,
+	resourceFunction: (...args: any[]) => RequestConfig<T>,
 	defaultValue: T,
 	interval: number,
 	clearOnError: boolean,
-	...args: Arguments<(...args: any[]) => Resource<T>>
+	...args: Arguments<(...args: any[]) => RequestConfig<T>>
 ): T {
-	const [ { data, error }, getResource ] = useResource(resourceFunction);
+	const [ { data, error }, getResource ] = useResource(getHookRequest(resourceFunction));
 	const [ returnValue, setReturnValue ] = useState(defaultValue);
 	const dataRef = useRef(defaultValue);
 	const defaultRef = useRef(defaultValue);

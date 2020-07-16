@@ -101,6 +101,7 @@ function SongListItem<T extends Song | SongEntry>({
 const StyledAlbumArt = styled(AlbumArt)`
   width: 50px;
   height: auto;
+  max-height: 50px;
 `;
 
 export default SongListItem;

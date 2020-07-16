@@ -54,12 +54,13 @@ export function namedPluginEquals(a?: NamedPlugin, b?: NamedPlugin) {
 
 export interface Song {
 	id: string;
-	provider: NamedPlugin;
 	title: string;
 	description: string;
+	provider: NamedPlugin;
 	duration?: number;
 	albumArtUrl?: string;
 	albumArtPath?: string;
+	savedArt?: string;
 }
 
 export function songEquals(a?: Song, b?: Song) {
