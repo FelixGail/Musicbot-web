@@ -5,7 +5,7 @@
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
-		"@ant-design/icons": "^4.0.5",
+		"@ant-design/icons": "^4.2.2",
 		"@types/deep-equal": "^1.0.1",
 		"@types/jest": "^26.0.7",
 		"@types/moment-duration-format": "^2.2.2",
