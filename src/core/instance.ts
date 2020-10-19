@@ -3,10 +3,10 @@ import Axios from 'axios';
 import api from './api/model';
 
 export async function isInstanceAvailable(instance: BotInstance) {
-	return Axios.get<VersionInfo>(`https://${instance.domain}:${instance.port}/version`, api.getVersion()).then(
-		(value) => true,
-		(reason) => false
-	);
+	return Axios.get<VersionInfo>(`https://${instance.domain}:${instance.port}/version`, {
+		...api.getVersion(),
+		timeout: 1000
+	}).then((value) => true, (reason) => false);
 }
 
 const re = /^(https?:\/\/)?([^\s:]+)(:([1-9][0-9]*))?$/;
