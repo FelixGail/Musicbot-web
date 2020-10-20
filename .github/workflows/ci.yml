@@ -92,4 +92,4 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           workdir: docker
-          tags: "${{ steps.vars.outputs.version_tag }}"
+          tags: "${{ steps.vars.outputs.version_tag }},${{ github.sha }}"
