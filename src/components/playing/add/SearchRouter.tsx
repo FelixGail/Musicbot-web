@@ -1,5 +1,5 @@
 import { Route, Redirect, useHistory, useLocation } from "react-router";
-import React, { useCallback, useEffect, Fragment } from "react";
+import React, { useCallback, useEffect, Fragment, useState } from "react";
 import { BackTop, Layout } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
@@ -48,6 +48,7 @@ const SearchRouter = () => {
   const location = useLocation();
   const history = useHistory();
   const goHome = useCallback(() => history.push("/"), [history]);
+  const [height, setHeight] = useState<number>(window.innerHeight);
 
   const handleEscape = useCallback(
     (event: KeyboardEvent) => {
@@ -59,11 +60,16 @@ const SearchRouter = () => {
   );
 
   useEffect(() => {
+    function updateSize() {
+      setHeight(window.innerHeight);
+    }
+    window.addEventListener('resize', updateSize);
     document.addEventListener("keydown", handleEscape, false);
     return () => {
       document.removeEventListener("keydown", handleEscape, false);
+      window.removeEventListener('resize', updateSize);
     };
-  }, [handleEscape]);
+  }, [handleEscape, setHeight]);
 
   const renderCallback = useCallback(
     () => <Redirect to={`${location.pathname}/search`} />,
@@ -79,7 +85,7 @@ const SearchRouter = () => {
       <StyledBackTop target={backTopTarget}>
         <BackTopDiv>UP</BackTopDiv>
       </StyledBackTop>
-      <StyledLayout>
+      <StyledLayout height={height}>
         <HighlightingContent id="searchContent">
           <ContentWrapper>
             <Route exact path="*/add" render={renderCallback} />

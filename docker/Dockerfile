@@ -1,4 +1,9 @@
-FROM caddy:2.0.0
+FROM node:14-alpine3.12
 
 WORKDIR /app
-ADD build/ ./
+RUN npm install express
+
+COPY index.js /app/index.js
+COPY build/ /app/html/
+
+CMD [ "node", "index.js" ]

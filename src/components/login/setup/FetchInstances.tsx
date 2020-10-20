@@ -69,7 +69,7 @@ export const FetchInstances = () => {
   const instances = useResourceReload(
     api.getInstances,
     [],
-    20000,
+    10000,
     true,
     configuration.registryUrl
   );
@@ -96,7 +96,7 @@ export const FetchInstances = () => {
             <ClockCircleOutlined /> {formatDuration(duration(Date.now() - item.updated))} ago
           </div>}
         >
-          <List.Item.Meta title={item.name} description={`${item.domain}:${item.port}`} />
+          <List.Item.Meta title={item.name} />
         </StyledInstanceListItem>)
       , [elementCallback]);
 

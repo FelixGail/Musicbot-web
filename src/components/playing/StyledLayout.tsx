@@ -18,11 +18,11 @@ export const StyledContent = styled(Layout.Content)`
 
 export const StyledLayout = styled(Layout)`
   display: flex;
-  min-height: 100vh !important;
-  min-height: -webkit-fill-available !important;
+  min-height: -webkit-fill-available;
+  min-height: ${props => props.height}px;
 
-  max-height: 100vh !important;
-  max-height: -webkit-fill-available !important;
+  max-height: -webkit-fill-available;
+  max-height: ${props => props.height}px;
 
   .ant-layout-footer {
     padding: 0;

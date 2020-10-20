@@ -1,7 +1,7 @@
 {
 	"name": "musicbot-web",
 	"author": "Felix Gail <felix.clemens.gail@gmail.com>",
-	"version": "0.8.1",
+	"version": "0.8.5",
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
@@ -10,7 +10,7 @@
 		"@types/jest": "^26.0.7",
 		"@types/moment-duration-format": "^2.2.2",
 		"@types/node": "^14.11.10",
-		"@types/react": "^16.9.52",
+		"@types/react": "^16.9.53",
 		"@types/react-dom": "^16.9.8",
 		"@types/react-router-dom": "^5.1.5",
 		"@types/styled-components": "^5.1.1",
@@ -26,17 +26,19 @@
 		"moment-duration-format": "^2.3.2",
 		"node-gyp": "7.0.0",
 		"react": "^16.13.1",
+		"react-is": "^16.13.1",
 		"react-app-rewired": "^2.1.6",
 		"react-dom": "^16.13.1",
 		"react-request-hook": "^2.1.1",
 		"react-router-dom": "^5.2.0",
-		"react-scripts": "3.4.1",
+		"react-scripts": "3.4.3",
 		"react-svg": "^11.0.43",
 		"react-swipeable": "^5.5.1",
 		"react-use": "^15.3.2",
-		"styled-components": "^5.0.1",
+		"styled-components": "^5.2.0",
 		"typescript": "^3.9.7",
-		"uuid": "^8.2.0"
+		"uuid": "^8.2.0",
+		"dayjs": "^1.9.3"
 	},
 	"scripts": {
 		"start": "react-app-rewired start",
@@ -57,7 +59,7 @@
 		"eslint": "^6.8.0",
 		"eslint-config-google": "^0.14.0",
 		"eslint-plugin-react": "^7.20.3",
-		"eslint-plugin-react-hooks": "^4.0.5",
+		"eslint-plugin-react-hooks": "^4.1.2",
 		"prettier": "^2.0.2"
 	}
 }

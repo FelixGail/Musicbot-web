@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useContext } from "react";
+import React, { useCallback, useMemo, useRef, useContext, useState, useEffect } from "react";
 import { Route } from "react-router";
 import "moment-duration-format";
 import Current from "./Current";
@@ -12,6 +12,7 @@ import { StyledLayout, StyledContent } from "../StyledLayout";
 
 export const ListenRouter = () => {
   const { state: playerState } = useContext(PlayerStateContext);
+  const [height, setHeight] = useState<number>(window.innerHeight);
   const [showFullscreen, toggleFullscreen] = useToggle(false);
   const ref = useRef(null);
   const isFullscreen = useFullscreen(ref, showFullscreen, {
@@ -26,11 +27,18 @@ export const ListenRouter = () => {
     [playerState]
   );
 
+  useEffect(() => {
+    function updateSize() {
+      setHeight(window.innerHeight);
+    }
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [setHeight])
+
   const jsx = useMemo(
     () => (
       <FullscreenContext.Provider value={toggleFullscreen}>
-        <div ref={ref}>
-          <StyledLayout>
+          <StyledLayout ref={ref} height={height}>
             <StyledContent>
               <Route exact path="*/listen" render={renderCurrent} />
               <Route path="*/listen/history" component={History} />
@@ -40,10 +48,9 @@ export const ListenRouter = () => {
               <ListenFooter current={playerState} showActions={!isFullscreen} />
             )}
           </StyledLayout>
-        </div>
       </FullscreenContext.Provider>
     ),
-    [renderCurrent, playerState, toggleFullscreen, ref, isFullscreen]
+    [renderCurrent, playerState, toggleFullscreen, ref, isFullscreen, height]
   );
 
   return jsx;
