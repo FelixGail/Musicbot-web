@@ -1,7 +1,7 @@
 {
 	"name": "musicbot-web",
 	"author": "Felix Gail <felix.clemens.gail@gmail.com>",
-	"version": "0.8.4",
+	"version": "0.8.5",
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
