@@ -24,7 +24,7 @@
 		"http-proxy-middleware": "^1.0.5",
 		"icbint": "^0.1.7",
 		"moment-duration-format": "^2.3.2",
-		"node-gyp": "7.0.0",
+		"node-gyp": "7.1.2",
 		"react": "^16.13.1",
 		"react-is": "^16.13.1",
 		"react-app-rewired": "^2.1.6",
