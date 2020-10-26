@@ -34,7 +34,7 @@
 		"react-scripts": "3.4.3",
 		"react-svg": "^11.0.43",
 		"react-swipeable": "^5.5.1",
-		"react-use": "^15.3.2",
+		"react-use": "^15.3.4",
 		"styled-components": "^5.2.0",
 		"typescript": "^3.9.7",
 		"uuid": "^8.2.0",
