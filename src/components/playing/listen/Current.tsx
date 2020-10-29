@@ -1,5 +1,5 @@
 import { Song } from "../../../core/types";
-import React, { useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { useLocation } from "react-use";
 import { useContext } from "react";
@@ -9,6 +9,8 @@ import { useSwipeable } from "react-swipeable";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import { BackgroundAlbumArt } from "../snippets/AlbumArt";
 import SwipeDiv from "../../util/SwipeDiv";
+import { StyledContent } from "../StyledLayout";
+import { CarouselSlick } from "../snippets/CarouselSlick";
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
@@ -25,10 +27,13 @@ const Current = (props: { song?: Song }) => {
 
   const jsx = useMemo(
     () => (
-      <SwipeDiv {...swipeHandler}>
-        <BackgroundAlbumArt song={props.song} config={configuration} />
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-      </SwipeDiv>
+      <Fragment>
+          <SwipeDiv {...swipeHandler}>
+            <BackgroundAlbumArt song={props.song} config={configuration} />
+            <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          </SwipeDiv>
+          <CarouselSlick span={8} offset={8}/>
+      </Fragment>
     ),
     [props.song, left, right, swipeHandler, toggleFullscreen, configuration]
   );

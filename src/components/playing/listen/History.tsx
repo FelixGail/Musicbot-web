@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useContext } from "react";
+import React, { useCallback, useMemo, useContext, Fragment } from "react";
 import api, { getHookRequest } from "../../../core/api/model";
 import { SongList } from "../snippets/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
@@ -12,6 +12,7 @@ import { useSwipeable } from "react-swipeable";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
+import { CarouselSlick } from "../snippets/CarouselSlick";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -40,16 +41,20 @@ const History = () => {
 
   const jsx = useMemo(
     () => (
-      <SwipeDiv {...swipeHandler}>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <ContentWrapper>
-          <StyledSongList
-            header="History"
-            items={history}
-            onClick={enqueueWrapper}
-          />
-        </ContentWrapper>
-      </SwipeDiv>
+      <Fragment>
+          <SwipeDiv {...swipeHandler}>
+          <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          <ContentWrapper>
+            <StyledSongList
+              header="History"
+              items={history}
+              onClick={enqueueWrapper}
+            />
+          </ContentWrapper>
+        </SwipeDiv>
+        <CarouselSlick span={8} offset={0}/>
+      </Fragment>
+      
     ),
     [history, enqueueWrapper, toggleFullscreen, left, right, swipeHandler]
   );

@@ -3,6 +3,7 @@ import React, {
   useContext,
   useMemo,
   FunctionComponent,
+  Fragment,
 } from "react";
 import { useResource } from "react-request-hook";
 import api, { getHookRequest } from "../../../core/api/model";
@@ -22,6 +23,7 @@ import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
+import { CarouselSlick } from "../snippets/CarouselSlick";
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
@@ -102,18 +104,22 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <SwipeDiv {...swipeHandler}>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <ContentWrapper>
-          <SongList
-            header="Queue"
-            items={queue}
-            onClick={click}
-            additional={additionalArray}
-            contextModal={{ route: "*/queue", elements: combinedElements }}
-          />
-        </ContentWrapper>
-      </SwipeDiv>
+      <Fragment>
+        <SwipeDiv {...swipeHandler}>
+          <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          <ContentWrapper>
+            <SongList
+              header="Queue"
+              items={queue}
+              onClick={click}
+              additional={additionalArray}
+              contextModal={{ route: "*/queue", elements: combinedElements }}
+            />
+          </ContentWrapper>
+        </SwipeDiv>
+        <CarouselSlick span={8} offset={16}/>
+      </Fragment>
+
     ),
     [
       queue,
