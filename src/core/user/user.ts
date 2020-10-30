@@ -126,3 +126,18 @@ export function useUserSetPassword(): [CallResult, (password: string) => Cancele
 
 	return [ { successful: success, isLoading, error }, callFunction ];
 }
+
+export function useUserLogout(): () => void {
+	const { configuration, setConfiguration } = useContext(ConfigurationContext);
+	const confRef = useRef(configuration);
+	const returnFunction = useCallback(
+		() => {
+			setConfiguration({ loggedIn: false, token: undefined });
+			if (confRef.current.instance) {
+				localStorage.removeItem(confRef.current.instance.domain);
+			}
+		},
+		[ confRef, setConfiguration ]
+	);
+	return returnFunction;
+}

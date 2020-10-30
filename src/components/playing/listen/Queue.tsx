@@ -28,7 +28,7 @@ const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
   const hstry = useHistory();
   const location = useLocation();
-  const toggleFullscreen = useContext(FullscreenContext);
+  const {toggle} = useContext(FullscreenContext);
 
   const left = `/listen`;
   const right = `history`;
@@ -105,7 +105,7 @@ const Queue: FunctionComponent = () => {
     () => (
       <Fragment>
         <SwipeDiv {...swipeHandler}>
-          <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          <ScreenNavigation left={left} right={right} center={toggle} />
           <ContentWrapper>
             <SongList
               header="Queue"
@@ -124,7 +124,7 @@ const Queue: FunctionComponent = () => {
       click,
       additionalArray,
       combinedElements,
-      toggleFullscreen,
+      toggle,
       left,
       right,
       swipeHandler,

@@ -1,5 +1,6 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
-export const FullscreenContext = createContext<(toggle?: boolean) => void>(
-  () => {}
-);
+export const FullscreenContext = createContext<{ toggle: (toggle?: boolean) => void; isFullscreen: boolean }>({
+	toggle: () => {},
+	isFullscreen: false
+});
