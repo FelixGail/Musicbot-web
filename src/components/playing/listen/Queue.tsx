@@ -3,10 +3,11 @@ import React, {
   useContext,
   useMemo,
   FunctionComponent,
+  Fragment,
 } from "react";
 import { useResource } from "react-request-hook";
 import api, { getHookRequest } from "../../../core/api/model";
-import { SongList } from "../snippets/songlist/SongList";
+import { SongList } from "../songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -102,18 +103,21 @@ const Queue: FunctionComponent = () => {
 
   const jsx = useMemo(
     () => (
-      <SwipeDiv {...swipeHandler}>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <ContentWrapper>
-          <SongList
-            header="Queue"
-            items={queue}
-            onClick={click}
-            additional={additionalArray}
-            contextModal={{ route: "*/queue", elements: combinedElements }}
-          />
-        </ContentWrapper>
-      </SwipeDiv>
+      <Fragment>
+        <SwipeDiv {...swipeHandler}>
+          <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          <ContentWrapper>
+            <SongList
+              header="Queue"
+              items={queue}
+              onClick={click}
+              additional={additionalArray}
+              contextModal={{ route: "*/queue", elements: combinedElements }}
+            />
+          </ContentWrapper>
+        </SwipeDiv>
+      </Fragment>
+
     ),
     [
       queue,

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import React from "react";
-import { SongList } from "../snippets/songlist/SongList";
+import { SongList } from "../songlist/SongList";
 import api from "../../../core/api/model";
 import { Song, Permission } from "../../../core/types";
 import useResourceWithPermission from "../../../core/api/permissionWrapperHook";

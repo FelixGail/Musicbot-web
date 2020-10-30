@@ -1,5 +1,5 @@
 import { Song } from "../../../core/types";
-import React, { useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { useLocation } from "react-use";
 import { useContext } from "react";
@@ -25,10 +25,12 @@ const Current = (props: { song?: Song }) => {
 
   const jsx = useMemo(
     () => (
-      <SwipeDiv {...swipeHandler}>
-        <BackgroundAlbumArt song={props.song} config={configuration} />
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-      </SwipeDiv>
+      <Fragment>
+          <SwipeDiv {...swipeHandler}>
+            <BackgroundAlbumArt song={props.song} config={configuration} />
+            <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          </SwipeDiv>
+      </Fragment>
     ),
     [props.song, left, right, swipeHandler, toggleFullscreen, configuration]
   );

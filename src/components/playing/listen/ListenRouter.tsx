@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useContext, useState, useEffect } from "react";
+import React, { useCallback, useMemo, useRef, useContext, useState, useEffect, Fragment } from "react";
 import { Route } from "react-router";
 import "moment-duration-format";
 import Current from "./Current";
@@ -9,6 +9,7 @@ import { useToggle, useFullscreen } from "react-use";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { StyledLayout, StyledContent } from "../StyledLayout";
+import { NavigationArrow } from "../snippets/NavigationArrow";
 
 export const ListenRouter = () => {
   const { state: playerState } = useContext(PlayerStateContext);
@@ -40,6 +41,12 @@ export const ListenRouter = () => {
       <FullscreenContext.Provider value={toggleFullscreen}>
           <StyledLayout ref={ref} height={height}>
             <StyledContent>
+              {!isFullscreen &&
+                <Fragment>
+                  <NavigationArrow position="left"/>
+                  <NavigationArrow position="right"/>
+                </Fragment>
+              }
               <Route exact path="*/listen" render={renderCurrent} />
               <Route path="*/listen/history" component={History} />
               <Route path="*/listen/queue" component={Queue} />

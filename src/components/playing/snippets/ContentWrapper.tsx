@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   @media only screen and (max-width: 600px) {
     margin-left: 5px;
@@ -15,13 +16,8 @@ export const ContentWrapper = styled.div`
   }
 
   @media only screen and (min-width: 1000px) {
-    margin-left: 50px;
-    margin-right: 50px;
-  }
-
-  @media only screen and (min-width: 1600px) {
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 10%;
+    margin-right: 10%;
   }
 
   @media only screen and (max-height: 600px) {

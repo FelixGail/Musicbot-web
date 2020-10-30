@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useContext } from "react";
+import React, { useCallback, useMemo, useContext, Fragment } from "react";
 import api, { getHookRequest } from "../../../core/api/model";
-import { SongList } from "../snippets/songlist/SongList";
+import { SongList } from "../songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { Permission, SongEntry } from "../../../core/types";
 import { useResource } from "react-request-hook";
@@ -40,16 +40,19 @@ const History = () => {
 
   const jsx = useMemo(
     () => (
-      <SwipeDiv {...swipeHandler}>
-        <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
-        <ContentWrapper>
-          <StyledSongList
-            header="History"
-            items={history}
-            onClick={enqueueWrapper}
-          />
-        </ContentWrapper>
-      </SwipeDiv>
+      <Fragment>
+          <SwipeDiv {...swipeHandler}>
+          <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          <ContentWrapper>
+            <StyledSongList
+              header="History"
+              items={history}
+              onClick={enqueueWrapper}
+            />
+          </ContentWrapper>
+        </SwipeDiv>
+      </Fragment>
+      
     ),
     [history, enqueueWrapper, toggleFullscreen, left, right, swipeHandler]
   );

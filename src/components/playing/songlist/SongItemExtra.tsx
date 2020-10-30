@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Song, SongEntry } from "../../../../core/types";
+import { Song, SongEntry } from "../../../core/types";
 import moment from "moment";
 import { itemToSong } from "./SongListItem";
 import { useMemo } from "react";
@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 const ItemExtraDiv = styled.div`
   text-align: center;
+  color: #e6e6e6;
 `;
 
 function SongItemExtra<T extends Song | SongEntry>(props: { item: T }) {

@@ -2,7 +2,7 @@ import ContextModal, { ContextModalElement } from "./ContextModal";
 import React, { useMemo, useState, useEffect, useContext } from "react";
 import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
-import { itemToSong } from "../playing/snippets/songlist/SongListItem";
+import { itemToSong } from "../playing/songlist/SongListItem";
 import { ModalProps } from "antd/lib/modal";
 import { Typography } from "antd";
 import { db } from "../../core/db/AppDB";
