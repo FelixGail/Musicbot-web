@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
 import api, { getHookRequest } from "../../../core/api/model";
 import { NamedPlugin, Song, Permission } from "../../../core/types";
-import { SongList } from "./songlist/SongList";
+import { SongList } from "../songlist/SongList";
 import { ListProps } from "antd/lib/list";
 import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
 import { useCallback } from "react";

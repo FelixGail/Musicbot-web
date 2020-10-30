@@ -13,7 +13,7 @@ import {
   PlayCircleTwoTone,
 } from "@ant-design/icons";
 import { Card, Layout } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
 import api, { getHookRequest } from "../../../core/api/model";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -25,10 +25,11 @@ import {
 } from "../../../core/types";
 import moment from "moment";
 import deepEqual from "deep-equal";
-import NavigationCard from "../snippets/FooterCard";
+import NavigationCard from "../footer/FooterCard";
 import styled from "styled-components";
 import Permissional from "../../util/Permissional";
 import { CardProps } from "antd/lib/card";
+import { CarouselSlick } from "../footer/CarouselSlick";
 
 const Actions = styled.div`
   height: 55px;
@@ -93,6 +94,15 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
 }) => {
   const [, setPlayerState] = useResource(getHookRequest(api.setPlayerState));
   const { configuration } = useContext(ConfigurationContext);
+  const location = useLocation();
+
+  const slickOffset = useMemo(() => {
+    return location.pathname.includes('queue')?
+      16 :
+      location.pathname.includes('history')?
+        0 :
+        8;
+  }, [location])
 
   const currentRef = useRef(current);
   const [currentState, setCurrentState] = useState<PlayerState>(current);
@@ -156,6 +166,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   const jsx = useMemo(
     () => (
       <Layout.Footer>
+        {showActions && <CarouselSlick span={8} offset={slickOffset}/>}
         <StyledCard showActions={showActions}>
           <Card.Meta
             title={<Link to={searchLink}>{songInfo.title}</Link>}
@@ -166,7 +177,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         {showActions && <NavigationCard />}
       </Layout.Footer>
     ),
-    [actions, searchLink, songInfo.title, description, showActions]
+    [actions, searchLink, songInfo.title, description, showActions, slickOffset]
   );
   return jsx;
 };

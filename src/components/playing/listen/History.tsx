@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useContext, Fragment } from "react";
 import api, { getHookRequest } from "../../../core/api/model";
-import { SongList } from "../snippets/songlist/SongList";
+import { SongList } from "../songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { Permission, SongEntry } from "../../../core/types";
 import { useResource } from "react-request-hook";
@@ -12,7 +12,6 @@ import { useSwipeable } from "react-swipeable";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
-import { CarouselSlick } from "../snippets/CarouselSlick";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -52,7 +51,6 @@ const History = () => {
             />
           </ContentWrapper>
         </SwipeDiv>
-        <CarouselSlick span={8} offset={0}/>
       </Fragment>
       
     ),

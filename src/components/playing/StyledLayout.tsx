@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Layout } from "antd";
 
 export const StyledContent = styled(Layout.Content)`
-  background-color: #272c35;
   -ms-overflow-style: none;
   overflow-y: auto;
   overflow-x: hidden;
@@ -19,6 +18,7 @@ export const StyledContent = styled(Layout.Content)`
 `;
 
 export const StyledLayout = styled(Layout)`
+  background-color: #272c35;
   display: flex;
   min-height: -webkit-fill-available;
   min-height: ${props => props.height}px;

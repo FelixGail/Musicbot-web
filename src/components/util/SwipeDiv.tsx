@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const SwipeDiv = styled.div`
-  display: inherit;
+  display: flex;
   flex: 1;
 `;
 

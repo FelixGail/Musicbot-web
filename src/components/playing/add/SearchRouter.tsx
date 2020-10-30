@@ -4,7 +4,7 @@ import { BackTop, Layout } from "antd";
 import { Search } from "./Search";
 import Suggest from "./Suggest";
 import Stars from "./Stars";
-import NavigationCard from "../snippets/FooterCard";
+import NavigationCard from "../footer/FooterCard";
 import { StyledContent, StyledLayout } from "../StyledLayout";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";

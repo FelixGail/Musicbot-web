@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useResource } from "react-request-hook";
 import api, { getHookRequest } from "../../../core/api/model";
-import { SongList } from "../snippets/songlist/SongList";
+import { SongList } from "../songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -23,7 +23,6 @@ import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
-import { CarouselSlick } from "../snippets/CarouselSlick";
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
@@ -117,7 +116,6 @@ const Queue: FunctionComponent = () => {
             />
           </ContentWrapper>
         </SwipeDiv>
-        <CarouselSlick span={8} offset={16}/>
       </Fragment>
 
     ),

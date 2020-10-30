@@ -9,8 +9,6 @@ import { useSwipeable } from "react-swipeable";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import { BackgroundAlbumArt } from "../snippets/AlbumArt";
 import SwipeDiv from "../../util/SwipeDiv";
-import { StyledContent } from "../StyledLayout";
-import { CarouselSlick } from "../snippets/CarouselSlick";
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
@@ -32,7 +30,6 @@ const Current = (props: { song?: Song }) => {
             <BackgroundAlbumArt song={props.song} config={configuration} />
             <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
           </SwipeDiv>
-          <CarouselSlick span={8} offset={8}/>
       </Fragment>
     ),
     [props.song, left, right, swipeHandler, toggleFullscreen, configuration]
