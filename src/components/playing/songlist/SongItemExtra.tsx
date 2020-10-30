@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 const ItemExtraDiv = styled.div`
   text-align: center;
+  color: #e6e6e6;
 `;
 
 function SongItemExtra<T extends Song | SongEntry>(props: { item: T }) {
