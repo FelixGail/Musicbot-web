@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
-import { Button, Form, Input, Col, Row, Checkbox } from "antd";
+import { Button, Form, Input, Col, Row } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useUserLogin, useUserRegister } from "../../core/user/user";
 import styled from "styled-components";
@@ -83,14 +83,6 @@ export const LoginForm = () => {
     }
   }, [successful, error, isLoading, setError, redirectToReferrer]);
 
-  const checkCheckbox = useCallback((rule, value, callback) => {
-    if (!value) {
-      callback("Please accept the ICBINT warning.");
-    } else {
-      callback();
-    }
-  }, []);
-
   const hidePasswordField = useCallback(() => {
     if (expectPassword) {
       form.setFieldsValue({ password: undefined });
@@ -141,24 +133,6 @@ export const LoginForm = () => {
                 placeholder="Password"
                 autoFocus
               />
-            </Form.Item>
-          )}
-          {!configuration.icbintKey && (
-            <Form.Item
-              extra="This server does not support ICBINT. It is therefore not possible to encrypt communications or verify the authenticity of the server."
-              valuePropName="checked"
-              rules={[
-                {
-                  required: true,
-                  validator: checkCheckbox,
-                },
-              ]}
-            >
-              <Checkbox>
-                I accept the risks arising from the missing{" "}
-                <a href="https://bjoernpetersen.github.io/ICBINT/">ICBINT</a>{" "}
-                protocol.
-              </Checkbox>
             </Form.Item>
           )}
           <Form.Item>

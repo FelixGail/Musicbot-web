@@ -12,34 +12,48 @@ export interface CallResult {
 	error?: RequestError;
 }
 
-function useGenericLogin<T extends Request>(
-	loginFunction: (...args: any[]) => RequestConfig<Token>
-): [CallResult, RequestDispatcher<T>] {
-	const [ { data, error, isLoading }, login ] = useResource(getHookRequest(loginFunction));
-	const [ success, setSuccess ] = useState<boolean>(false);
+function useSaveToken(): (token: Token) => void {
 	const { configuration, setConfiguration } = useContext(ConfigurationContext);
-	const [ fetchUserResult, fetchUser ] = useUserFetch();
 	const configurationRef = useRef(configuration);
 
 	useEffect(
 		() => {
 			configurationRef.current = configuration;
 		},
-		[ configurationRef, configuration ]
+		[ configuration, configurationRef ]
 	);
+
+	const callback = useCallback(
+		(token: Token) => {
+			setConfiguration({ loggedIn: true, token: { ...configurationRef.current.token, ...token } });
+			configurationRef.current.axios.defaults.headers.Authorization = `Bearer ${token.accessToken}`;
+			if (token.refreshToken) {
+				localStorage.setItem(configurationRef.current.instance!.domain, token.refreshToken);
+			}
+		},
+		[ configurationRef, setConfiguration ]
+	);
+
+	return callback;
+}
+
+function useGenericLogin<T extends Request>(
+	loginFunction: (...args: any[]) => RequestConfig<Token>
+): [CallResult, RequestDispatcher<T>] {
+	const [ { data, error, isLoading }, login ] = useResource(getHookRequest(loginFunction));
+	const [ success, setSuccess ] = useState<boolean>(false);
+	const { setConfiguration } = useContext(ConfigurationContext);
+	const [ fetchUserResult, fetchUser ] = useUserFetch();
+	const saveToken = useSaveToken();
 
 	useEffect(
 		() => {
 			if (data && !isLoading) {
-				setConfiguration({ loggedIn: true, token: { ...configurationRef.current.token, ...data } });
-				configurationRef.current.axios.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
-				if (data.refreshToken) {
-					localStorage.setItem(configurationRef.current.instance!.domain, data.refreshToken);
-				}
+				saveToken(data);
 				fetchUser();
 			}
 		},
-		[ data, isLoading, configurationRef, setConfiguration, fetchUser ]
+		[ data, isLoading, saveToken, setConfiguration, fetchUser ]
 	);
 
 	useEffect(
@@ -104,7 +118,7 @@ export function useUserSetPassword(): [CallResult, (password: string) => Cancele
 	const [ { data, error, isLoading }, setPassword ] = useResource(getHookRequest(api.setPassword));
 	const [ success, setSuccess ] = useState<boolean>(false);
 	const [ passwordState, setStatePassword ] = useState<string>();
-	const { configuration } = useContext(ConfigurationContext);
+	const saveToken = useSaveToken();
 
 	const callFunction = useCallback(
 		(password: string) => {
@@ -117,11 +131,11 @@ export function useUserSetPassword(): [CallResult, (password: string) => Cancele
 	useEffect(
 		() => {
 			if (data && !isLoading) {
-				configuration.token = data;
+				saveToken(data);
 				setSuccess(true);
 			}
 		},
-		[ data, isLoading, setSuccess, configuration, passwordState ]
+		[ data, isLoading, setSuccess, saveToken, passwordState ]
 	);
 
 	return [ { successful: success, isLoading, error }, callFunction ];
@@ -140,4 +154,19 @@ export function useUserLogout(): () => void {
 		[ confRef, setConfiguration ]
 	);
 	return returnFunction;
+}
+
+export function useUserDelete(): () => void {
+	const [ , deleteUser ] = useResource(api.deleteUser);
+	const logoutUser = useUserLogout();
+
+	const callback = useCallback(
+		() => {
+			deleteUser();
+			logoutUser();
+		},
+		[ deleteUser, logoutUser ]
+	);
+
+	return callback;
 }
