@@ -9,15 +9,14 @@ export const NavigationArrow = styled.div`
     }
 
     position: absolute;
-    height: 30%;
-    top: 35%;
+    height: 14%;
+    top: 44%;
     margin: 1%;
     width: 4%;
     background-image: url(${arrow});
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    rotate: 180deg;
     ${props => props.position === "left"? `${props.position}: 0;transform: rotate(180deg);`: `${props.position}: 0;`}
 
 `;

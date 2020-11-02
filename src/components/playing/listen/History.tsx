@@ -17,7 +17,7 @@ const History = () => {
   const { history } = useContext(PlayerStateContext);
   const [, enqueue] = useResource(getHookRequest(api.enqueue));
   const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE);
-  const toggleFullscreen = useContext(FullscreenContext);
+  const {toggle} = useContext(FullscreenContext);
   const browserHistory = useHistory();
   const left = `queue`;
   const right = `/listen`;
@@ -42,7 +42,7 @@ const History = () => {
     () => (
       <Fragment>
           <SwipeDiv {...swipeHandler}>
-          <ScreenNavigation left={left} right={right} center={toggleFullscreen} />
+          <ScreenNavigation left={left} right={right} center={toggle} />
           <ContentWrapper>
             <StyledSongList
               header="History"
@@ -54,7 +54,7 @@ const History = () => {
       </Fragment>
       
     ),
-    [history, enqueueWrapper, toggleFullscreen, left, right, swipeHandler]
+    [history, enqueueWrapper, toggle, left, right, swipeHandler]
   );
 
   return jsx;

@@ -12,6 +12,16 @@ import { RequestContext } from "react-request-hook";
 import { useSetState } from "react-use";
 import { PlayRouter } from "./playing/PlayRouter";
 import InterceptorLayer from "./util/InterceptorLayer";
+import { Settings } from "./settings/Settings";
+
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #272c35;
+    color: #e6e6e6;
+  }
+`;
 
 interface Config {
   registry: string;
@@ -40,6 +50,7 @@ const App = (props: ({config: Config})) => {
 
   return (
     <ConfigurationContext.Provider value={configurationContext}>
+        <GlobalStyle />
         <RequestContext.Provider value={axios}>
           <InterceptorLayer>
             <Router>
@@ -49,6 +60,7 @@ const App = (props: ({config: Config})) => {
                 component={() => <Redirect to="listen" />}
               />
               <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
+              <PrivateRoute path="/settings" component={Settings} />
               <Route path="/login" component={Login}></Route>
             </Router>
           </InterceptorLayer>

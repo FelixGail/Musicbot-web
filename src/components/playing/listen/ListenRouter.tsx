@@ -38,7 +38,8 @@ export const ListenRouter = () => {
 
   const jsx = useMemo(
     () => (
-      <FullscreenContext.Provider value={toggleFullscreen}>
+      <Fragment>
+        <FullscreenContext.Provider value={{toggle: toggleFullscreen, isFullscreen: isFullscreen}}>
           <StyledLayout ref={ref} height={height}>
             <StyledContent>
               {!isFullscreen &&
@@ -55,7 +56,9 @@ export const ListenRouter = () => {
               <ListenFooter current={playerState} showActions={!isFullscreen} />
             )}
           </StyledLayout>
-      </FullscreenContext.Provider>
+        </FullscreenContext.Provider>
+      </Fragment>
+      
     ),
     [renderCurrent, playerState, toggleFullscreen, ref, isFullscreen, height]
   );

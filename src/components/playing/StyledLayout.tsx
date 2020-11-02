@@ -10,6 +10,8 @@ export const StyledContent = styled(Layout.Content)`
   -ms-overflow-style: none;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  flex: 1;
 
   &::-webkit-scrollbar {
     width: 0px;
