@@ -116,7 +116,7 @@ export function useUserFetch(): [CallResult, () => Canceler] {
 
 export function useUserSetPassword(): [CallResult, (password: string) => Canceler] {
 	const [ { data, error, isLoading }, setPassword ] = useResource(getHookRequest(api.setPassword));
-	const [ success, setSuccess ] = useState<boolean>(false);
+	const [ result, fetchUser ] = useUserFetch();
 	const [ passwordState, setStatePassword ] = useState<string>();
 	const saveToken = useSaveToken();
 
@@ -132,13 +132,16 @@ export function useUserSetPassword(): [CallResult, (password: string) => Cancele
 		() => {
 			if (data && !isLoading) {
 				saveToken(data);
-				setSuccess(true);
+				fetchUser();
 			}
 		},
-		[ data, isLoading, setSuccess, saveToken, passwordState ]
+		[ data, isLoading, fetchUser, saveToken, passwordState ]
 	);
 
-	return [ { successful: success, isLoading, error }, callFunction ];
+	return [
+		{ successful: result.successful, isLoading: isLoading || result.isLoading, error: error || result.error },
+		callFunction
+	];
 }
 
 export function useUserLogout(): () => void {

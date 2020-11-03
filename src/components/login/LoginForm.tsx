@@ -111,6 +111,7 @@ export const LoginForm = () => {
             <Input
               autoFocus
               prefix={<UserOutlined />}
+              defaultValue={localStorage.getItem('username') || undefined}
               type="text"
               placeholder="Username"
               onChange={hidePasswordField}
