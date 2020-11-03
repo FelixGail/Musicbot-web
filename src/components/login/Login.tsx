@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { Route, RouteComponentProps, Redirect } from "react-router";
+import { Route, RouteComponentProps } from "react-router";
 import { Row, Col, Alert } from "antd";
 import { ReactSVG } from "react-svg";
 import logo from "../../img/kiu.svg";
@@ -13,8 +13,7 @@ import { useLocation } from "react-router-dom";
 
 export const Login = (props: RouteComponentProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [redirectToReferrer, setRedirectToReferrer] = useState<boolean>(false);
-  const location = useLocation<{from: { pathname: string}}>();
+  const location = useLocation<{from?: { pathname?: string}}>();
   
   const error = useCallback(
     (error: string | null) => {
@@ -22,25 +21,18 @@ export const Login = (props: RouteComponentProps) => {
     },
     [setErrorMessage]
   );
-  const redirect = useCallback(() => {
-    setRedirectToReferrer(true);
-  }, [setRedirectToReferrer]);
 
-  const { from } = useMemo(
-    () => location.state || { from: { pathname: "/" } },
+  const from = useMemo(
+    () => (location.state && location.state.from && location.state.from.pathname && location.state.from.pathname) || "/",
     [location.state]
   );
 
   const provider = useMemo(() => {
     return {
       setError: error,
-      redirectToReferrer: redirect,
+      redirect: from
     };
-  }, [error, redirect]);
-
-  if (redirectToReferrer) {
-    return <Redirect to={from} />;
-  }
+  }, [error, from]);
 
   return (
     <StyledLogin>

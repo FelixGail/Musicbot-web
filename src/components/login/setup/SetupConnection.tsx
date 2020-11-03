@@ -38,7 +38,7 @@ export const SetupConnection = () => {
       case SetupStates.FAILED:
         return <Redirect to={`${location.pathname}/user`} />;
       case SetupStates.DONE:
-        loginContext.redirectToReferrer();
+        return <Redirect to={loginContext.redirect} />
     }
   }, [state, loginContext, location.pathname]);
 
