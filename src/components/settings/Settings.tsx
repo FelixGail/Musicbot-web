@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import api from '../../core/api/model';
 import { ConfigurationContext } from '../../core/context/Configuration';
 import { useResourceReload } from '../../core/hooks/usePlayerStateContext';
-import { Permission } from '../../core/types';
-import { useUserDelete, useUserFetch, useUserLogout, useUserSetPassword } from '../../core/user/user';
+import { hasRefreshToken, Permission } from '../../core/types';
+import { useUserDelete, useUserLogout, useUserRefresh, useUserSetPassword } from '../../core/user/user';
 import { ContentWrapper } from '../playing/snippets/ContentWrapper';
 import { StyledContent, StyledLayout } from "../playing/StyledLayout";
 import LinkButton from '../util/LinkButton';
@@ -141,10 +141,16 @@ const VolumeSlider = () => {
 
 const PermissionList = () => {
     const {configuration} = useContext(ConfigurationContext)
-    const [, fetchUser] = useUserFetch();
+    const [, refreshUser] = useUserRefresh();
+
+    const onClick = useCallback(() => {
+        if(configuration.token && hasRefreshToken(configuration.token)){
+            refreshUser(configuration.token);
+        }
+    }, [refreshUser, configuration])
 
     return <Fragment>
-        <div style={{marginBottom: "24px"}}>[{configuration.permissions && configuration.permissions.join(', ')}]</div>
-        <Button onClick={fetchUser} ghost>Update</Button>
+        <div style={{marginBottom: "24px"}}>[{(configuration.permissions && configuration.permissions.join(', ')) || `You have not been granted any permissions`}]</div>
+        <Button onClick={onClick} ghost>Update</Button>
     </Fragment>
 }
