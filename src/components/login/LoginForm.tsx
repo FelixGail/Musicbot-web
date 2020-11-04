@@ -5,6 +5,7 @@ import { Button, Form, Input, Col, Row } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useUserLogin, useUserRegister } from "../../core/user/user";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const MAX_USERNAME_LENGTH = 20;
 
@@ -23,11 +24,6 @@ const FormProps = {
   },
 };
 
-type FormData = {
-  username: string;
-  password: string | null;
-};
-
 export const LoginForm = () => {
   const [expectPassword, setExpectPassword] = useState<boolean>(false);
   const [loginResult, login] = useUserLogin();
@@ -37,15 +33,16 @@ export const LoginForm = () => {
     loginResult.isLoading || registerResult.isLoading,
     loginResult.error || registerResult.error,
   ];
-  const { setError, redirectToReferrer } = useContext(LoginContext);
+  const { setError, redirect } = useContext(LoginContext);
   const { configuration } = useContext(ConfigurationContext);
+  const history = useHistory();
   const [form] = Form.useForm();
   
   useEffect(() => {
     if (!configuration.instance) {
-      redirectToReferrer();
+      history.push(redirect);
     }
-  }, [configuration.instance, redirectToReferrer])
+  }, [configuration.instance, redirect, history])
 
   const onFinish = useCallback(
     (values: any) => {
@@ -61,7 +58,7 @@ export const LoginForm = () => {
   useEffect(() => {
     if (!isLoading) {
       if (successful) {
-        redirectToReferrer();
+        history.push(redirect);
       } else if (error) {
         if (error.code) {
           const codeNumber = +error.code;
@@ -81,7 +78,7 @@ export const LoginForm = () => {
         }
       }
     }
-  }, [successful, error, isLoading, setError, redirectToReferrer]);
+  }, [successful, error, isLoading, setError, redirect, history]);
 
   const hidePasswordField = useCallback(() => {
     if (expectPassword) {
@@ -93,7 +90,7 @@ export const LoginForm = () => {
   return (
     <Row>
       <Col {...FormProps}>
-        <StyledForm onFinish={onFinish}>
+        <StyledForm onFinish={onFinish} form={form} initialValues={{username: localStorage.getItem('username') || undefined}}>
           <Form.Item
             name="username"
             rules={[
@@ -111,7 +108,6 @@ export const LoginForm = () => {
             <Input
               autoFocus
               prefix={<UserOutlined />}
-              defaultValue={localStorage.getItem('username') || undefined}
               type="text"
               placeholder="Username"
               onChange={hidePasswordField}

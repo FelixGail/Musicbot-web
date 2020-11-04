@@ -16,50 +16,10 @@ A web client for the [MusicBot](https://github.com/BjoernPetersen/MusicBot) proj
 
 ## Install using Docker and docker-compose
 
-### Requirements
+(Requirement: [Docker](https://docs.docker.com/install/))
 
-- [Docker](https://docs.docker.com/install/)
-- [docker-compose](https://docs.docker.com/compose/)
+Spin up the latest release by calling:
 
-### Steps
-
-1. Create a [Caddyfile](https://caddyserver.com/docs/caddyfile) that looks roughly like this, but where `YOUR_HOST` is replaced with your domain:
-
-   ```Caddyfile
-   YOUR_DOMAIN {
-      root * /app/build
-      try_files {path} {path}/ index.html
-      file_server
-   }
-
-   registry.YOUR_DOMAIN {
-      reverse_proxy registry:8000
-   }
-   ```
-
-2. Create a `config.json` file that configures where the client should look for the registry:
-
-   ```json
-   {
-      "registry": "https://registry.YOUR_DOMAIN"
-   }
-   ```
-
-3. Create your `docker-compose.yml` file:
-
-   ```yml
-   version: '3'
-   services:
-      site:
-         image: felixgail/musicbot-web:latest
-         ports:
-               - "80:80"
-               - "443:443"
-         volumes:
-               - "./config.json:/app/config.json"
-               - "./Caddyfile:/etc/caddy/Caddyfile"
-      registry:
-         image: felixgail/musicbot-registry:latest
-   ```
-
-4. Use `docker-compose up -d` to start the containers. You now have a `Musicbot-web` and a `Musicbot-registry` running.
+```sh
+docker run -p 80:80 FelixGail/Musicbot-web:latest
+```

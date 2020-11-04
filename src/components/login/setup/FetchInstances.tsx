@@ -8,11 +8,12 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
 import formatDuration from "../../util/FormatDuration";
 import { StyledList, StyledListItem } from "../../util/StyledList";
-import styled from "styled-components";
+import styled, { StyledComponent } from "styled-components";
 import { ReactSVG } from "react-svg";
 import logo from "../../../img/kiu_striked.svg"
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 import { isInstanceAvailable, fromString } from "../../../core/instance";
+import { ListProps } from "antd/lib/list";
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -29,7 +30,7 @@ const StyledInstanceListItem = styled(StyledListItem)`
 
 const StyledInstanceList = styled(StyledList)`
   padding-top: 30px;
-`;
+` as StyledComponent<typeof List, ListProps<BotInstance>, any, never>;
 
 const InstanceEmpty = styled(Empty)`
   .ant-empty-image {

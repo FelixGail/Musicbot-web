@@ -7,8 +7,9 @@ import { useContext } from "react";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import DefaultContextModal from "../../util/DefaultContextModal";
 import { Route } from "react-router-dom";
-import styled from "styled-components";
+import styled, { StyledComponent } from "styled-components";
 import { StyledList } from "../../util/StyledList";
+import { List } from "antd/lib/form/Form";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -84,7 +85,7 @@ const StyledSongList = styled(StyledList)`
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-`;
+` as StyledComponent<typeof List, any, any, never>;
 
 export function SongList<T extends Song | SongEntry>({
   items,

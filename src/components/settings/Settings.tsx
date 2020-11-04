@@ -1,6 +1,5 @@
 import { LockOutlined } from '@ant-design/icons';
 import { Button, Divider, Input, Space, Form, Slider } from 'antd';
-import { SliderValue } from 'antd/lib/slider';
 import React, { Fragment, useCallback, useContext } from 'react';
 import { useResource } from 'react-request-hook';
 import styled from 'styled-components';
@@ -23,10 +22,10 @@ export const Settings = () => {
                     <h2>User</h2>
                     Change your password or upgrade your temporary account to a full user by setting one.
                     <UserForm />
-                    <Divider />
+                    <StyledDivider />
                     <h2>Permissions</h2>
                     <PermissionList />
-                    <Divider />
+                    <StyledDivider />
                     <VolumeSlider />
                     <SpaceBox>
                         <LinkButton ghost to="/">Back</LinkButton>
@@ -50,9 +49,22 @@ const StyledLogoutButton = styled(Button)`
     }
 `;
 
+const StyledDeleteButton = styled(Button)`
+    color: #fff;
+    background-color: #ff4d4f;
+    border-color: #ff4d4f;
+
+    :hover {
+        background-color: #ff7875;
+        border-color: #ff7875;
+        color: #fff;
+    }
+`;
+
+
 const Delete = () => {
     const deleteUser = useUserDelete();
-    return <Button onClick={deleteUser} type="danger">Delete User</Button>
+    return <StyledDeleteButton onClick={deleteUser}>Delete User</StyledDeleteButton>
 }
 
 const SpaceBox = styled.div`
@@ -78,6 +90,10 @@ const StyledSpace = styled(Space)`
     }
 `;
 
+const StyledDivider = styled(Divider)`
+    background-color: #e6e6e6;
+`;
+
 const UserForm = () => {
     const [{isLoading, successful, error}, setPassword] = useUserSetPassword();
 
@@ -88,8 +104,8 @@ const UserForm = () => {
         <Form onFinish={onFinish}>
             <Form.Item
               name="password"
-              hasFeedback
-              validateStatus={error? "error" : (isLoading? "validating" : (successful? "success" : ""))}
+              hasFeedback={isLoading || successful}
+              validateStatus={error? "error" : (isLoading? "validating" : (successful? "success" : undefined))}
               rules={[
                 {
                   required: true,
@@ -119,10 +135,8 @@ const VolumeSlider = () => {
     const volume = useResourceReload(api.getVolume, {volume: 0, isSupported: false}, 1000, false);
     const [, setVolume] = useResource(api.setVolume);
 
-    const volumeCallback = useCallback((value: SliderValue) => {
-        if(typeof value === 'number') {
-            setVolume(value);
-        }
+    const volumeCallback = useCallback((value: number) => {
+        setVolume(value);
     }, [setVolume]);
 
     return volume.isSupported? <Permissional permission={Permission.CHANGE_VOLUME}>
@@ -135,7 +149,7 @@ const VolumeSlider = () => {
                 tooltipVisible
                 style={{marginTop: '50px'}}
             />
-            <Divider />
+            <StyledDivider />
         </Permissional> : <Fragment />
 }
 

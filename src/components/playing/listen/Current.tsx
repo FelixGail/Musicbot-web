@@ -28,7 +28,7 @@ const Current = (props: { song?: Song }) => {
     () => (
       <Fragment>
           <SwipeDiv {...swipeHandler}>
-            <BackgroundAlbumArt song={props.song} config={configuration} />
+            <BackgroundAlbumArt song={props.song!} config={configuration} />
             <ScreenNavigation left={left} right={right} center={toggle} />
             {!isFullscreen && <Link to="/settings"><SettingsButton></SettingsButton></Link>}
           </SwipeDiv>
