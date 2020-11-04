@@ -37,6 +37,7 @@ export interface ImplementationInfo {
 export interface VersionInfo {
 	apiVersion: string;
 	implementation: ImplementationInfo;
+	botName: string;
 }
 
 export interface NamedPlugin {

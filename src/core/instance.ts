@@ -6,7 +6,10 @@ export async function isInstanceAvailable(instance: BotInstance) {
 	return Axios.get<VersionInfo>(`https://${instance.domain}:${instance.port}/version`, {
 		...api.getVersion(),
 		timeout: 1000
-	}).then((value) => true, (reason) => false);
+	}).then((value) => {
+		instance.name = value.data.botName;
+		return true;
+	}, () => false);
 }
 
 const re = /^(https?:\/\/)?([^\s:]+)(:([1-9][0-9]*))?$/;
