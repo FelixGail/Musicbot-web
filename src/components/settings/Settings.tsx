@@ -88,8 +88,8 @@ const UserForm = () => {
         <Form onFinish={onFinish}>
             <Form.Item
               name="password"
-              hasFeedback
-              validateStatus={error? "error" : (isLoading? "validating" : (successful? "success" : ""))}
+              hasFeedback={isLoading || successful}
+              validateStatus={error? "error" : (isLoading? "validating" : (successful? "success" : undefined))}
               rules={[
                 {
                   required: true,
