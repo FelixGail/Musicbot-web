@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useContext, Fragment } from "react";
 import api, { getHookRequest } from "../../../core/api/model";
 import { SongList } from "../songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
-import { Permission, SongEntry } from "../../../core/types";
+import { Permission, Song, SongEntry } from "../../../core/types";
 import { useResource } from "react-request-hook";
 import useHasPermission from "../../../core/hooks/useHasPermission";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
@@ -12,6 +12,7 @@ import { useSwipeable } from "react-swipeable";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
+import { itemToSong } from "../songlist/SongListItem";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -28,9 +29,9 @@ const History = () => {
   });
 
   const enqueueWrapper = useCallback(
-    (value: SongEntry) => {
+    (value: Song | SongEntry) => {
       if (hasEnqueuePermission) {
-        enqueue(value.song);
+        enqueue(itemToSong(value));
         return true;
       }
       return false;

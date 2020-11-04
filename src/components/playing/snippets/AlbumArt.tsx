@@ -14,19 +14,13 @@ export const urlFromSong = (config: IConfiguration, song?: Song, includeUnknown:
     ? song.albumArtUrl
     : unknown_cover;
 
-export const BackgroundAlbumArt = styled.div`
+export const BackgroundAlbumArt = styled.div<{song: Song, config: IConfiguration}>`
   position: absolute;
   left: 7%;
   top: 7%;
   right: 7%;
   bottom: 7%;
-  background-image: url("${({
-    song,
-    config,
-  }: {
-    song: Song;
-    config: IConfiguration;
-  }) => urlFromSong(config, song)}");
+  background-image: url("${props => urlFromSong(props.config, props.song)}");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

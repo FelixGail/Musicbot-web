@@ -5,8 +5,6 @@ import { ReactSVG } from "react-svg";
 import logo from "../../img/kiu.svg";
 import { LoginContext } from "../../core/context/LoginContext";
 import { SetupConnection } from "./setup/SetupConnection";
-import { VerifyFingerprint } from "./VerifyFingerprint";
-import { IdenticonModal } from "./IdenticonModal";
 import { LoginForm } from "./LoginForm";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
@@ -50,11 +48,6 @@ export const Login = (props: RouteComponentProps) => {
           </Row>
         )}
         <Route exact path="*/login" component={SetupConnection} />
-        <Route path="*/login/verify" component={VerifyFingerprint} />
-        <Route
-          path="*/login/verify/:id"
-          render={({ match, history }) => IdenticonModal(match, history)}
-        />
         <Route path="*/login/user" component={LoginForm} />
       </LoginContext.Provider>
     </StyledLogin>

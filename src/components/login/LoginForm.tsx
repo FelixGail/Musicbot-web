@@ -24,11 +24,6 @@ const FormProps = {
   },
 };
 
-type FormData = {
-  username: string;
-  password: string | null;
-};
-
 export const LoginForm = () => {
   const [expectPassword, setExpectPassword] = useState<boolean>(false);
   const [loginResult, login] = useUserLogin();

@@ -19,7 +19,7 @@ export const StyledContent = styled(Layout.Content)`
   }
 `;
 
-export const StyledLayout = styled(Layout)`
+export const StyledLayout = styled(Layout)<{height?: number}>`
   background-color: #272c35;
   display: flex;
   min-height: -webkit-fill-available;

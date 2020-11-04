@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import arrow from "../../../img/arrow.svg";
 
-export const NavigationArrow = styled.div`
+export const NavigationArrow = styled.div<{position: 'left' | 'right'}>`
     opacity: 0;
 
     @media only screen and (min-width: 1000px) {
