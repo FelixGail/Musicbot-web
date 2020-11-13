@@ -78,7 +78,7 @@ const StyledLogin = styled.div`
       }
 
       .label {
-        fill: #3d4452;
+        fill: rgba(217, 217, 217, 0.753);
       }
     }
   }
