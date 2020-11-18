@@ -23,6 +23,10 @@ const StyledInstanceListItem = styled(StyledListItem)`
   border-bottom: 0px !important;
   background-color: #1890ff;
 
+  h4 {
+    margin-bottom: 0px;
+  }
+
   &:hover{
     background-color: #005bb1;
   }
