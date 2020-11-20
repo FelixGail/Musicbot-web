@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useUserFetch } from "../../../core/user/user";
+import { useUserFetch } from "../../../core/hooks/user";
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 
 export const FetchUserInfo = () => {

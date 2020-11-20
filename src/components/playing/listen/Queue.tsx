@@ -6,8 +6,8 @@ import React, {
   Fragment,
 } from "react";
 import { useResource } from "react-request-hook";
-import api, { getHookRequest } from "../../../core/api/model";
-import { SongList } from "../songlist/SongList";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
+import { SongList } from "../../util/list/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -17,7 +17,7 @@ import { useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
 import { useSearchSongModalElements } from "../../util/DefaultContextModal";
 import Permissional from "../../util/Permissional";
-import useHasPermission from "../../../core/hooks/useHasPermission";
+import useHasPermission from "../../../core/hooks/hasPermissionHook";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
@@ -38,7 +38,7 @@ const Queue: FunctionComponent = () => {
     preventDefaultTouchmoveEvent: true,
   });
 
-  const [, dequeue] = useResource(getHookRequest(api.dequeue));
+  const [, dequeue] = useResource(getHookRequest(Operations.dequeue));
   const click = useCallback(
     (_, index: number) => {
       hstry.push(`${location.pathname}/${index}`);
@@ -71,7 +71,7 @@ const Queue: FunctionComponent = () => {
   const additionalArray = useMemo(() => [additional], [additional]);
 
   const searchElements = useSearchSongModalElements<SongEntry>();
-  const [, move] = useResource(getHookRequest(api.moveEntry));
+  const [, move] = useResource(getHookRequest(Operations.moveEntry));
   const contextElements: ContextModalElement<SongEntry>[] = useMemo(() => {
     return [
       {

@@ -22,7 +22,7 @@ export function getHookRequest<S extends (...args: any[]) => RequestConfig<any>>
 	return (...args: Arguments<S>) => request<HookReturn<S>>(config(...args));
 }
 
-const api = {
+const Operations = {
 	getVersion: (): RequestConfig<VersionInfo> => ({
 		method: 'GET',
 		url: '/version'
@@ -175,4 +175,4 @@ const api = {
 	})
 };
 
-export default api;
+export default Operations;

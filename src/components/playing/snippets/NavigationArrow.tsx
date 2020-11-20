@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import arrow from "../../../img/arrow.svg";
+import arrow from "../../../resources/img/arrow.svg";
 
 export const NavigationArrow = styled.div<{position: 'left' | 'right'}>`
     opacity: 0;

@@ -1,10 +1,10 @@
 import { useResource, RequestError, RequestDispatcher, Request } from 'react-request-hook';
-import api, { getHookRequest, RequestConfig } from '../api/model';
+import Operations, { getHookRequest, RequestConfig } from '../rest/operations';
 import { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigurationContext } from '../context/Configuration';
 import { Canceler } from 'axios';
-import { Token, TokenWithRefresh } from '../types';
+import { Token, TokenWithRefresh, Permission } from '../types';
 
 export interface CallResult {
 	successful: boolean;
@@ -76,7 +76,7 @@ function useGenericLogin<T extends Request>(
 }
 
 export function useUserRegister(): [CallResult, (username: string, passowrd?: string) => Canceler] {
-	const [ callresult, genericCall ] = useGenericLogin(api.registerUser);
+	const [ callresult, genericCall ] = useGenericLogin(Operations.registerUser);
 	const call = useCallback(
 		(username: string, userId?: string) => {
 			const password = userId || uuidv4();
@@ -88,15 +88,15 @@ export function useUserRegister(): [CallResult, (username: string, passowrd?: st
 }
 
 export function useUserLogin(): [CallResult, (username: string, password: string) => Canceler] {
-	return useGenericLogin(api.loginUser);
+	return useGenericLogin(Operations.loginUser);
 }
 
 export function useUserRefresh(): [CallResult, (token: TokenWithRefresh) => Canceler] {
-	return useGenericLogin(api.refreshUser);
+	return useGenericLogin(Operations.refreshUser);
 }
 
 export function useUserFetch(): [CallResult, () => Canceler] {
-	const [ { data, error, isLoading }, getUser ] = useResource(getHookRequest(api.getMe));
+	const [ { data, error, isLoading }, getUser ] = useResource(getHookRequest(Operations.getMe));
 	const [ success, setSuccess ] = useState<boolean>(false);
 	const { setConfiguration } = useContext(ConfigurationContext);
 
@@ -115,7 +115,7 @@ export function useUserFetch(): [CallResult, () => Canceler] {
 }
 
 export function useUserSetPassword(): [CallResult, (password: string) => Canceler] {
-	const [ { data, error, isLoading }, setPassword ] = useResource(getHookRequest(api.setPassword));
+	const [ { data, error, isLoading }, setPassword ] = useResource(getHookRequest(Operations.setPassword));
 	const [ result, fetchUser ] = useUserFetch();
 	const [ passwordState, setStatePassword ] = useState<string>();
 	const saveToken = useSaveToken();
@@ -160,7 +160,7 @@ export function useUserLogout(): () => void {
 }
 
 export function useUserDelete(): () => void {
-	const [ , deleteUser ] = useResource(api.deleteUser);
+	const [ , deleteUser ] = useResource(Operations.deleteUser);
 	const logoutUser = useUserLogout();
 
 	const callback = useCallback(

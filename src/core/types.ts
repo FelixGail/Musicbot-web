@@ -136,7 +136,8 @@ export enum Permission {
 	ENQUEUE = 'ENQUEUE',
 	ALTER_SUGGESTIONS = 'ALTER_SUGGESTIONS',
 	CHANGE_VOLUME = 'CHANGE_VOLUME',
-	EXIT = 'EXIT'
+	EXIT = 'EXIT',
+	ADMIN = 'ADMIN'
 }
 
 export interface Credentials {

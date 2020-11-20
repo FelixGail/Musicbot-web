@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useUserRefresh } from "../../../core/user/user";
+import { useUserRefresh } from "../../../core/hooks/user";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import { TokenWithRefresh } from "../../../core/types";
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
