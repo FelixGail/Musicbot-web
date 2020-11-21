@@ -4,7 +4,7 @@ import { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigurationContext } from '../context/Configuration';
 import { Canceler } from 'axios';
-import { Token, TokenWithRefresh, Permission } from '../types';
+import { Token, TokenWithRefresh } from '../types';
 
 export interface CallResult {
 	successful: boolean;
