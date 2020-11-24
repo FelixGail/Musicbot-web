@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { AxiosError } from "axios";
-import { useUserRefresh } from "../../core/user/user";
+import { useUserRefresh } from "../../core/hooks/user";
 import { hasRefreshToken } from "../../core/types";
 
 const InterceptorLayer: FunctionComponent = ({ children }) => {

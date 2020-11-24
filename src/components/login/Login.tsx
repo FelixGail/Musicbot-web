@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { Route, RouteComponentProps } from "react-router";
 import { Row, Col, Alert } from "antd";
 import { ReactSVG } from "react-svg";
-import logo from "../../img/kiu.svg";
+import logo from "../../resources/img/kiu.svg";
 import { LoginContext } from "../../core/context/LoginContext";
 import { SetupConnection } from "./setup/SetupConnection";
 import { LoginForm } from "./LoginForm";
@@ -78,7 +78,7 @@ const StyledLogin = styled.div`
       }
 
       .label {
-        fill: #3d4452;
+        fill: rgba(217, 217, 217, 0.753);
       }
     }
   }

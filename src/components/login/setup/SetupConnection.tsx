@@ -44,7 +44,7 @@ export const SetupConnection = () => {
 
   return (
     <Row>
-      <Col offset={6} span={12}>
+      <Col offset={2} span={20} lg={{offset: 6, span: 12}}>
         <ConnectionSetupContext.Provider value={context}>
           {switchState}
         </ConnectionSetupContext.Provider>

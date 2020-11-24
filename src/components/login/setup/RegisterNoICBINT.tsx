@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useUserRegister } from "../../../core/user/user";
+import { useUserRegister } from "../../../core/hooks/user";
 import { Canceler } from "axios";
 import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
 

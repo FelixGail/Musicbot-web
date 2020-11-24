@@ -3,19 +3,16 @@ import React, {
   useContext,
   useMemo,
   useCallback,
-  useEffect,
-  useRef,
-  useState,
 } from "react";
 import {
   ForwardOutlined,
   PauseCircleTwoTone,
   PlayCircleTwoTone,
 } from "@ant-design/icons";
-import { Card, Layout } from "antd";
+import { Card, Layout, Progress } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { useResource, RequestDispatcher, Resource } from "react-request-hook";
-import api, { getHookRequest } from "../../../core/api/model";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import {
   Permission,
@@ -24,12 +21,12 @@ import {
   PlayerState,
 } from "../../../core/types";
 import moment from "moment";
-import deepEqual from "deep-equal";
 import NavigationCard from "../footer/FooterCard";
 import styled from "styled-components";
 import Permissional from "../../util/Permissional";
 import { CardProps } from "antd/lib/card";
 import { CarouselSlick } from "../footer/CarouselSlick";
+import PlayerStateContext from "../../../core/context/PlayerStateContext";
 
 const Actions = styled.div`
   height: 55px;
@@ -84,15 +81,14 @@ const ForwardIcon = styled(ForwardOutlined)`
 `;
 
 export interface ListenFooterProps {
-  current: PlayerState;
   showActions: boolean;
 }
 
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
-  current,
-  showActions,
+  showActions
 }) => {
-  const [, setPlayerState] = useResource(getHookRequest(api.setPlayerState));
+  const {state} = useContext(PlayerStateContext)
+  const [, setPlayerState] = useResource(getHookRequest(Operations.setPlayerState));
   const { configuration } = useContext(ConfigurationContext);
   const location = useLocation();
 
@@ -104,22 +100,8 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         8;
   }, [location])
 
-  const currentRef = useRef(current);
-  const [currentState, setCurrentState] = useState<PlayerState>(current);
-  useEffect(() => {
-    if (
-      !(
-        deepEqual(current.songEntry, currentRef.current.songEntry) &&
-        deepEqual(current.state, currentRef.current.state)
-      )
-    ) {
-      currentRef.current = current;
-      setCurrentState(current);
-    }
-  }, [current, currentRef, setCurrentState]);
-
   const songInfo = useMemo(() => {
-    const songEntry = currentState && currentState.songEntry;
+    const songEntry = state && state.songEntry;
     const song = songEntry && songEntry.song;
     return {
       song: song,
@@ -130,7 +112,8 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         .format("mm:ss"),
       enqueuedBy: (songEntry && songEntry.userName) || "Suggested",
     };
-  }, [currentState]);
+  }, [state]);
+
   const actions = useMemo(() => {
     if (configuration.permissions) {
       return (
@@ -139,7 +122,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
           <Permissional permission={Permission.PAUSE}>
             <ActionDiv size={50}>
               <PlayPause
-                status={currentState ? currentState.state : PlayerStatus.ERROR}
+                status={state ? state.state : PlayerStatus.ERROR}
                 changePlayerState={setPlayerState}
               />
             </ActionDiv>
@@ -152,10 +135,12 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         </Actions>
       );
     }
-  }, [currentState, configuration.permissions, setPlayerState]);
+  }, [state, configuration.permissions, setPlayerState]);
+
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
     songInfo.title,
   ]);
+
   const description = useMemo(
     () =>
       `${songInfo.description.substr(0, 35)} - ${songInfo.enqueuedBy} - ${
@@ -175,9 +160,14 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
           {showActions && actions}
         </StyledCard>
         {showActions && <NavigationCard />}
+        <BorderlessProgress 
+          showInfo={false}
+          strokeLinecap="square"
+          percent={(state?.progress && songInfo?.song?.duration && (songInfo?.song?.duration > 0) && (state.progress / songInfo.song?.duration) * 100) || undefined}
+        />
       </Layout.Footer>
     ),
-    [actions, searchLink, songInfo.title, description, showActions, slickOffset]
+    [actions, searchLink, songInfo, description, showActions, slickOffset, state]
   );
   return jsx;
 };
@@ -206,5 +196,19 @@ export const PlayPause = ({
     }
   }, [status, clickPause, clickPlay]);
 };
+
+const BorderlessProgress = styled(Progress)`
+  display: inherit;
+
+  .ant-progress-outer, .ant-progress-inner {
+    display: inherit;
+  };
+
+  .ant-progress-bg {
+    transition-property: width;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+  };
+`
 
 export default ListenFooter;

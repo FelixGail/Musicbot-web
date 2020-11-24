@@ -1,7 +1,7 @@
 import { useResource, Arguments } from 'react-request-hook';
 import { useEffect, useCallback, useRef, useState } from 'react';
 import deepEqual from 'deep-equal';
-import { getHookRequest, RequestConfig } from '../api/model';
+import { getHookRequest, RequestConfig } from '../rest/operations';
 
 export function useResourceReload<T>(
 	resourceFunction: (...args: any[]) => RequestConfig<T>,

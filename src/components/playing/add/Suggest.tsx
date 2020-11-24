@@ -1,5 +1,5 @@
 import { useResource } from "react-request-hook";
-import api, { getHookRequest } from "../../../core/api/model";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
 import { useEffect } from "react";
 import React from "react";
 import { Tabs } from "antd";
@@ -11,7 +11,7 @@ const StyledTabs = styled(Tabs)`
   `;
 
 const Suggest = () => {
-  const [suggesters, getSuggesters] = useResource(getHookRequest(api.getSuggesters));
+  const [suggesters, getSuggesters] = useResource(getHookRequest(Operations.getSuggesters));
 
   useEffect(() => {
     getSuggesters();

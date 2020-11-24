@@ -4,7 +4,7 @@ import {
   ConfigurationContext,
 } from "../../../core/context/Configuration";
 import React, { useContext, useMemo, useState, useCallback } from "react";
-import unknown_cover from "../../../img/unknown_cover.svg";
+import unknown_cover from "../../../resources/img/unknown_cover.svg";
 import styled from "styled-components";
 
 export const urlFromSong = (config: IConfiguration, song?: Song, includeUnknown: boolean = true) =>

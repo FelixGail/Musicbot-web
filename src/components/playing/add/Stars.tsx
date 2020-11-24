@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
 import React from "react";
-import { SongList } from "../songlist/SongList";
-import api from "../../../core/api/model";
+import { SongList } from "../../util/list/songlist/SongList";
+import Operations from "../../../core/rest/operations";
 import { Song, Permission } from "../../../core/types";
-import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
+import useResourceWithPermission from "../../../core/hooks/permissionWrapperHook";
 import { db } from "../../../core/db/AppDB";
 import { LikedSong } from "../../../core/db/LikedSong";
 
@@ -18,7 +18,7 @@ const Stars = () => {
   },[setSongs])
 
   const [, enqueue] = useResourceWithPermission(
-    api.enqueue,
+    Operations.enqueue,
     Permission.ENQUEUE
   );
 

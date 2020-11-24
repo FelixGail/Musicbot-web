@@ -3,7 +3,7 @@ import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Col, Row } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useUserLogin, useUserRegister } from "../../core/user/user";
+import { useUserLogin, useUserRegister } from "../../core/hooks/user";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 

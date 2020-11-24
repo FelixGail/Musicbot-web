@@ -6,10 +6,10 @@ import React, {
   useCallback,
   useContext,
 } from "react";
-import { Song } from "../../../core/types";
-import { db } from "../../../core/db/AppDB";
-import { fromSong } from "../../../core/db/LikedSong";
-import { ConfigurationContext } from "../../../core/context/Configuration";
+import { Song } from "../../../../core/types";
+import { db } from "../../../../core/db/AppDB";
+import { fromSong } from "../../../../core/db/LikedSong";
+import { ConfigurationContext } from "../../../../core/context/Configuration";
 
 const SongItemAction = (props: { song: Song }) => {
   const [isLiked, setLiked] = useState<boolean>(false);

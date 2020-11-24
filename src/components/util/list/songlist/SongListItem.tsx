@@ -1,13 +1,13 @@
-import { Song, SongEntry } from "../../../core/types";
+import { Song, SongEntry } from "../../../../core/types";
 import { ListItemProps } from "antd/lib/list";
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { List } from "antd";
-import { AlbumArt } from "../snippets/AlbumArt";
+import { AlbumArt } from "../../../playing/snippets/AlbumArt";
 import SongItemExtra from "./SongItemExtra";
 import SongItemAction from "./SongItemAction";
 import { SongListAdditional } from "./SongList";
 import styled from "styled-components";
-import { StyledListItem } from "../../util/StyledList";
+import { StyledListItem } from "../StyledList";
 
 export interface SongListItemProps<T extends Song | SongEntry>
   extends ListItemProps {

@@ -1,10 +1,10 @@
 import { BotInstance, VersionInfo } from './types';
 import Axios from 'axios';
-import api from './api/model';
+import Operations from './rest/operations';
 
 export async function isInstanceAvailable(instance: BotInstance) {
 	return Axios.get<VersionInfo>(`https://${instance.domain}:${instance.port}/version`, {
-		...api.getVersion(),
+		...Operations.getVersion(),
 		timeout: 1000
 	}).then((value) => {
 		instance.name = value.data.botName;

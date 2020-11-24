@@ -52,15 +52,13 @@ export const ListenRouter = () => {
               <Route path="*/listen/history" component={History} />
               <Route path="*/listen/queue" component={Queue} />
             </StyledContent>
-            {playerState && (
-              <ListenFooter current={playerState} showActions={!isFullscreen} />
-            )}
+            <ListenFooter showActions={!isFullscreen} />
           </StyledLayout>
         </FullscreenContext.Provider>
       </Fragment>
       
     ),
-    [renderCurrent, playerState, toggleFullscreen, ref, isFullscreen, height]
+    [renderCurrent, toggleFullscreen, ref, isFullscreen, height]
   );
 
   return jsx;
