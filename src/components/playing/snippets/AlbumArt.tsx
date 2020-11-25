@@ -7,20 +7,27 @@ import React, { useContext, useMemo, useState, useCallback } from "react";
 import unknown_cover from "../../../resources/img/unknown_cover.svg";
 import styled from "styled-components";
 
-export const urlFromSong = (config: IConfiguration, song?: Song, includeUnknown: boolean = true) =>
+export const urlFromSong = (
+  config: IConfiguration,
+  song?: Song,
+  includeUnknown: boolean = true
+) =>
   song && song.albumArtPath
     ? `${config.axios.defaults.baseURL}${song.albumArtPath}`
     : song && song.albumArtUrl
     ? song.albumArtUrl
     : unknown_cover;
 
-export const BackgroundAlbumArt = styled.div<{song: Song, config: IConfiguration}>`
+export const BackgroundAlbumArt = styled.div<{
+  song: Song;
+  config: IConfiguration;
+}>`
   position: absolute;
   left: 7%;
   top: 7%;
   right: 7%;
   bottom: 7%;
-  background-image: url("${props => urlFromSong(props.config, props.song)}");
+  background-image: url("${(props) => urlFromSong(props.config, props.song)}");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -34,12 +41,18 @@ export const AlbumArt = ({
   HTMLImageElement
 >) => {
   const { configuration } = useContext(ConfigurationContext);
-  const [state, setState] = useState({errored: false, src: urlFromSong(configuration, song)});
+  const [state, setState] = useState({
+    errored: false,
+    src: urlFromSong(configuration, song),
+  });
   const onError = useCallback(() => {
-    if(!state.errored) {
-      setState({errored: true, src: (song && song.savedArt) || unknown_cover})
+    if (!state.errored) {
+      setState({
+        errored: true,
+        src: (song && song.savedArt) || unknown_cover,
+      });
     }
-  }, [setState, state.errored, song])
+  }, [setState, state.errored, song]);
   const jsx = useMemo(
     () => (
       <img

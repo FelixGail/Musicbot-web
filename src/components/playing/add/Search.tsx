@@ -12,7 +12,9 @@ const StyledTabs = styled(Tabs)`
 `;
 
 export const Search = (props: RouteComponentProps) => {
-  const [providers, getProviders] = useResource(getHookRequest(Operations.getProviders));
+  const [providers, getProviders] = useResource(
+    getHookRequest(Operations.getProviders)
+  );
   const [query, setQuery] = useState<string>(
     props.location.search.length > 0
       ? decodeURI(

@@ -13,7 +13,7 @@ import { SettingsButton } from "../snippets/SettingsButton";
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
-  const {toggle, isFullscreen} = useContext(FullscreenContext);
+  const { toggle, isFullscreen } = useContext(FullscreenContext);
   const history = useHistory();
   const left = `${location.pathname}/history`;
   const right = `${location.pathname}/queue`;
@@ -27,11 +27,15 @@ const Current = (props: { song?: Song }) => {
   const jsx = useMemo(
     () => (
       <Fragment>
-          <SwipeDiv {...swipeHandler}>
-            <BackgroundAlbumArt song={props.song!} config={configuration} />
-            <ScreenNavigation left={left} right={right} center={toggle} />
-            {!isFullscreen && <Link to="/settings"><SettingsButton></SettingsButton></Link>}
-          </SwipeDiv>
+        <SwipeDiv {...swipeHandler}>
+          <BackgroundAlbumArt song={props.song!} config={configuration} />
+          <ScreenNavigation left={left} right={right} center={toggle} />
+          {!isFullscreen && (
+            <Link to="/settings">
+              <SettingsButton></SettingsButton>
+            </Link>
+          )}
+        </SwipeDiv>
       </Fragment>
     ),
     [props.song, left, right, swipeHandler, toggle, configuration, isFullscreen]

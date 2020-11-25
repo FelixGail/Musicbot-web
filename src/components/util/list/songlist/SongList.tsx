@@ -20,7 +20,11 @@ export interface SongListProps<T extends Song | SongEntry>
   onClick: (item: T, index: number) => boolean;
   additional?: SongListAdditional<T>;
   contextModal?: ListContextModal<T>;
-  wrapper?: (item: T, index: number, children: (item: T, index: number) =>JSX.Element) =>JSX.Element
+  wrapper?: (
+    item: T,
+    index: number,
+    children: (item: T, index: number) => JSX.Element
+  ) => JSX.Element;
 }
 
 export interface ListContextModal<T extends Song | SongEntry> {
@@ -28,12 +32,15 @@ export interface ListContextModal<T extends Song | SongEntry> {
   elements: ContextModalElement<T>[];
 }
 
-function defaultWrapper<T>(item: T, index: number, children: (item: T, index: number) =>JSX.Element): JSX.Element {
+function defaultWrapper<T>(
+  item: T,
+  index: number,
+  children: (item: T, index: number) => JSX.Element
+): JSX.Element {
   return children(item, index);
 }
 
 const StyledSongList = styled(StyledList)`
-
   .ant-list-item-meta {
     overflow: hidden;
     align-items: center;
@@ -60,7 +67,6 @@ const StyledSongList = styled(StyledList)`
   }
 
   .ant-list-item-action {
-
     .anticon {
       color: #e6e6e6;
 
@@ -120,17 +126,22 @@ export function SongList<T extends Song | SongEntry>({
 
   const wrapListItem = wrapper || defaultWrapper;
 
-  const renderListItem = useCallback((item: T, index: number) => {
-    return wrapListItem(item, index, (inner_item, inner_index) => {
-      return <SongListItem
-        item={inner_item}
-        index={inner_index}
-        handleClick={onClick}
-        queue={queue}
-        additional={additional}
-      />
-    })
-  }, [onClick, queue, additional, wrapListItem])
+  const renderListItem = useCallback(
+    (item: T, index: number) => {
+      return wrapListItem(item, index, (inner_item, inner_index) => {
+        return (
+          <SongListItem
+            item={inner_item}
+            index={inner_index}
+            handleClick={onClick}
+            queue={queue}
+            additional={additional}
+          />
+        );
+      });
+    },
+    [onClick, queue, additional, wrapListItem]
+  );
 
   return (
     <Fragment>

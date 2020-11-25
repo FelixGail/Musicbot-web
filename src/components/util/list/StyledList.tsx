@@ -16,7 +16,6 @@ export const StyledList = styled(List)`
 `;
 
 export const StyledListItem = styled(List.Item)`
-
   &:hover {
     background-color: #1890ff;
     cursor: pointer;

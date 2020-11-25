@@ -22,31 +22,38 @@ import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
-import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
 import Operations, { getHookRequest } from "../../../core/rest/operations";
 import useHasPermission from "../../../core/hooks/hasPermissionHook";
 import { SongList } from "../../util/list/songlist/SongList";
 
-function reorder<T>(list: T[], startIndex: number, endIndex: number){
+function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
 
   return result;
-};
+}
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
-  const [savedQueue, saveQueue] = useState(queue)
-  const [{error: moveError}, move] = useResource(getHookRequest(Operations.moveEntry));
+  const [savedQueue, saveQueue] = useState(queue);
+  const [{ error: moveError }, move] = useResource(
+    getHookRequest(Operations.moveEntry)
+  );
 
   useEffect(() => {
-    saveQueue(queue)
-  }, [queue, saveQueue, moveError])
+    saveQueue(queue);
+  }, [queue, saveQueue, moveError]);
 
   const history = useHistory();
   const location = useLocation();
-  const {toggle} = useContext(FullscreenContext);
+  const { toggle } = useContext(FullscreenContext);
 
   const left = `/listen`;
   const right = `history`;
@@ -65,14 +72,21 @@ const Queue: FunctionComponent = () => {
     [history, location.pathname]
   );
 
-  const onDragEnd = useCallback((result: DropResult) => {
-    const { source, destination } = result;
-    if(result.reason === "DROP" && destination && source.index !== destination.index) {
-        const entry = savedQueue[source.index]
-        move(destination.index, entry.song)
-        saveQueue(reorder(savedQueue, source.index, destination.index))
-    }
-  }, [move, savedQueue, saveQueue])
+  const onDragEnd = useCallback(
+    (result: DropResult) => {
+      const { source, destination } = result;
+      if (
+        result.reason === "DROP" &&
+        destination &&
+        source.index !== destination.index
+      ) {
+        const entry = savedQueue[source.index];
+        move(destination.index, entry.song);
+        saveQueue(reorder(savedQueue, source.index, destination.index));
+      }
+    },
+    [move, savedQueue, saveQueue]
+  );
 
   const hasRemovePermission = useHasPermission(Permission.SKIP);
   const { configuration } = useContext(ConfigurationContext);
@@ -128,21 +142,28 @@ const Queue: FunctionComponent = () => {
     [searchElements, contextElements]
   );
 
-  const wrapper = useCallback((item: SongEntry, index: number, inner: (entry: SongEntry, index: number) => JSX.Element) => {
-    return <Draggable
-      draggableId={item.song.id}
-      index={index}
-      key={item.song.id}
-    >
-      {(provided) => <div
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-      >
-        {inner(item, index)}
-        </div>}
-    </Draggable>
-  }, [])
+  const wrapper = useCallback(
+    (
+      item: SongEntry,
+      index: number,
+      inner: (entry: SongEntry, index: number) => JSX.Element
+    ) => {
+      return (
+        <Draggable draggableId={item.song.id} index={index} key={item.song.id}>
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              {inner(item, index)}
+            </div>
+          )}
+        </Draggable>
+      );
+    },
+    []
+  );
 
   const jsx = useMemo(
     () => (
@@ -153,27 +174,28 @@ const Queue: FunctionComponent = () => {
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="queue">
                 {(provided, snapshot) => {
-                  return <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    <SongList
-                      header="Queue"
-                      items={savedQueue}
-                      onClick={click}
-                      additional={additionalArray}
-                      contextModal={{ route: "*/queue", elements: combinedElements }}
-                      wrapper={wrapper}
-                    />
-                    {provided.placeholder}
-                  </div>
+                  return (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <SongList
+                        header="Queue"
+                        items={savedQueue}
+                        onClick={click}
+                        additional={additionalArray}
+                        contextModal={{
+                          route: "*/queue",
+                          elements: combinedElements,
+                        }}
+                        wrapper={wrapper}
+                      />
+                      {provided.placeholder}
+                    </div>
+                  );
                 }}
               </Droppable>
             </DragDropContext>
           </ContentWrapper>
         </SwipeDiv>
       </Fragment>
-
     ),
     [
       savedQueue,
@@ -185,7 +207,7 @@ const Queue: FunctionComponent = () => {
       right,
       swipeHandler,
       wrapper,
-      onDragEnd
+      onDragEnd,
     ]
   );
 

@@ -17,6 +17,10 @@ export interface IConfigurationContext {
   setConfiguration: (patch: Partial<IConfiguration>) => void;
 }
 export const ConfigurationContext = createContext<IConfigurationContext>({
-  configuration: { loggedIn: false, axios: Axios.create(), registryUrl: "/registry" },
+  configuration: {
+    loggedIn: false,
+    axios: Axios.create(),
+    registryUrl: "/registry",
+  },
   setConfiguration: () => {},
 });

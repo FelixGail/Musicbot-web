@@ -71,13 +71,13 @@ function SongListItem<T extends Song | SongEntry>({
   }, [queue, song, addEnqueuedClass]);
 
   const actions = useMemo(() => {
-    const songAction = <SongItemAction song={song} />
-    if(additional) {
-      const mapped = additional?.map(it => it(item))
-      mapped.push(songAction)
-      return mapped
+    const songAction = <SongItemAction song={song} />;
+    if (additional) {
+      const mapped = additional?.map((it) => it(item));
+      mapped.push(songAction);
+      return mapped;
     }
-    return [songAction]
+    return [songAction];
   }, [additional, item, song]);
 
   return (

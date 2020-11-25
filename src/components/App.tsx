@@ -14,7 +14,7 @@ import { PlayRouter } from "./playing/PlayRouter";
 import InterceptorLayer from "./util/InterceptorLayer";
 import { Settings } from "./settings/Settings";
 
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -30,7 +30,7 @@ interface Config {
   registry: string;
 }
 
-const App = (props: ({config: Config})) => {
+const App = (props: { config: Config }) => {
   const axios = useMemo(
     () =>
       Axios.create({
@@ -41,7 +41,7 @@ const App = (props: ({config: Config})) => {
   const [configuration, setConfiguration] = useSetState<IConfiguration>({
     loggedIn: false,
     axios: axios,
-    registryUrl: props.config.registry
+    registryUrl: props.config.registry,
   });
 
   const configurationContext = useMemo<IConfigurationContext>(() => {
@@ -53,21 +53,21 @@ const App = (props: ({config: Config})) => {
 
   return (
     <ConfigurationContext.Provider value={configurationContext}>
-        <GlobalStyle />
-        <RequestContext.Provider value={axios}>
-          <InterceptorLayer>
-            <Router>
-              <PrivateRoute
-                exact
-                path="/"
-                component={() => <Redirect to="listen" />}
-              />
-              <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
-              <PrivateRoute path="/settings" component={Settings} />
-              <Route path="/login" component={Login}></Route>
-            </Router>
-          </InterceptorLayer>
-        </RequestContext.Provider>
+      <GlobalStyle />
+      <RequestContext.Provider value={axios}>
+        <InterceptorLayer>
+          <Router>
+            <PrivateRoute
+              exact
+              path="/"
+              component={() => <Redirect to="listen" />}
+            />
+            <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
+            <PrivateRoute path="/settings" component={Settings} />
+            <Route path="/login" component={Login}></Route>
+          </Router>
+        </InterceptorLayer>
+      </RequestContext.Provider>
     </ConfigurationContext.Provider>
   );
 };

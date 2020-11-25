@@ -63,13 +63,16 @@ const ActionDiv = styled.div`
 
 interface StyledCardProps {
   readonly showActions: boolean;
-};
+}
 
 const StyledCard = styled(
-  ({showActions: showactions, ...props}: StyledCardProps & CardProps) => <Card {...props}/>)
-  <StyledCardProps>`
+  ({ showActions: showactions, ...props }: StyledCardProps & CardProps) => (
+    <Card {...props} />
+  )
+)<StyledCardProps>`
   .ant-card-body {
-    padding-bottom: ${`${(props: StyledCardProps) => props.showActions ? 5 : 24}px`};
+    padding-bottom: ${`${(props: StyledCardProps) =>
+      props.showActions ? 5 : 24}px`};
   }
 `;
 
@@ -85,20 +88,22 @@ export interface ListenFooterProps {
 }
 
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
-  showActions
+  showActions,
 }) => {
-  const {state} = useContext(PlayerStateContext)
-  const [, setPlayerState] = useResource(getHookRequest(Operations.setPlayerState));
+  const { state } = useContext(PlayerStateContext);
+  const [, setPlayerState] = useResource(
+    getHookRequest(Operations.setPlayerState)
+  );
   const { configuration } = useContext(ConfigurationContext);
   const location = useLocation();
 
   const slickOffset = useMemo(() => {
-    return location.pathname.includes('queue')?
-      16 :
-      location.pathname.includes('history')?
-        0 :
-        8;
-  }, [location])
+    return location.pathname.includes("queue")
+      ? 16
+      : location.pathname.includes("history")
+      ? 0
+      : 8;
+  }, [location]);
 
   const songInfo = useMemo(() => {
     const songEntry = state && state.songEntry;
@@ -151,7 +156,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   const jsx = useMemo(
     () => (
       <Layout.Footer>
-        {showActions && <CarouselSlick span={8} offset={slickOffset}/>}
+        {showActions && <CarouselSlick span={8} offset={slickOffset} />}
         <StyledCard showActions={showActions}>
           <Card.Meta
             title={<Link to={searchLink}>{songInfo.title}</Link>}
@@ -160,14 +165,28 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
           {showActions && actions}
         </StyledCard>
         {showActions && <NavigationCard />}
-        <BorderlessProgress 
+        <BorderlessProgress
           showInfo={false}
           strokeLinecap="square"
-          percent={(state?.progress && songInfo?.song?.duration && (songInfo?.song?.duration > 0) && (state.progress / songInfo.song?.duration) * 100) || undefined}
+          percent={
+            (state?.progress &&
+              songInfo?.song?.duration &&
+              songInfo?.song?.duration > 0 &&
+              (state.progress / songInfo.song?.duration) * 100) ||
+            undefined
+          }
         />
       </Layout.Footer>
     ),
-    [actions, searchLink, songInfo, description, showActions, slickOffset, state]
+    [
+      actions,
+      searchLink,
+      songInfo,
+      description,
+      showActions,
+      slickOffset,
+      state,
+    ]
   );
   return jsx;
 };
@@ -200,15 +219,16 @@ export const PlayPause = ({
 const BorderlessProgress = styled(Progress)`
   display: inherit;
 
-  .ant-progress-outer, .ant-progress-inner {
+  .ant-progress-outer,
+  .ant-progress-inner {
     display: inherit;
-  };
+  }
 
   .ant-progress-bg {
     transition-property: width;
     transition-duration: 1s;
     transition-timing-function: linear;
-  };
-`
+  }
+`;
 
 export default ListenFooter;

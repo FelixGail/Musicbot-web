@@ -11,11 +11,16 @@ const Stars = () => {
   const [songs, setSongs] = useState<LikedSong[]>([]);
 
   useEffect(() => {
-    db.songs.orderBy('title').toArray().then(async songs => {
-      await Promise.all(songs.map(async (song) => await song.loadNavigationProperties()))
-      setSongs(songs)
-    })
-  },[setSongs])
+    db.songs
+      .orderBy("title")
+      .toArray()
+      .then(async (songs) => {
+        await Promise.all(
+          songs.map(async (song) => await song.loadNavigationProperties())
+        );
+        setSongs(songs);
+      });
+  }, [setSongs]);
 
   const [, enqueue] = useResourceWithPermission(
     Operations.enqueue,
@@ -29,9 +34,7 @@ const Stars = () => {
     [enqueue]
   );
 
-  return (
-    <SongList header="Stars" items={songs} onClick={click} />
-  );
+  return <SongList header="Stars" items={songs} onClick={click} />;
 };
 
 export default Stars;

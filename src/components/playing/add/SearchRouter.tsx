@@ -63,11 +63,11 @@ const SearchRouter = () => {
     function updateSize() {
       setHeight(window.innerHeight);
     }
-    window.addEventListener('resize', updateSize);
+    window.addEventListener("resize", updateSize);
     document.addEventListener("keydown", handleEscape, false);
     return () => {
       document.removeEventListener("keydown", handleEscape, false);
-      window.removeEventListener('resize', updateSize);
+      window.removeEventListener("resize", updateSize);
     };
   }, [handleEscape, setHeight]);
 

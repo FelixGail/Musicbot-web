@@ -1,7 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import { useUserRegister } from "../../../core/hooks/user";
 import { Canceler } from "axios";
-import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
+import {
+  ConnectionSetupContext,
+  SetupStates,
+} from "../../../core/context/ConnectionSetupContext";
 
 export const RegisterNoICBINT = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
@@ -12,8 +15,7 @@ export const RegisterNoICBINT = () => {
     let cancel: Canceler;
     if (username) {
       cancel = register(username, undefined);
-    }
-    else {
+    } else {
       setNextState(SetupStates.FAILED);
     }
     return () => cancel && cancel();
@@ -22,8 +24,7 @@ export const RegisterNoICBINT = () => {
     if (!isLoading) {
       if (successful) {
         setNextState(SetupStates.FETCH_USER_INFO);
-      }
-      else if (error) {
+      } else if (error) {
         setNextState(SetupStates.FAILED);
       }
     }

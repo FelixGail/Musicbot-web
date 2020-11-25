@@ -8,7 +8,12 @@ import { useMemo } from "react";
 import { useResourceReload } from "../../core/hooks/resourceReloadHook";
 
 export const PlayRouter = () => {
-  const playerState = useResourceReload(Operations.getPlayerState, undefined, 1000, false);
+  const playerState = useResourceReload(
+    Operations.getPlayerState,
+    undefined,
+    1000,
+    false
+  );
   const history = useResourceReload(Operations.getHistory, [], 1000, false);
   const queue = useResourceReload(Operations.getQueue, [], 1000, false);
 

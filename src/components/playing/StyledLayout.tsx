@@ -19,14 +19,14 @@ export const StyledContent = styled(Layout.Content)`
   }
 `;
 
-export const StyledLayout = styled(Layout)<{height?: number}>`
+export const StyledLayout = styled(Layout)<{ height?: number }>`
   background-color: #272c35;
   display: flex;
   min-height: -webkit-fill-available;
-  min-height: ${props => props.height}px;
+  min-height: ${(props) => props.height}px;
 
   max-height: -webkit-fill-available;
-  max-height: ${props => props.height}px;
+  max-height: ${(props) => props.height}px;
 
   .ant-layout-footer {
     padding: 0;

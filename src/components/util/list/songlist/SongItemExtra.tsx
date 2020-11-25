@@ -26,11 +26,7 @@ function SongItemExtra<T extends Song | SongEntry>(props: { item: T }) {
     return duration;
   }, [props.item]);
 
-  return (
-    <ItemExtraDiv>
-      {inner}
-    </ItemExtraDiv>
-  );
+  return <ItemExtraDiv>{inner}</ItemExtraDiv>;
 }
 
 export default SongItemExtra;

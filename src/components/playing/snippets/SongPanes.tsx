@@ -45,7 +45,9 @@ export const SuggesterPane = ({
   suggester,
   ...props
 }: { suggester: NamedPlugin } & ListProps<Song>) => {
-  const [songs, getSuggestions] = useResource(getHookRequest(Operations.getSuggestions));
+  const [songs, getSuggestions] = useResource(
+    getHookRequest(Operations.getSuggestions)
+  );
 
   useEffect(() => {
     getSuggestions(suggester);

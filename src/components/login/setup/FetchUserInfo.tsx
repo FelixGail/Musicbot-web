@@ -1,6 +1,9 @@
 import React, { useEffect, useContext } from "react";
 import { useUserFetch } from "../../../core/hooks/user";
-import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
+import {
+  ConnectionSetupContext,
+  SetupStates,
+} from "../../../core/context/ConnectionSetupContext";
 
 export const FetchUserInfo = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
@@ -13,12 +16,10 @@ export const FetchUserInfo = () => {
     if (!isLoading) {
       if (successful) {
         setNextState(SetupStates.DONE);
-      }
-      else if (error) {
+      } else if (error) {
         setNextState(SetupStates.FAILED);
       }
     }
   }, [isLoading, successful, error, setNextState]);
   return <h1>Fetching user info</h1>;
 };
-

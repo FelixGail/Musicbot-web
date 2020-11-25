@@ -1,4 +1,12 @@
-import React, { useCallback, useMemo, useRef, useContext, useState, useEffect, Fragment } from "react";
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useContext,
+  useState,
+  useEffect,
+  Fragment,
+} from "react";
 import { Route } from "react-router";
 import "moment-duration-format";
 import Current from "./Current";
@@ -32,22 +40,24 @@ export const ListenRouter = () => {
     function updateSize() {
       setHeight(window.innerHeight);
     }
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
-  }, [setHeight])
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [setHeight]);
 
   const jsx = useMemo(
     () => (
       <Fragment>
-        <FullscreenContext.Provider value={{toggle: toggleFullscreen, isFullscreen: isFullscreen}}>
+        <FullscreenContext.Provider
+          value={{ toggle: toggleFullscreen, isFullscreen: isFullscreen }}
+        >
           <StyledLayout ref={ref} height={height}>
             <StyledContent>
-              {!isFullscreen &&
+              {!isFullscreen && (
                 <Fragment>
-                  <NavigationArrow position="left"/>
-                  <NavigationArrow position="right"/>
+                  <NavigationArrow position="left" />
+                  <NavigationArrow position="right" />
                 </Fragment>
-              }
+              )}
               <Route exact path="*/listen" render={renderCurrent} />
               <Route path="*/listen/history" component={History} />
               <Route path="*/listen/queue" component={Queue} />
@@ -56,7 +66,6 @@ export const ListenRouter = () => {
           </StyledLayout>
         </FullscreenContext.Provider>
       </Fragment>
-      
     ),
     [renderCurrent, toggleFullscreen, ref, isFullscreen, height]
   );

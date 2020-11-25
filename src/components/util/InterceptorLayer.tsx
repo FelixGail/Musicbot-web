@@ -22,9 +22,9 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
           configuration.token,
           configuration.token && hasRefreshToken(configuration.token),
           error
-        )
-        if( (error as AxiosError).isAxiosError) {
-          const axiosError = error as AxiosError
+        );
+        if ((error as AxiosError).isAxiosError) {
+          const axiosError = error as AxiosError;
           if (
             configuration.token &&
             hasRefreshToken(configuration.token) &&
@@ -39,12 +39,7 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
       }
     );
     return () => configuration.axios.interceptors.response.eject(id);
-  }, [
-    configuration.axios,
-    configuration.token,
-    configuration.loggedIn,
-    login,
-  ]);
+  }, [configuration.axios, configuration.token, configuration.loggedIn, login]);
   return <Fragment>{children}</Fragment>;
 };
 
