@@ -4,10 +4,11 @@ import React, {
   useMemo,
   FunctionComponent,
   Fragment,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 import { useResource } from "react-request-hook";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import { SongList } from "../../util/list/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { SongEntry, Permission } from "../../../core/types";
 import { ConfigurationContext } from "../../../core/context/Configuration";
@@ -17,35 +18,62 @@ import { useHistory, useLocation } from "react-router";
 import { ContextModalElement } from "../../util/ContextModal";
 import { useSearchSongModalElements } from "../../util/DefaultContextModal";
 import Permissional from "../../util/Permissional";
-import useHasPermission from "../../../core/hooks/hasPermissionHook";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
+import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
+import useHasPermission from "../../../core/hooks/hasPermissionHook";
+import { SongList } from "../../util/list/songlist/SongList";
+
+function reorder<T>(list: T[], startIndex: number, endIndex: number){
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
-  const hstry = useHistory();
+  const [savedQueue, saveQueue] = useState(queue)
+  const [{error: moveError}, move] = useResource(getHookRequest(Operations.moveEntry));
+
+  useEffect(() => {
+    saveQueue(queue)
+  }, [queue, saveQueue, moveError])
+
+  const history = useHistory();
   const location = useLocation();
   const {toggle} = useContext(FullscreenContext);
 
   const left = `/listen`;
   const right = `history`;
   const swipeHandler = useSwipeable({
-    onSwipedLeft: () => hstry.push(right),
-    onSwipedRight: () => hstry.push(left),
+    onSwipedLeft: () => history.push(right),
+    onSwipedRight: () => history.push(left),
     preventDefaultTouchmoveEvent: true,
   });
 
   const [, dequeue] = useResource(getHookRequest(Operations.dequeue));
   const click = useCallback(
     (_, index: number) => {
-      hstry.push(`${location.pathname}/${index}`);
+      history.push(`${location.pathname}/${index}`);
       return false;
     },
-    [hstry, location.pathname]
+    [history, location.pathname]
   );
+
+  const onDragEnd = useCallback((result: DropResult) => {
+    const { source, destination } = result;
+    if(result.reason === "DROP" && destination && source.index !== destination.index) {
+        const entry = savedQueue[source.index]
+        move(destination.index, entry.song)
+        saveQueue(reorder(savedQueue, source.index, destination.index))
+    }
+  }, [move, savedQueue, saveQueue])
 
   const hasRemovePermission = useHasPermission(Permission.SKIP);
   const { configuration } = useContext(ConfigurationContext);
@@ -71,7 +99,7 @@ const Queue: FunctionComponent = () => {
   const additionalArray = useMemo(() => [additional], [additional]);
 
   const searchElements = useSearchSongModalElements<SongEntry>();
-  const [, move] = useResource(getHookRequest(Operations.moveEntry));
+
   const contextElements: ContextModalElement<SongEntry>[] = useMemo(() => {
     return [
       {
@@ -101,26 +129,55 @@ const Queue: FunctionComponent = () => {
     [searchElements, contextElements]
   );
 
+  const wrapper = useCallback((item: SongEntry, index: number, inner: (entry: SongEntry, index: number) => JSX.Element) => {
+    return <Draggable
+      draggableId={item.song.id}
+      index={index}
+      key={item.song.id}
+    >
+      {(provided) => <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
+        {inner(item, index)}
+        </div>}
+    </Draggable>
+  }, [])
+
   const jsx = useMemo(
     () => (
       <Fragment>
         <SwipeDiv {...swipeHandler}>
           <ScreenNavigation left={left} right={right} center={toggle} />
           <ContentWrapper>
-            <SongList
-              header="Queue"
-              items={queue}
-              onClick={click}
-              additional={additionalArray}
-              contextModal={{ route: "*/queue", elements: combinedElements }}
-            />
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="queue">
+                {(provided, snapshot) => {
+                  return <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    <SongList
+                      header="Queue"
+                      items={savedQueue}
+                      onClick={click}
+                      additional={additionalArray}
+                      contextModal={{ route: "*/queue", elements: combinedElements }}
+                      wrapper={wrapper}
+                    />
+                    {provided.placeholder}
+                  </div>
+                }}
+              </Droppable>
+            </DragDropContext>
           </ContentWrapper>
         </SwipeDiv>
       </Fragment>
 
     ),
     [
-      queue,
+      savedQueue,
       click,
       additionalArray,
       combinedElements,
@@ -128,6 +185,8 @@ const Queue: FunctionComponent = () => {
       left,
       right,
       swipeHandler,
+      wrapper,
+      onDragEnd
     ]
   );
 

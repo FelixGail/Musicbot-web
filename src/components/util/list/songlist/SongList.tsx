@@ -1,15 +1,14 @@
-import React, { useMemo, Fragment } from "react";
-import { Song, SongEntry } from "../../../../core/types";
 import { ListProps } from "antd/lib/list";
 import SongListItem from "./SongListItem";
 import { ContextModalElement } from "../../ContextModal";
-import { useContext } from "react";
+import React, { Fragment, useCallback, useContext, useMemo } from "react";
 import PlayerStateContext from "../../../../core/context/PlayerStateContext";
 import DefaultContextModal from "../../DefaultContextModal";
 import { Route } from "react-router-dom";
 import styled, { StyledComponent } from "styled-components";
 import { StyledList } from "../StyledList";
 import { List } from "antd/lib/form/Form";
+import { Song, SongEntry } from "../../../../core/types";
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
   item: T
@@ -21,11 +20,16 @@ export interface SongListProps<T extends Song | SongEntry>
   onClick: (item: T, index: number) => boolean;
   additional?: SongListAdditional<T>;
   contextModal?: ListContextModal<T>;
+  wrapper?: (item: T, index: number, children: (item: T, index: number) =>JSX.Element) =>JSX.Element
 }
 
 export interface ListContextModal<T extends Song | SongEntry> {
   route: string;
   elements: ContextModalElement<T>[];
+}
+
+function defaultWrapper<T>(item: T, index: number, children: (item: T, index: number) =>JSX.Element): JSX.Element {
+  return children(item, index);
 }
 
 const StyledSongList = styled(StyledList)`
@@ -92,6 +96,7 @@ export function SongList<T extends Song | SongEntry>({
   additional,
   onClick,
   contextModal,
+  wrapper,
   ...props
 }: SongListProps<T>) {
   const { queue } = useContext(PlayerStateContext);
@@ -113,20 +118,26 @@ export function SongList<T extends Song | SongEntry>({
     );
   }, [contextModal, items]);
 
+  const wrapListItem = wrapper || defaultWrapper;
+
+  const renderListItem = useCallback((item: T, index: number) => {
+    return wrapListItem(item, index, (inner_item, inner_index) => {
+      return <SongListItem
+        item={inner_item}
+        index={inner_index}
+        handleClick={onClick}
+        queue={queue}
+        additional={additional}
+      />
+    })
+  }, [onClick, queue, additional, wrapListItem])
+
   return (
     <Fragment>
       <StyledSongList
         {...props}
         dataSource={items}
-        renderItem={(item: T, index: number) => (
-          <SongListItem
-            item={item}
-            index={index}
-            handleClick={onClick}
-            queue={queue}
-            additional={additional}
-          />
-        )}
+        renderItem={renderListItem}
       />
       {modalJSX}
     </Fragment>
