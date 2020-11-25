@@ -18,6 +18,7 @@ import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { StyledLayout, StyledContent } from "../StyledLayout";
 import { NavigationArrow } from "../snippets/NavigationArrow";
+import { Flex } from "../../util/Flex";
 
 export const ListenRouter = () => {
   const { state: playerState } = useContext(PlayerStateContext);
@@ -50,20 +51,22 @@ export const ListenRouter = () => {
         <FullscreenContext.Provider
           value={{ toggle: toggleFullscreen, isFullscreen: isFullscreen }}
         >
-          <StyledLayout ref={ref} height={height}>
-            <StyledContent>
-              {!isFullscreen && (
-                <Fragment>
-                  <NavigationArrow position="left" />
-                  <NavigationArrow position="right" />
-                </Fragment>
-              )}
-              <Route exact path="*/listen" render={renderCurrent} />
-              <Route path="*/listen/history" component={History} />
-              <Route path="*/listen/queue" component={Queue} />
-            </StyledContent>
-            <ListenFooter showActions={!isFullscreen} />
-          </StyledLayout>
+          <Flex ref={ref}>
+            <StyledLayout height={height}>
+              <StyledContent>
+                {!isFullscreen && (
+                  <Fragment>
+                    <NavigationArrow position="left" />
+                    <NavigationArrow position="right" />
+                  </Fragment>
+                )}
+                <Route exact path="*/listen" render={renderCurrent} />
+                <Route path="*/listen/history" component={History} />
+                <Route path="*/listen/queue" component={Queue} />
+              </StyledContent>
+              <ListenFooter showActions={!isFullscreen} />
+            </StyledLayout>
+          </Flex>
         </FullscreenContext.Provider>
       </Fragment>
     ),
