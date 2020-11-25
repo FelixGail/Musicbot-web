@@ -43,6 +43,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 const Queue: FunctionComponent = () => {
   const { queue } = useContext(PlayerStateContext);
   const [savedQueue, saveQueue] = useState(queue);
+  const hasMovePermission = useHasPermission(Permission.MOVE)
   const [{ error: moveError }, move] = useResource(
     getHookRequest(Operations.moveEntry)
   );
@@ -149,7 +150,12 @@ const Queue: FunctionComponent = () => {
       inner: (entry: SongEntry, index: number) => JSX.Element
     ) => {
       return (
-        <Draggable draggableId={item.song.id} index={index} key={item.song.id}>
+        <Draggable 
+          draggableId={item.song.id}
+          index={index}
+          key={item.song.id}
+          isDragDisabled={!hasMovePermission}  
+        >
           {(provided) => (
             <div
               ref={provided.innerRef}
@@ -162,7 +168,7 @@ const Queue: FunctionComponent = () => {
         </Draggable>
       );
     },
-    []
+    [hasMovePermission]
   );
 
   const jsx = useMemo(
