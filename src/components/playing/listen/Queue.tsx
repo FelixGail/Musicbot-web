@@ -5,7 +5,6 @@ import React, {
   FunctionComponent,
   Fragment,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { useResource } from "react-request-hook";
@@ -23,7 +22,7 @@ import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useSwipeable } from "react-swipeable";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
-import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import Operations, { getHookRequest } from "../../../core/rest/operations";
 import useHasPermission from "../../../core/hooks/hasPermissionHook";
 import { SongList } from "../../util/list/songlist/SongList";
