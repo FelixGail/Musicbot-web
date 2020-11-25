@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { Row, Input, Tabs } from "antd";
 import { RouteComponentProps } from "react-router";
 import { useResource } from "react-request-hook";
-import api, { getHookRequest } from "../../../core/api/model";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
 import { useDebounce } from "react-use";
 import { ProviderPane } from "../snippets/SongPanes";
 import styled from "styled-components";
@@ -12,7 +12,9 @@ const StyledTabs = styled(Tabs)`
 `;
 
 export const Search = (props: RouteComponentProps) => {
-  const [providers, getProviders] = useResource(getHookRequest(api.getProviders));
+  const [providers, getProviders] = useResource(
+    getHookRequest(Operations.getProviders)
+  );
   const [query, setQuery] = useState<string>(
     props.location.search.length > 0
       ? decodeURI(

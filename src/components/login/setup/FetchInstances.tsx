@@ -1,19 +1,28 @@
-import React, { useContext, useEffect, useCallback, useState, Fragment } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useState,
+  Fragment,
+} from "react";
 import { List, Empty, Input } from "antd";
 import { ConfigurationContext } from "../../../core/context/Configuration";
-import api from "../../../core/api/model";
+import Operations from "../../../core/rest/operations";
 import { BotInstance } from "../../../core/types";
 import { duration } from "moment";
 import { ClockCircleOutlined } from "@ant-design/icons";
-import { useResourceReload } from "../../../core/hooks/usePlayerStateContext";
 import formatDuration from "../../util/FormatDuration";
-import { StyledList, StyledListItem } from "../../util/StyledList";
+import { StyledList, StyledListItem } from "../../util/list/StyledList";
 import styled, { StyledComponent } from "styled-components";
 import { ReactSVG } from "react-svg";
-import logo from "../../../img/kiu_striked.svg"
-import { ConnectionSetupContext, SetupStates } from "../../../core/context/ConnectionSetupContext";
+import logo from "../../../resources/img/kiu_striked.svg";
+import {
+  ConnectionSetupContext,
+  SetupStates,
+} from "../../../core/context/ConnectionSetupContext";
 import { isInstanceAvailable, fromString } from "../../../core/instance";
 import { ListProps } from "antd/lib/list";
+import { useResourceReload } from "../../../core/hooks/resourceReloadHook";
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -27,7 +36,7 @@ const StyledInstanceListItem = styled(StyledListItem)`
     margin-bottom: 0px;
   }
 
-  &:hover{
+  &:hover {
     background-color: #005bb1;
   }
 `;
@@ -53,57 +62,73 @@ const StyledSVG = styled(ReactSVG)`
       max-width: 40%;
     }
 
-    .primary, .secondary {
+    .primary,
+    .secondary {
       fill: #3d4452;
     }
   }
 `;
 
-
 export const FetchInstances = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const { configuration, setConfiguration } = useContext(ConfigurationContext);
-  const [availableInstances, setAvailableInstances] = useState<BotInstance[]>([]);
+  const [availableInstances, setAvailableInstances] = useState<BotInstance[]>(
+    []
+  );
 
   useEffect(() => {
-    if(configuration.axios.defaults.baseURL?.length !== 0) {
-      configuration.axios.defaults.baseURL = ""
+    if (configuration.axios.defaults.baseURL?.length !== 0) {
+      configuration.axios.defaults.baseURL = "";
     }
-  }, [configuration.axios.defaults.baseURL])
+  }, [configuration.axios.defaults.baseURL]);
 
   const instances = useResourceReload(
-    api.getInstances,
+    Operations.getInstances,
     [],
     10000,
     true,
     configuration.registryUrl
   );
 
-  const elementCallback = useCallback((instance: BotInstance) => {
-    configuration.axios.defaults.baseURL = `https://${instance.domain}:${instance.port}/`;
-    setConfiguration({ instance: instance });
-    setNextState(SetupStates.PINGING);
-  }, [setNextState, setConfiguration, configuration.axios.defaults.baseURL]);
+  const elementCallback = useCallback(
+    (instance: BotInstance) => {
+      configuration.axios.defaults.baseURL = `https://${instance.domain}:${instance.port}/`;
+      setConfiguration({ instance: instance });
+      setNextState(SetupStates.PINGING);
+    },
+    [setNextState, setConfiguration, configuration.axios.defaults.baseURL]
+  );
 
   useEffect(() => {
     if (instances.length > 0) {
-      Promise.all(instances.map(i =>isInstanceAvailable(i))).then(arr => {
-        setAvailableInstances(arr.reduce<BotInstance[]>((c, b, i) => b? c.concat(instances[i]): c, []))})
+      Promise.all(instances.map((i) => isInstanceAvailable(i))).then((arr) => {
+        setAvailableInstances(
+          arr.reduce<BotInstance[]>(
+            (c, b, i) => (b ? c.concat(instances[i]) : c),
+            []
+          )
+        );
+      });
     }
   }, [instances, elementCallback]);
 
   const renderListElement = useCallback(
-      (item: BotInstance, index: number) => 
-        (<StyledInstanceListItem
-          onClick={() => elementCallback(item)}
-          key={index}
-          extra={<div>
-            <ClockCircleOutlined /> {formatDuration(duration(Date.now() - item.updated))} ago
-          </div>}
-        >
-          <List.Item.Meta title={item.name} />
-        </StyledInstanceListItem>)
-      , [elementCallback]);
+    (item: BotInstance, index: number) => (
+      <StyledInstanceListItem
+        onClick={() => elementCallback(item)}
+        key={index}
+        extra={
+          <div>
+            <ClockCircleOutlined />{" "}
+            {formatDuration(duration(Date.now() - item.updated))} ago
+          </div>
+        }
+      >
+        <List.Item.Meta title={item.name} />
+      </StyledInstanceListItem>
+    ),
+    [elementCallback]
+  );
 
   return (
     <Fragment>
@@ -111,22 +136,24 @@ export const FetchInstances = () => {
         dataSource={availableInstances}
         renderItem={renderListElement}
         locale={{
-          emptyText: <InstanceEmpty
-            description='Could not find any MusicBot instances on your network.'
-            image={<StyledSVG src={logo}/>}
-          />,
+          emptyText: (
+            <InstanceEmpty
+              description="Could not find any MusicBot instances on your network."
+              image={<StyledSVG src={logo} />}
+            />
+          ),
         }}
       />
       <Input.Search
         placeholder="Input manually"
         enterButton="Connect"
-        onSearch= {(value) => {
-          const instance = fromString(value)
-          if(instance) {
-            elementCallback(instance)
+        onSearch={(value) => {
+          const instance = fromString(value);
+          if (instance) {
+            elementCallback(instance);
           }
         }}
       />
     </Fragment>
-    );
+  );
 };

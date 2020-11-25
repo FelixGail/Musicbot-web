@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { ConfigurationContext } from "../../core/context/Configuration";
 import { AxiosError } from "axios";
-import { useUserRefresh } from "../../core/user/user";
+import { useUserRefresh } from "../../core/hooks/user";
 import { hasRefreshToken } from "../../core/types";
 
 const InterceptorLayer: FunctionComponent = ({ children }) => {
@@ -22,9 +22,9 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
           configuration.token,
           configuration.token && hasRefreshToken(configuration.token),
           error
-        )
-        if( (error as AxiosError).isAxiosError) {
-          const axiosError = error as AxiosError
+        );
+        if ((error as AxiosError).isAxiosError) {
+          const axiosError = error as AxiosError;
           if (
             configuration.token &&
             hasRefreshToken(configuration.token) &&
@@ -39,12 +39,7 @@ const InterceptorLayer: FunctionComponent = ({ children }) => {
       }
     );
     return () => configuration.axios.interceptors.response.eject(id);
-  }, [
-    configuration.axios,
-    configuration.token,
-    configuration.loggedIn,
-    login,
-  ]);
+  }, [configuration.axios, configuration.token, configuration.loggedIn, login]);
   return <Fragment>{children}</Fragment>;
 };
 

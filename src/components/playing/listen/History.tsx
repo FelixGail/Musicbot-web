@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useContext, Fragment } from "react";
-import api, { getHookRequest } from "../../../core/api/model";
-import { SongList } from "../songlist/SongList";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
+import { SongList } from "../../util/list/songlist/SongList";
 import ScreenNavigation from "../../util/ScreenNavigation";
 import { Permission, Song, SongEntry } from "../../../core/types";
 import { useResource } from "react-request-hook";
-import useHasPermission from "../../../core/hooks/useHasPermission";
+import useHasPermission from "../../../core/hooks/hasPermissionHook";
 import { FullscreenContext } from "../../../core/context/FullscreenContext";
 import PlayerStateContext from "../../../core/context/PlayerStateContext";
 import { useHistory } from "react-router-dom";
@@ -12,13 +12,13 @@ import { useSwipeable } from "react-swipeable";
 import styled from "styled-components";
 import { ContentWrapper } from "../snippets/ContentWrapper";
 import SwipeDiv from "../../util/SwipeDiv";
-import { itemToSong } from "../songlist/SongListItem";
+import { itemToSong } from "../../util/list/songlist/SongListItem";
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
-  const [, enqueue] = useResource(getHookRequest(api.enqueue));
+  const [, enqueue] = useResource(getHookRequest(Operations.enqueue));
   const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE);
-  const {toggle} = useContext(FullscreenContext);
+  const { toggle } = useContext(FullscreenContext);
   const browserHistory = useHistory();
   const left = `queue`;
   const right = `/listen`;
@@ -42,7 +42,7 @@ const History = () => {
   const jsx = useMemo(
     () => (
       <Fragment>
-          <SwipeDiv {...swipeHandler}>
+        <SwipeDiv {...swipeHandler}>
           <ScreenNavigation left={left} right={right} center={toggle} />
           <ContentWrapper>
             <StyledSongList
@@ -53,7 +53,6 @@ const History = () => {
           </ContentWrapper>
         </SwipeDiv>
       </Fragment>
-      
     ),
     [history, enqueueWrapper, toggle, left, right, swipeHandler]
   );

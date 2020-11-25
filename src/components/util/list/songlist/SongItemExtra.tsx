@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Song, SongEntry } from "../../../core/types";
+import { Song, SongEntry } from "../../../../core/types";
 import moment from "moment";
 import { itemToSong } from "./SongListItem";
 import { useMemo } from "react";
@@ -26,11 +26,7 @@ function SongItemExtra<T extends Song | SongEntry>(props: { item: T }) {
     return duration;
   }, [props.item]);
 
-  return (
-    <ItemExtraDiv>
-      {inner}
-    </ItemExtraDiv>
-  );
+  return <ItemExtraDiv>{inner}</ItemExtraDiv>;
 }
 
 export default SongItemExtra;

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useResource } from "react-request-hook";
-import api, { getHookRequest } from "../../../core/api/model";
+import Operations, { getHookRequest } from "../../../core/rest/operations";
 import { NamedPlugin, Song, Permission } from "../../../core/types";
-import { SongList } from "../songlist/SongList";
+import { SongList } from "../../util/list/songlist/SongList";
 import { ListProps } from "antd/lib/list";
-import useResourceWithPermission from "../../../core/api/permissionWrapperHook";
+import useResourceWithPermission from "../../../core/hooks/permissionWrapperHook";
 import { useCallback } from "react";
 
 const SongPane = ({
@@ -14,7 +14,7 @@ const SongPane = ({
   songs?: Song[];
 } & ListProps<Song>) => {
   const [, enqueue] = useResourceWithPermission(
-    api.enqueue,
+    Operations.enqueue,
     Permission.ENQUEUE
   );
   const callback = useCallback((song: Song) => enqueue([], song) && true, [
@@ -32,7 +32,7 @@ export const ProviderPane = ({
   provider: NamedPlugin;
   query: string;
 } & ListProps<Song>) => {
-  const [songs, search] = useResource(getHookRequest(api.search));
+  const [songs, search] = useResource(getHookRequest(Operations.search));
 
   useEffect(() => {
     search(provider, query);
@@ -45,7 +45,9 @@ export const SuggesterPane = ({
   suggester,
   ...props
 }: { suggester: NamedPlugin } & ListProps<Song>) => {
-  const [songs, getSuggestions] = useResource(getHookRequest(api.getSuggestions));
+  const [songs, getSuggestions] = useResource(
+    getHookRequest(Operations.getSuggestions)
+  );
 
   useEffect(() => {
     getSuggestions(suggester);

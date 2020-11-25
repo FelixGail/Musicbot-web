@@ -1,7 +1,12 @@
 {
     "version": "0.1.0",
     "configurations": [
-        
+        {
+            "command": "yarn start",
+            "name": "Run yarn start",
+            "request": "launch",
+            "type": "yarn"
+        },
         {
             "name": "Launch Chrome debugger",
             "type": "chrome",

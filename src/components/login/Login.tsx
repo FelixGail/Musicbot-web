@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { Route, RouteComponentProps } from "react-router";
 import { Row, Col, Alert } from "antd";
 import { ReactSVG } from "react-svg";
-import logo from "../../img/kiu.svg";
+import logo from "../../resources/img/kiu.svg";
 import { LoginContext } from "../../core/context/LoginContext";
 import { SetupConnection } from "./setup/SetupConnection";
 import { LoginForm } from "./LoginForm";
@@ -11,8 +11,8 @@ import { useLocation } from "react-router-dom";
 
 export const Login = (props: RouteComponentProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const location = useLocation<{from?: { pathname?: string}}>();
-  
+  const location = useLocation<{ from?: { pathname?: string } }>();
+
   const error = useCallback(
     (error: string | null) => {
       setErrorMessage(error);
@@ -21,14 +21,19 @@ export const Login = (props: RouteComponentProps) => {
   );
 
   const from = useMemo(
-    () => (location.state && location.state.from && location.state.from.pathname && location.state.from.pathname) || "/",
+    () =>
+      (location.state &&
+        location.state.from &&
+        location.state.from.pathname &&
+        location.state.from.pathname) ||
+      "/",
     [location.state]
   );
 
   const provider = useMemo(() => {
     return {
       setError: error,
-      redirect: from
+      redirect: from,
     };
   }, [error, from]);
 

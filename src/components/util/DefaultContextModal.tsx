@@ -2,7 +2,7 @@ import ContextModal, { ContextModalElement } from "./ContextModal";
 import React, { useMemo, useState, useEffect, useContext } from "react";
 import { useHistory, match } from "react-router";
 import { SongEntry, Song } from "../../core/types";
-import { itemToSong } from "../playing/songlist/SongListItem";
+import { itemToSong } from "./list/songlist/SongListItem";
 import { ModalProps } from "antd/lib/modal";
 import { Typography } from "antd";
 import { db } from "../../core/db/AppDB";
@@ -39,18 +39,20 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
 }: DefaultContextModalProps<T> & { id: number }) {
   const item = useMemo(() => data[id], [data, id]);
   const song = useMemo(() => itemToSong(item), [item]);
-  const {configuration} = useContext(ConfigurationContext)
+  const { configuration } = useContext(ConfigurationContext);
   const [combinedElements, setElements] = useState<ContextModalElement<T>[]>();
   const history = useHistory();
 
   useEffect(() => {
-    db.songs.get(song.id).then(value => {
-      const isLikedSong = value !== undefined
+    db.songs.get(song.id).then((value) => {
+      const isLikedSong = value !== undefined;
       const defaultElements: ContextModalElement<T>[] = [
         {
           element: () => `${isLikedSong ? "Remove from" : "Add to"} my songs`,
           onClick: () => {
-            isLikedSong ? db.songs.delete(song.id) : fromSong(song).save(configuration);
+            isLikedSong
+              ? db.songs.delete(song.id)
+              : fromSong(song).save(configuration);
           },
           close: true,
         },
@@ -60,20 +62,21 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
           close: true,
         },
       ];
-      const combined = (elements ? elements.concat(defaultElements) : defaultElements).map(
-        ({ element, onClick, close }) => {
-          return {
-            element: element,
-            onClick: (item: T) => {
-              onClick(item);
-              close && history.goBack();
-            },
-          };
-        }
-      );
+      const combined = (elements
+        ? elements.concat(defaultElements)
+        : defaultElements
+      ).map(({ element, onClick, close }) => {
+        return {
+          element: element,
+          onClick: (item: T) => {
+            onClick(item);
+            close && history.goBack();
+          },
+        };
+      });
       setElements(combined);
-    })
-  }, [setElements, elements, history, song, configuration])
+    });
+  }, [setElements, elements, history, song, configuration]);
 
   return ContextModal<T>({
     item: item,

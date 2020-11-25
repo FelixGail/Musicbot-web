@@ -3,7 +3,7 @@ import { ConfigurationContext } from "../../core/context/Configuration";
 import { LoginContext } from "../../core/context/LoginContext";
 import { Button, Form, Input, Col, Row } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useUserLogin, useUserRegister } from "../../core/user/user";
+import { useUserLogin, useUserRegister } from "../../core/hooks/user";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
@@ -37,12 +37,12 @@ export const LoginForm = () => {
   const { configuration } = useContext(ConfigurationContext);
   const history = useHistory();
   const [form] = Form.useForm();
-  
+
   useEffect(() => {
     if (!configuration.instance) {
       history.push(redirect);
     }
-  }, [configuration.instance, redirect, history])
+  }, [configuration.instance, redirect, history]);
 
   const onFinish = useCallback(
     (values: any) => {
@@ -90,7 +90,13 @@ export const LoginForm = () => {
   return (
     <Row>
       <Col {...FormProps}>
-        <StyledForm onFinish={onFinish} form={form} initialValues={{username: localStorage.getItem('username') || undefined}}>
+        <StyledForm
+          onFinish={onFinish}
+          form={form}
+          initialValues={{
+            username: localStorage.getItem("username") || undefined,
+          }}
+        >
           <Form.Item
             name="username"
             rules={[

@@ -1,169 +1,180 @@
 export class ServiceError extends Error {
-	code: number;
-	data: any;
+  code: number;
+  data: any;
 
-	constructor(code: number, data: any) {
-		super();
-		this.code = code;
-		this.data = data;
-	}
+  constructor(code: number, data: any) {
+    super();
+    this.code = code;
+    this.data = data;
+  }
 }
 
 export interface PlayerState {
-	state: PlayerStatus;
-	songEntry?: SongEntry;
-	progress?: number;
+  state: PlayerStatus;
+  songEntry?: SongEntry;
+  progress?: number;
 }
 
 export function playerStateEquals(a?: PlayerState, b?: PlayerState) {
-	if (a === b) return true;
-	if (a && b) {
-		return a.state === b.state && a.progress === b.progress && songEntryEquals(a.songEntry, b.songEntry);
-	}
-	return false;
+  if (a === b) return true;
+  if (a && b) {
+    return (
+      a.state === b.state &&
+      a.progress === b.progress &&
+      songEntryEquals(a.songEntry, b.songEntry)
+    );
+  }
+  return false;
 }
 
 export interface UserInfo {
-	name: string;
-	permissions: Permission[];
+  name: string;
+  permissions: Permission[];
 }
 
 export interface ImplementationInfo {
-	name: string;
-	version: string;
-	projectInfo: string;
+  name: string;
+  version: string;
+  projectInfo: string;
 }
 
 export interface VersionInfo {
-	apiVersion: string;
-	implementation: ImplementationInfo;
-	botName: string;
+  apiVersion: string;
+  implementation: ImplementationInfo;
+  botName: string;
 }
 
 export interface NamedPlugin {
-	id: string;
-	name: string;
+  id: string;
+  name: string;
 }
 
 export function namedPluginEquals(a?: NamedPlugin, b?: NamedPlugin) {
-	if (a === b) return true;
-	if (a && b) {
-		return a.id === b.id;
-	}
-	return false;
+  if (a === b) return true;
+  if (a && b) {
+    return a.id === b.id;
+  }
+  return false;
 }
 
 export interface Song {
-	id: string;
-	title: string;
-	description: string;
-	provider: NamedPlugin;
-	duration?: number;
-	albumArtUrl?: string;
-	albumArtPath?: string;
-	savedArt?: string;
+  id: string;
+  title: string;
+  description: string;
+  provider: NamedPlugin;
+  duration?: number;
+  albumArtUrl?: string;
+  albumArtPath?: string;
+  savedArt?: string;
 }
 
 export function songEquals(a?: Song, b?: Song) {
-	return a === b || (a && b && a.id === b.id && namedPluginEquals(a.provider, b.provider)) || false;
+  return (
+    a === b ||
+    (a && b && a.id === b.id && namedPluginEquals(a.provider, b.provider)) ||
+    false
+  );
 }
 
 export interface SongEntry {
-	song: Song;
-	userName: string;
+  song: Song;
+  userName: string;
 }
 
 export function songEntryEquals(a?: SongEntry, b?: SongEntry) {
-	if (a === b) return true;
-	if (a && b) {
-		return a.userName === b.userName && songEquals(a.song, b.song);
-	}
-	return false;
+  if (a === b) return true;
+  if (a && b) {
+    return a.userName === b.userName && songEquals(a.song, b.song);
+  }
+  return false;
 }
 
 export interface PlayerStateChange {
-	action: Action;
+  action: Action;
 }
 
 export interface RegisterCredentials {
-	name: string;
-	userId: string;
+  name: string;
+  userId: string;
 }
 
 export interface PasswordChange {
-	newPassword: string;
+  newPassword: string;
 }
 
 export interface AuthExpectation {
-	format: AuthFormat;
-	type: UserType;
-	permissions: Permission[];
+  format: AuthFormat;
+  type: UserType;
+  permissions: Permission[];
 }
 
 export interface Volume {
-	volume: number;
-	isSupported: boolean;
+  volume: number;
+  isSupported: boolean;
 }
 
 export enum UserType {
-	GUEST = 'Guest',
-	FULL = 'Full'
+  GUEST = "Guest",
+  FULL = "Full",
 }
 
 export enum AuthFormat {
-	TOKEN = 'Token',
-	BASIC = 'Basic'
+  TOKEN = "Token",
+  BASIC = "Basic",
 }
 
 export enum Action {
-	PLAY = 'PLAY',
-	PAUSE = 'PAUSE',
-	SKIP = 'SKIP'
+  PLAY = "PLAY",
+  PAUSE = "PAUSE",
+  SKIP = "SKIP",
 }
 
 export enum PlayerStatus {
-	PLAY = 'PLAY',
-	PAUSE = 'PAUSE',
-	STOP = 'STOP',
-	ERROR = 'ERROR'
+  PLAY = "PLAY",
+  PAUSE = "PAUSE",
+  STOP = "STOP",
+  ERROR = "ERROR",
 }
 
 export enum Permission {
-	SKIP = 'SKIP',
-	DISLIKE = 'DISLIKE',
-	MOVE = 'MOVE',
-	PAUSE = 'PAUSE',
-	ENQUEUE = 'ENQUEUE',
-	ALTER_SUGGESTIONS = 'ALTER_SUGGESTIONS',
-	CHANGE_VOLUME = 'CHANGE_VOLUME',
-	EXIT = 'EXIT'
+  SKIP = "SKIP",
+  DISLIKE = "DISLIKE",
+  MOVE = "MOVE",
+  PAUSE = "PAUSE",
+  ENQUEUE = "ENQUEUE",
+  ALTER_SUGGESTIONS = "ALTER_SUGGESTIONS",
+  CHANGE_VOLUME = "CHANGE_VOLUME",
+  EXIT = "EXIT",
+  ADMIN = "ADMIN",
 }
 
 export interface Credentials {
-	username: string;
-	password: string;
-	token: string;
+  username: string;
+  password: string;
+  token: string;
 }
 
 export interface Token {
-	accessToken: string;
-	refreshToken?: string;
+  accessToken: string;
+  refreshToken?: string;
 }
 
 export interface TokenWithRefresh extends Token {
-	refreshToken: string;
+  refreshToken: string;
 }
 
-export function hasRefreshToken(token: Token | TokenWithRefresh): token is TokenWithRefresh {
-	if (token.refreshToken) {
-		return true;
-	}
-	return false;
+export function hasRefreshToken(
+  token: Token | TokenWithRefresh
+): token is TokenWithRefresh {
+  if (token.refreshToken) {
+    return true;
+  }
+  return false;
 }
 
 export interface BotInstance {
-	name: string;
-	updated: number;
-	domain: string;
-	port: number;
+  name: string;
+  updated: number;
+  domain: string;
+  port: number;
 }
