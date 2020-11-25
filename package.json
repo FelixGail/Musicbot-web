@@ -1,7 +1,7 @@
 {
 	"name": "musicbot-web",
 	"author": "Felix Gail <felix.clemens.gail@gmail.com>",
-	"version": "0.9.3",
+	"version": "0.10.0",
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
@@ -11,6 +11,7 @@
 		"@types/moment-duration-format": "^2.2.2",
 		"@types/node": "^14.11.10",
 		"@types/react": "^17.0.0",
+		"@types/react-beautiful-dnd": "^13.0.0",
 		"@types/react-dom": "^16.9.8",
 		"@types/react-router-dom": "^5.1.6",
 		"@types/styled-components": "^5.1.1",
@@ -25,6 +26,7 @@
 		"moment-duration-format": "^2.3.2",
 		"react": "^16.14.0",
 		"react-app-rewired": "^2.1.6",
+		"react-beautiful-dnd": "^13.0.0",
 		"react-dom": "^16.14.0",
 		"react-is": "^17.0.1",
 		"react-request-hook": "^2.1.1",
