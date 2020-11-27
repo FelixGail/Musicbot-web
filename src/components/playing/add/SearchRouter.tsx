@@ -12,6 +12,8 @@ import { ContentWrapper } from "../snippets/ContentWrapper";
 const HighlightingContent = styled(StyledContent)`
   padding-top: 10px;
   color: white;
+  justify-content: flex-start;
+  justify-items: flex-start;
 
   .ant-tabs {
     color: #e6e6e6;
@@ -41,7 +43,7 @@ const BackTopDiv = styled.div`
 
 const StyledBackTop = styled(BackTop)`
   bottom: 55px;
-  left: 5px;
+  right: 5px;
 `;
 
 const SearchRouter = () => {
