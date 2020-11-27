@@ -12,6 +12,8 @@ import { ContentWrapper } from "../snippets/ContentWrapper";
 const HighlightingContent = styled(StyledContent)`
   padding-top: 10px;
   color: white;
+  justify-content: flex-start;
+  justify-items: flex-start;
 
   .ant-tabs {
     color: #e6e6e6;
