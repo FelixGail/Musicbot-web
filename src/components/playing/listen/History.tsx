@@ -1,18 +1,18 @@
-import React, { useCallback, useMemo, useContext, Fragment } from "react";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import { SongList } from "../../util/list/songlist/SongList";
-import ScreenNavigation from "../../util/ScreenNavigation";
-import { Permission, Song, SongEntry } from "../../../core/types";
-import { useResource } from "react-request-hook";
-import useHasPermission from "../../../core/hooks/hasPermissionHook";
-import { FullscreenContext } from "../../../core/context/FullscreenContext";
-import PlayerStateContext from "../../../core/context/PlayerStateContext";
-import { useHistory } from "react-router-dom";
-import { useSwipeable } from "react-swipeable";
-import styled from "styled-components";
-import { ContentWrapper } from "../snippets/ContentWrapper";
-import SwipeDiv from "../../util/SwipeDiv";
-import { itemToSong } from "../../util/list/songlist/SongListItem";
+import React, { useCallback, useMemo, useContext, Fragment } from 'react';
+import Operations, { getHookRequest } from '../../../core/rest/operations';
+import { SongList } from '../../util/list/songlist/SongList';
+import ScreenNavigation from '../../util/ScreenNavigation';
+import { Permission, Song, SongEntry } from '../../../core/types';
+import { useResource } from 'react-request-hook';
+import useHasPermission from '../../../core/hooks/hasPermissionHook';
+import { FullscreenContext } from '../../../core/context/FullscreenContext';
+import PlayerStateContext from '../../../core/context/PlayerStateContext';
+import { useHistory } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
+import styled from 'styled-components';
+import { ContentWrapper } from '../snippets/ContentWrapper';
+import SwipeDiv from '../../util/SwipeDiv';
+import { itemToSong } from '../../util/list/songlist/SongListItem';
 
 const History = () => {
   const { history } = useContext(PlayerStateContext);
@@ -36,7 +36,7 @@ const History = () => {
       }
       return false;
     },
-    [enqueue, hasEnqueuePermission]
+    [enqueue, hasEnqueuePermission],
   );
 
   const jsx = useMemo(
@@ -54,7 +54,7 @@ const History = () => {
         </SwipeDiv>
       </Fragment>
     ),
-    [history, enqueueWrapper, toggle, left, right, swipeHandler]
+    [history, enqueueWrapper, toggle, left, right, swipeHandler],
   );
 
   return jsx;

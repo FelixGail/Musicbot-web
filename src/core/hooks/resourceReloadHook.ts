@@ -1,7 +1,7 @@
-import { useResource, Arguments } from "react-request-hook";
-import { useEffect, useCallback, useRef, useState } from "react";
-import deepEqual from "deep-equal";
-import { getHookRequest, RequestConfig } from "../rest/operations";
+import { useResource, Arguments } from 'react-request-hook';
+import { useEffect, useCallback, useRef, useState } from 'react';
+import deepEqual from 'deep-equal';
+import { getHookRequest, RequestConfig } from '../rest/operations';
 
 /**
  * Periodically update a fetch function
@@ -20,7 +20,7 @@ export function useResourceReload<T>(
   ...args: Arguments<(...args: any[]) => RequestConfig<T>>
 ): [T, (update: T) => void] {
   const [{ data, error, cancel, isLoading }, getResource] = useResource(
-    getHookRequest(resourceFunction)
+    getHookRequest(resourceFunction),
   );
   const [returnValue, setReturnValue] = useState(defaultValue);
   const dataRef = useRef(defaultValue);
@@ -43,7 +43,7 @@ export function useResourceReload<T>(
       }
       setReturnValue(value);
     },
-    [setReturnValue, cancel, isLoading]
+    [setReturnValue, cancel, isLoading],
   );
 
   useEffect(() => {

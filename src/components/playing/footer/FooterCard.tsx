@@ -1,13 +1,13 @@
-import { Card } from "antd";
-import { Link } from "react-router-dom";
+import { Card } from 'antd';
+import { Link } from 'react-router-dom';
 import {
   UnorderedListOutlined,
   SearchOutlined,
   QuestionOutlined,
   StarOutlined,
-} from "@ant-design/icons";
-import styled from "styled-components";
-import React from "react";
+} from '@ant-design/icons';
+import styled from 'styled-components';
+import React from 'react';
 
 const StyledCard = styled(Card)`
   .ant-card-body {

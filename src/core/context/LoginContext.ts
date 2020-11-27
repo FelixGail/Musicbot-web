@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export interface ILoginContext {
   setError: (error: string | null) => void;
@@ -7,5 +7,5 @@ export interface ILoginContext {
 
 export const LoginContext = createContext<ILoginContext>({
   setError: () => {},
-  redirect: "/",
+  redirect: '/',
 });

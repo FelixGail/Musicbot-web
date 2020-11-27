@@ -1,13 +1,13 @@
-import { Song, SongEntry } from "../../../../core/types";
-import { ListItemProps } from "antd/lib/list";
-import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { List } from "antd";
-import { AlbumArt } from "../../../playing/snippets/AlbumArt";
-import SongItemExtra from "./SongItemExtra";
-import SongItemAction from "./SongItemAction";
-import { SongListAdditional } from "./SongList";
-import styled from "styled-components";
-import { StyledListItem } from "../StyledList";
+import { Song, SongEntry } from '../../../../core/types';
+import { ListItemProps } from 'antd/lib/list';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { List } from 'antd';
+import { AlbumArt } from '../../../playing/snippets/AlbumArt';
+import SongItemExtra from './SongItemExtra';
+import SongItemAction from './SongItemAction';
+import { SongListAdditional } from './SongList';
+import styled from 'styled-components';
+import { StyledListItem } from '../StyledList';
 
 export interface SongListItemProps<T extends Song | SongEntry>
   extends ListItemProps {
@@ -44,13 +44,13 @@ function SongListItem<T extends Song | SongEntry>({
   ...props
 }: SongListItemProps<T>) {
   const [alteredClassName, setClassName] = useState<string | undefined>(
-    className
+    className,
   );
 
   const song = useMemo(() => itemToSong(item), [item]);
 
   const addEnqueuedClass = useCallback(() => {
-    setClassName(className ? `${className} enqueued` : "enqueued");
+    setClassName(className ? `${className} enqueued` : 'enqueued');
   }, [setClassName, className]);
 
   const alteredClickHandle = useCallback(() => {
@@ -62,7 +62,7 @@ function SongListItem<T extends Song | SongEntry>({
   useEffect(() => {
     const contains = queue.some(
       (item) =>
-        item.song.id === song.id && item.song.provider.id === song.provider.id
+        item.song.id === song.id && item.song.provider.id === song.provider.id,
     );
 
     if (contains) {

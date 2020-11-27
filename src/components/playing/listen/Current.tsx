@@ -1,15 +1,15 @@
-import { Song } from "../../../core/types";
-import React, { Fragment, useMemo } from "react";
-import ScreenNavigation from "../../util/ScreenNavigation";
-import { useLocation } from "react-use";
-import { useContext } from "react";
-import { FullscreenContext } from "../../../core/context/FullscreenContext";
-import { Link, useHistory } from "react-router-dom";
-import { useSwipeable } from "react-swipeable";
-import { ConfigurationContext } from "../../../core/context/Configuration";
-import { BackgroundAlbumArt } from "../snippets/AlbumArt";
-import SwipeDiv from "../../util/SwipeDiv";
-import { SettingsButton } from "../snippets/SettingsButton";
+import { Song } from '../../../core/types';
+import React, { Fragment, useMemo } from 'react';
+import ScreenNavigation from '../../util/ScreenNavigation';
+import { useLocation } from 'react-use';
+import { useContext } from 'react';
+import { FullscreenContext } from '../../../core/context/FullscreenContext';
+import { Link, useHistory } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
+import { ConfigurationContext } from '../../../core/context/Configuration';
+import { BackgroundAlbumArt } from '../snippets/AlbumArt';
+import SwipeDiv from '../../util/SwipeDiv';
+import { SettingsButton } from '../snippets/SettingsButton';
 
 const Current = (props: { song?: Song }) => {
   const location = useLocation();
@@ -38,7 +38,15 @@ const Current = (props: { song?: Song }) => {
         </SwipeDiv>
       </Fragment>
     ),
-    [props.song, left, right, swipeHandler, toggle, configuration, isFullscreen]
+    [
+      props.song,
+      left,
+      right,
+      swipeHandler,
+      toggle,
+      configuration,
+      isFullscreen,
+    ],
   );
 
   return jsx;

@@ -1,6 +1,6 @@
-import { useContext, useMemo } from "react";
-import { ConfigurationContext } from "../context/Configuration";
-import { Permission } from "../types";
+import { useContext, useMemo } from 'react';
+import { ConfigurationContext } from '../context/Configuration';
+import { Permission } from '../types';
 
 function useHasPermission(permission: Permission) {
   const { configuration } = useContext(ConfigurationContext);
@@ -9,7 +9,7 @@ function useHasPermission(permission: Permission) {
       (configuration.permissions &&
         configuration.permissions.includes(permission)) ||
       false,
-    [configuration.permissions, permission]
+    [configuration.permissions, permission],
   );
 }
 

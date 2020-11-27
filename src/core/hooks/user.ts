@@ -3,13 +3,13 @@ import {
   RequestError,
   RequestDispatcher,
   Request,
-} from "react-request-hook";
-import Operations, { getHookRequest, RequestConfig } from "../rest/operations";
-import { useEffect, useState, useContext, useCallback, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { ConfigurationContext } from "../context/Configuration";
-import { Canceler } from "axios";
-import { Token, TokenWithRefresh } from "../types";
+} from 'react-request-hook';
+import Operations, { getHookRequest, RequestConfig } from '../rest/operations';
+import { useEffect, useState, useContext, useCallback, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { ConfigurationContext } from '../context/Configuration';
+import { Canceler } from 'axios';
+import { Token, TokenWithRefresh } from '../types';
 
 export interface CallResult {
   successful: boolean;
@@ -35,21 +35,21 @@ function useSaveToken(): (token: Token) => void {
       if (token.refreshToken) {
         localStorage.setItem(
           configurationRef.current.instance!.domain,
-          token.refreshToken
+          token.refreshToken,
         );
       }
     },
-    [configurationRef, setConfiguration]
+    [configurationRef, setConfiguration],
   );
 
   return callback;
 }
 
 function useGenericLogin<T extends Request>(
-  loginFunction: (...args: any[]) => RequestConfig<Token>
+  loginFunction: (...args: any[]) => RequestConfig<Token>,
 ): [CallResult, RequestDispatcher<T>] {
   const [{ data, error, isLoading }, login] = useResource(
-    getHookRequest(loginFunction)
+    getHookRequest(loginFunction),
   );
   const [success, setSuccess] = useState<boolean>(false);
   const { setConfiguration } = useContext(ConfigurationContext);
@@ -81,7 +81,7 @@ function useGenericLogin<T extends Request>(
 
 export function useUserRegister(): [
   CallResult,
-  (username: string, passowrd?: string) => Canceler
+  (username: string, passowrd?: string) => Canceler,
 ] {
   const [callresult, genericCall] = useGenericLogin(Operations.registerUser);
   const call = useCallback(
@@ -89,28 +89,28 @@ export function useUserRegister(): [
       const password = userId || uuidv4();
       return genericCall(username, password);
     },
-    [genericCall]
+    [genericCall],
   );
   return [callresult, call];
 }
 
 export function useUserLogin(): [
   CallResult,
-  (username: string, password: string) => Canceler
+  (username: string, password: string) => Canceler,
 ] {
   return useGenericLogin(Operations.loginUser);
 }
 
 export function useUserRefresh(): [
   CallResult,
-  (token: TokenWithRefresh) => Canceler
+  (token: TokenWithRefresh) => Canceler,
 ] {
   return useGenericLogin(Operations.refreshUser);
 }
 
 export function useUserFetch(): [CallResult, () => Canceler] {
   const [{ data, error, isLoading }, getUser] = useResource(
-    getHookRequest(Operations.getMe)
+    getHookRequest(Operations.getMe),
   );
   const [success, setSuccess] = useState<boolean>(false);
   const { setConfiguration } = useContext(ConfigurationContext);
@@ -118,7 +118,7 @@ export function useUserFetch(): [CallResult, () => Canceler] {
   useEffect(() => {
     if (data && !isLoading) {
       setConfiguration({ username: data.name, permissions: data.permissions });
-      localStorage.setItem("username", data.name);
+      localStorage.setItem('username', data.name);
       setSuccess(true);
     }
   }, [data, isLoading, setSuccess, setConfiguration]);
@@ -128,10 +128,10 @@ export function useUserFetch(): [CallResult, () => Canceler] {
 
 export function useUserSetPassword(): [
   CallResult,
-  (password: string) => Canceler
+  (password: string) => Canceler,
 ] {
   const [{ data, error, isLoading }, setPassword] = useResource(
-    getHookRequest(Operations.setPassword)
+    getHookRequest(Operations.setPassword),
   );
   const [result, fetchUser] = useUserFetch();
   const [passwordState, setStatePassword] = useState<string>();
@@ -142,7 +142,7 @@ export function useUserSetPassword(): [
       setStatePassword(password);
       return setPassword(password);
     },
-    [setPassword, setStatePassword]
+    [setPassword, setStatePassword],
   );
 
   useEffect(() => {

@@ -1,20 +1,20 @@
-import React, { useMemo } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { PrivateRoute } from "./util/PrivateRoute";
-import { Login } from "./login/Login";
+import React, { useMemo } from 'react';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { PrivateRoute } from './util/PrivateRoute';
+import { Login } from './login/Login';
 import {
   ConfigurationContext,
   IConfiguration,
   IConfigurationContext,
-} from "../core/context/Configuration";
-import Axios from "axios";
-import { RequestContext } from "react-request-hook";
-import { useSetState } from "react-use";
-import { PlayRouter } from "./playing/PlayRouter";
-import InterceptorLayer from "./util/InterceptorLayer";
-import { Settings } from "./settings/Settings";
+} from '../core/context/Configuration';
+import Axios from 'axios';
+import { RequestContext } from 'react-request-hook';
+import { useSetState } from 'react-use';
+import { PlayRouter } from './playing/PlayRouter';
+import InterceptorLayer from './util/InterceptorLayer';
+import { Settings } from './settings/Settings';
 
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -36,7 +36,7 @@ const App = (props: { config: Config }) => {
       Axios.create({
         timeout: 1000,
       }),
-    []
+    [],
   );
   const [configuration, setConfiguration] = useSetState<IConfiguration>({
     loggedIn: false,
@@ -62,7 +62,7 @@ const App = (props: { config: Config }) => {
               path="/"
               component={() => <Redirect to="listen" />}
             />
-            <PrivateRoute path={["/listen", "/add"]} component={PlayRouter} />
+            <PrivateRoute path={['/listen', '/add']} component={PlayRouter} />
             <PrivateRoute path="/settings" component={Settings} />
             <Route path="/login" component={Login}></Route>
           </Router>

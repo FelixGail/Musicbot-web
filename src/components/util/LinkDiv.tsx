@@ -1,5 +1,5 @@
-import { LinkProps, Link } from "react-router-dom";
-import React from "react";
+import { LinkProps, Link } from 'react-router-dom';
+import React from 'react';
 
 const LinkDiv = ({ className, children, ...props }: LinkProps) => {
   return (

@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
-import { ConfigurationContext } from "../../core/context/Configuration";
-import { LoginContext } from "../../core/context/LoginContext";
-import { Button, Form, Input, Col, Row } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useUserLogin, useUserRegister } from "../../core/hooks/user";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { ConfigurationContext } from '../../core/context/Configuration';
+import { LoginContext } from '../../core/context/LoginContext';
+import { Button, Form, Input, Col, Row } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useUserLogin, useUserRegister } from '../../core/hooks/user';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const MAX_USERNAME_LENGTH = 20;
 
@@ -47,12 +47,12 @@ export const LoginForm = () => {
   const onFinish = useCallback(
     (values: any) => {
       if (expectPassword) {
-        login(values["username"], values["password"]);
+        login(values['username'], values['password']);
       } else {
-        register(values["username"]);
+        register(values['username']);
       }
     },
-    [login, register, expectPassword]
+    [login, register, expectPassword],
   );
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const LoginForm = () => {
               break;
             case 403:
             case 404:
-              setError("Incorrect username password combination.");
+              setError('Incorrect username password combination.');
               break;
             default:
               setError(`Error ${error.code}: ${error.message}`);
@@ -94,7 +94,7 @@ export const LoginForm = () => {
           onFinish={onFinish}
           form={form}
           initialValues={{
-            username: localStorage.getItem("username") || undefined,
+            username: localStorage.getItem('username') || undefined,
           }}
         >
           <Form.Item
@@ -103,7 +103,7 @@ export const LoginForm = () => {
               {
                 required: true,
                 whitespace: true,
-                message: "Please select a username.",
+                message: 'Please select a username.',
               },
               {
                 max: MAX_USERNAME_LENGTH,
@@ -126,7 +126,7 @@ export const LoginForm = () => {
                 {
                   required: true,
                   whitespace: true,
-                  message: "Please insert your password",
+                  message: 'Please insert your password',
                 },
               ]}
             >

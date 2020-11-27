@@ -1,12 +1,12 @@
-import React from "react";
-import { ContentWrapper } from "../playing/snippets/ContentWrapper";
-import { StyledContent, StyledLayout } from "../playing/StyledLayout";
-import LinkButton from "../util/LinkButton";
-import { Logout } from "./Logout";
-import { PermissionList } from "./PermissionList";
-import { StyledSpace, StyledDivider, SpaceBox } from "./Styles";
-import { UserForm } from "./UserForm";
-import { VolumeSlider } from "./VolumeSlider";
+import React from 'react';
+import { ContentWrapper } from '../playing/snippets/ContentWrapper';
+import { StyledContent, StyledLayout } from '../playing/StyledLayout';
+import LinkButton from '../util/LinkButton';
+import { Logout } from './Logout';
+import { PermissionList } from './PermissionList';
+import { StyledSpace, StyledDivider, SpaceBox } from './Styles';
+import { UserForm } from './UserForm';
+import { VolumeSlider } from './VolumeSlider';
 
 export const Settings = () => {
   return (

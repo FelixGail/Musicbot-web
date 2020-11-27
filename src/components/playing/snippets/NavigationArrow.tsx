@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import arrow from "../../../resources/img/arrow.svg";
+import styled from 'styled-components';
+import arrow from '../../../resources/img/arrow.svg';
 
-export const NavigationArrow = styled.div<{ position: "left" | "right" }>`
+export const NavigationArrow = styled.div<{ position: 'left' | 'right' }>`
   opacity: 0;
 
   @media only screen and (min-width: 1000px) {
@@ -18,7 +18,7 @@ export const NavigationArrow = styled.div<{ position: "left" | "right" }>`
   background-repeat: no-repeat;
   background-size: contain;
   ${(props) =>
-    props.position === "left"
+    props.position === 'left'
       ? `${props.position}: 0;transform: rotate(180deg);`
       : `${props.position}: 0;`}
 `;

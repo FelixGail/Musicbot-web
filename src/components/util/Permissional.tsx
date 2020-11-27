@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react";
-import { Permission } from "../../core/types";
-import Conditional from "./Conditional";
-import useHasPermission from "../../core/hooks/hasPermissionHook";
+import React, { ReactNode } from 'react';
+import { Permission } from '../../core/types';
+import Conditional from './Conditional';
+import useHasPermission from '../../core/hooks/hasPermissionHook';
 
 export interface PermissionalProps {
   children: ReactNode;

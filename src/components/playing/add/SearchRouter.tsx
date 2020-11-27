@@ -1,13 +1,13 @@
-import { Route, Redirect, useHistory, useLocation } from "react-router";
-import React, { useCallback, useEffect, Fragment, useState } from "react";
-import { BackTop, Layout } from "antd";
-import { Search } from "./Search";
-import Suggest from "./Suggest";
-import Stars from "./Stars";
-import NavigationCard from "../footer/FooterCard";
-import { StyledContent, StyledLayout } from "../StyledLayout";
-import styled from "styled-components";
-import { ContentWrapper } from "../snippets/ContentWrapper";
+import { Route, Redirect, useHistory, useLocation } from 'react-router';
+import React, { useCallback, useEffect, Fragment, useState } from 'react';
+import { BackTop, Layout } from 'antd';
+import { Search } from './Search';
+import Suggest from './Suggest';
+import Stars from './Stars';
+import NavigationCard from '../footer/FooterCard';
+import { StyledContent, StyledLayout } from '../StyledLayout';
+import styled from 'styled-components';
+import { ContentWrapper } from '../snippets/ContentWrapper';
 
 const HighlightingContent = styled(StyledContent)`
   padding-top: 10px;
@@ -49,7 +49,7 @@ const StyledBackTop = styled(BackTop)`
 const SearchRouter = () => {
   const location = useLocation();
   const history = useHistory();
-  const goHome = useCallback(() => history.push("/"), [history]);
+  const goHome = useCallback(() => history.push('/'), [history]);
   const [height, setHeight] = useState<number>(window.innerHeight);
 
   const handleEscape = useCallback(
@@ -58,28 +58,28 @@ const SearchRouter = () => {
         goHome();
       }
     },
-    [goHome]
+    [goHome],
   );
 
   useEffect(() => {
     function updateSize() {
       setHeight(window.innerHeight);
     }
-    window.addEventListener("resize", updateSize);
-    document.addEventListener("keydown", handleEscape, false);
+    window.addEventListener('resize', updateSize);
+    document.addEventListener('keydown', handleEscape, false);
     return () => {
-      document.removeEventListener("keydown", handleEscape, false);
-      window.removeEventListener("resize", updateSize);
+      document.removeEventListener('keydown', handleEscape, false);
+      window.removeEventListener('resize', updateSize);
     };
   }, [handleEscape, setHeight]);
 
   const renderCallback = useCallback(
     () => <Redirect to={`${location.pathname}/search`} />,
-    [location.pathname]
+    [location.pathname],
   );
   const backTopTarget = useCallback(
-    () => document.getElementById("searchContent") || window,
-    []
+    () => document.getElementById('searchContent') || window,
+    [],
   );
 
   return (

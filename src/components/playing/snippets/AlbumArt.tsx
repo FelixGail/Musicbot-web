@@ -1,16 +1,16 @@
-import { Song } from "../../../core/types";
+import { Song } from '../../../core/types';
 import {
   IConfiguration,
   ConfigurationContext,
-} from "../../../core/context/Configuration";
-import React, { useContext, useMemo, useState, useCallback } from "react";
-import unknown_cover from "../../../resources/img/unknown_cover.svg";
-import styled from "styled-components";
+} from '../../../core/context/Configuration';
+import React, { useContext, useMemo, useState, useCallback } from 'react';
+import unknown_cover from '../../../resources/img/unknown_cover.svg';
+import styled from 'styled-components';
 
 export const urlFromSong = (
   config: IConfiguration,
   song?: Song,
-  includeUnknown: boolean = true
+  includeUnknown = true,
 ) =>
   song && song.albumArtPath
     ? `${config.axios.defaults.baseURL}${song.albumArtPath}`
@@ -27,7 +27,7 @@ export const BackgroundAlbumArt = styled.div<{
   top: 7%;
   right: 7%;
   bottom: 7%;
-  background-image: url("${(props) => urlFromSong(props.config, props.song)}");
+  background-image: url('${(props) => urlFromSong(props.config, props.song)}');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -62,7 +62,7 @@ export const AlbumArt = ({
         onError={onError}
       />
     ),
-    [props.className, state.src, onError]
+    [props.className, state.src, onError],
   );
   return jsx;
 };

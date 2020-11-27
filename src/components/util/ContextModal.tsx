@@ -1,7 +1,7 @@
-import { Modal } from "antd";
-import React, { useMemo, ReactNode, useCallback } from "react";
-import { ModalProps } from "antd/lib/modal";
-import styled from "styled-components";
+import { Modal } from 'antd';
+import React, { useMemo, ReactNode, useCallback } from 'react';
+import { ModalProps } from 'antd/lib/modal';
+import styled from 'styled-components';
 
 export interface ContextModalProps<T> extends ModalProps {
   elements?: ContextModalElement<T>[];
@@ -10,7 +10,7 @@ export interface ContextModalProps<T> extends ModalProps {
 
 export interface ContextModalElement<T> {
   element: (item: T) => ReactNode;
-  onClick: (item: T) => void;
+  onClick?: (item: T) => void;
   close?: boolean;
 }
 
@@ -64,13 +64,13 @@ export function ContextModal<T>({
     ({ element, onClick }: ContextModalElement<T>, index: number) => {
       return (
         <ContextModalListItem key={index}>
-          <ContextModalListItemDiv onClick={() => onClick(item)}>
+          <ContextModalListItemDiv onClick={() => onClick && onClick(item)}>
             {element(item)}
           </ContextModalListItemDiv>
         </ContextModalListItem>
       );
     },
-    [item]
+    [item],
   );
   const wrappedElements = useMemo(() => {
     return (

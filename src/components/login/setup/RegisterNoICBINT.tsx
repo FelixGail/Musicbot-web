@@ -1,17 +1,17 @@
-import React, { useEffect, useContext } from "react";
-import { useUserRegister } from "../../../core/hooks/user";
-import { Canceler } from "axios";
+import React, { useEffect, useContext } from 'react';
+import { useUserRegister } from '../../../core/hooks/user';
+import { Canceler } from 'axios';
 import {
   ConnectionSetupContext,
   SetupStates,
-} from "../../../core/context/ConnectionSetupContext";
+} from '../../../core/context/ConnectionSetupContext';
 
 export const RegisterNoICBINT = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const [{ successful, isLoading, error }, register] = useUserRegister();
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
+    const username = localStorage.getItem('username');
     let cancel: Canceler;
     if (username) {
       cancel = register(username, undefined);

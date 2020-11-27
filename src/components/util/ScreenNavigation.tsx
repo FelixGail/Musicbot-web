@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 type clickFunction = () => void;
 type ScreenNavigationAction = string | clickFunction;
@@ -32,7 +32,7 @@ const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
         />
       </ScreenNavigationOuter>
     ),
-    [left, right, center]
+    [left, right, center],
   );
 
   return jsx;
@@ -53,8 +53,8 @@ const UnstyledScreenNavigationItem = ({
   return <div className={className} children={children} onClick={action} />;
 };
 
-const isString = (f: any): f is String => {
-  return typeof f === "string";
+const isString = (f: any): f is string => {
+  return typeof f === 'string';
 };
 
 const ScreenNavigationItem = styled(UnstyledScreenNavigationItem)`

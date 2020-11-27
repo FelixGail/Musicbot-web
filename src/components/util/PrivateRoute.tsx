@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from "react";
-import { RouteProps, Route, Redirect } from "react-router";
-import { RouteComponentProps } from "react-router-dom";
-import { ConfigurationContext } from "../../core/context/Configuration";
+import React, { FunctionComponent } from 'react';
+import { RouteProps, Route, Redirect } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
+import { ConfigurationContext } from '../../core/context/Configuration';
 
 export const PrivateRoute: FunctionComponent<RouteProps> = ({
   component,
@@ -25,7 +25,7 @@ export const PrivateRoute: FunctionComponent<RouteProps> = ({
             ) : (
               <Redirect
                 to={{
-                  pathname: "/login",
+                  pathname: '/login',
                   state: { from: props.location },
                 }}
               />

@@ -1,15 +1,15 @@
-import { StarFilled } from "@ant-design/icons";
+import { StarFilled } from '@ant-design/icons';
 import React, {
   useState,
   useEffect,
   useMemo,
   useCallback,
   useContext,
-} from "react";
-import { Song } from "../../../../core/types";
-import { db } from "../../../../core/db/AppDB";
-import { fromSong } from "../../../../core/db/LikedSong";
-import { ConfigurationContext } from "../../../../core/context/Configuration";
+} from 'react';
+import { Song } from '../../../../core/types';
+import { db } from '../../../../core/db/AppDB';
+import { fromSong } from '../../../../core/db/LikedSong';
+import { ConfigurationContext } from '../../../../core/context/Configuration';
 
 const SongItemAction = (props: { song: Song }) => {
   const [isLiked, setLiked] = useState<boolean>(false);
@@ -20,11 +20,11 @@ const SongItemAction = (props: { song: Song }) => {
   const style = useMemo(() => {
     if (isLiked) {
       return {
-        color: "#00b300",
+        color: '#00b300',
       };
     }
     return {
-      color: "#e6e6e6",
+      color: '#e6e6e6',
     };
   }, [isLiked]);
   const click = useCallback(
@@ -38,7 +38,7 @@ const SongItemAction = (props: { song: Song }) => {
       }
       event.stopPropagation();
     },
-    [isLiked, setLiked, props.song, configuration]
+    [isLiked, setLiked, props.song, configuration],
   );
   return <StarFilled onClick={click} style={style} />;
 };

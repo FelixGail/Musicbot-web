@@ -1,19 +1,19 @@
-import React, { useContext, useState, useMemo } from "react";
-import { Redirect } from "react-router";
-import { Row, Col } from "antd";
-import { LoginContext } from "../../../core/context/LoginContext";
-import { useLocation } from "react-use";
-import { FetchInstances } from "./FetchInstances";
-import { Ping } from "./Ping";
-import { TestIcbint } from "./TestIcbint";
-import { LoginNoICBINT } from "./LoginNoICBINT";
-import { RegisterNoICBINT } from "./RegisterNoICBINT";
-import { FetchUserInfo } from "./FetchUserInfo";
-import { LoginICBINT } from "./LoginICBINT";
+import React, { useContext, useState, useMemo } from 'react';
+import { Redirect } from 'react-router';
+import { Row, Col } from 'antd';
+import { LoginContext } from '../../../core/context/LoginContext';
+import { useLocation } from 'react-use';
+import { FetchInstances } from './FetchInstances';
+import { Ping } from './Ping';
+import { TestIcbint } from './TestIcbint';
+import { LoginNoICBINT } from './LoginNoICBINT';
+import { RegisterNoICBINT } from './RegisterNoICBINT';
+import { FetchUserInfo } from './FetchUserInfo';
+import { LoginICBINT } from './LoginICBINT';
 import {
   SetupStates,
   ConnectionSetupContext,
-} from "../../../core/context/ConnectionSetupContext";
+} from '../../../core/context/ConnectionSetupContext';
 
 export const SetupConnection = () => {
   const [state, setState] = useState(SetupStates.FETCH_INSTANCES);

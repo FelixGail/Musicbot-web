@@ -4,11 +4,11 @@ import {
   Arguments,
   Payload,
   RequestError,
-} from "react-request-hook";
-import { Permission } from "../types";
-import { useContext, useCallback } from "react";
-import { ConfigurationContext } from "../context/Configuration";
-import { Canceler } from "axios";
+} from 'react-request-hook';
+import { Permission } from '../types';
+import { useContext, useCallback } from 'react';
+import { ConfigurationContext } from '../context/Configuration';
+import { Canceler } from 'axios';
 
 type RequestState<TRequest extends Request> = {
   data?: Payload<TRequest>;
@@ -23,7 +23,7 @@ type PermissionResourceResult<
   (
     functionValues: FunctionParam,
     ...values: Arguments<TRequest>
-  ) => Canceler | false
+  ) => Canceler | false,
 ];
 
 function useResourceWithPermission<
@@ -34,11 +34,11 @@ function useResourceWithPermission<
   permission: Permission,
   and?: (username: string, ...params: FunctionParam) => boolean,
   or?: (username: string, ...params: FunctionParam) => boolean,
-  defaultParams?: Arguments<TRequest>
+  defaultParams?: Arguments<TRequest>,
 ): PermissionResourceResult<TRequest, FunctionParam> {
   const [{ data, isLoading, error, cancel }, call] = useResource(
     fn,
-    defaultParams
+    defaultParams,
   );
   const { configuration } = useContext(ConfigurationContext);
 
@@ -54,7 +54,7 @@ function useResourceWithPermission<
       }
       return false;
     },
-    [configuration, call, and, or, permission]
+    [configuration, call, and, or, permission],
   );
 
   return [{ data, isLoading, error, cancel }, wrapper];

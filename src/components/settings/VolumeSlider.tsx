@@ -1,19 +1,19 @@
-import { Slider } from "antd";
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { useResource } from "react-request-hook";
-import { useDebounce } from "react-use";
-import { useResourceReload } from "../../core/hooks/resourceReloadHook";
-import Operations, { getHookRequest } from "../../core/rest/operations";
-import { Permission } from "../../core/types";
-import Permissional from "../util/Permissional";
-import { StyledDivider } from "./Styles";
+import { Slider } from 'antd';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import { useResource } from 'react-request-hook';
+import { useDebounce } from 'react-use';
+import { useResourceReload } from '../../core/hooks/resourceReloadHook';
+import Operations, { getHookRequest } from '../../core/rest/operations';
+import { Permission } from '../../core/types';
+import Permissional from '../util/Permissional';
+import { StyledDivider } from './Styles';
 
 export const VolumeSlider = () => {
   const [volume, setVolumeLocally] = useResourceReload(
     Operations.getVolume,
     { volume: 0, isSupported: false },
     1000,
-    false
+    false,
   );
 
   const [, setVolumeRemote] = useResource(getHookRequest(Operations.setVolume));
@@ -24,7 +24,7 @@ export const VolumeSlider = () => {
       setUndebouncedVolume(value);
       setVolumeLocally({ volume: value, isSupported: volume.isSupported });
     },
-    [setVolumeRemote, setVolumeLocally, volume]
+    [setVolumeRemote, setVolumeLocally, volume],
   );
 
   useDebounce(
@@ -32,7 +32,7 @@ export const VolumeSlider = () => {
       undebouncedVolume && setVolumeRemote(undebouncedVolume);
     },
     500,
-    [undebouncedVolume, setVolumeRemote]
+    [undebouncedVolume, setVolumeRemote],
   );
 
   return volume.isSupported ? (
@@ -44,7 +44,7 @@ export const VolumeSlider = () => {
         onChange={volumeCallback}
         value={volume.volume}
         tooltipVisible
-        style={{ marginTop: "50px" }}
+        style={{ marginTop: '50px' }}
       />
       <StyledDivider />
     </Permissional>

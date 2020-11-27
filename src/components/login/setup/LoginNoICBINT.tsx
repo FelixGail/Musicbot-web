@@ -1,11 +1,11 @@
-import React, { useEffect, useContext } from "react";
-import { useUserRefresh } from "../../../core/hooks/user";
-import { ConfigurationContext } from "../../../core/context/Configuration";
-import { TokenWithRefresh } from "../../../core/types";
+import React, { useEffect, useContext } from 'react';
+import { useUserRefresh } from '../../../core/hooks/user';
+import { ConfigurationContext } from '../../../core/context/Configuration';
+import { TokenWithRefresh } from '../../../core/types';
 import {
   ConnectionSetupContext,
   SetupStates,
-} from "../../../core/context/ConnectionSetupContext";
+} from '../../../core/context/ConnectionSetupContext';
 
 export const LoginNoICBINT = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
@@ -17,7 +17,7 @@ export const LoginNoICBINT = () => {
     if (configuration.instance) {
       const refreshToken = localStorage.getItem(configuration.instance.domain);
       if (refreshToken) {
-        const token: TokenWithRefresh = { accessToken: "", refreshToken };
+        const token: TokenWithRefresh = { accessToken: '', refreshToken };
         setConfiguration({ token: token });
         const cancel = login(token);
         return () => cancel && cancel();

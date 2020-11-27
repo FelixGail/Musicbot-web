@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { useResource } from "react-request-hook";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import { NamedPlugin, Song, Permission } from "../../../core/types";
-import { SongList } from "../../util/list/songlist/SongList";
-import { ListProps } from "antd/lib/list";
-import useResourceWithPermission from "../../../core/hooks/permissionWrapperHook";
-import { useCallback } from "react";
+import React, { useEffect } from 'react';
+import { useResource } from 'react-request-hook';
+import Operations, { getHookRequest } from '../../../core/rest/operations';
+import { NamedPlugin, Song, Permission } from '../../../core/types';
+import { SongList } from '../../util/list/songlist/SongList';
+import { ListProps } from 'antd/lib/list';
+import useResourceWithPermission from '../../../core/hooks/permissionWrapperHook';
+import { useCallback } from 'react';
 
 const SongPane = ({
   songs,
@@ -15,7 +15,7 @@ const SongPane = ({
 } & ListProps<Song>) => {
   const [, enqueue] = useResourceWithPermission(
     Operations.enqueue,
-    Permission.ENQUEUE
+    Permission.ENQUEUE,
   );
   const callback = useCallback((song: Song) => enqueue([], song) && true, [
     enqueue,
@@ -46,7 +46,7 @@ export const SuggesterPane = ({
   ...props
 }: { suggester: NamedPlugin } & ListProps<Song>) => {
   const [songs, getSuggestions] = useResource(
-    getHookRequest(Operations.getSuggestions)
+    getHookRequest(Operations.getSuggestions),
   );
 
   useEffect(() => {

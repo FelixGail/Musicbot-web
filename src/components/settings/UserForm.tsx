@@ -1,9 +1,9 @@
-import { LockOutlined } from "@ant-design/icons";
-import { Button, Input, Form } from "antd";
-import React, { useCallback } from "react";
-import { useUserSetPassword } from "../../core/hooks/user";
-import { SpaceBox } from "./Styles";
-import { Delete } from "./Delete";
+import { LockOutlined } from '@ant-design/icons';
+import { Button, Input, Form } from 'antd';
+import React, { useCallback } from 'react';
+import { useUserSetPassword } from '../../core/hooks/user';
+import { SpaceBox } from './Styles';
+import { Delete } from './Delete';
 
 export const UserForm = () => {
   const [{ isLoading, successful, error }, setPassword] = useUserSetPassword();
@@ -12,7 +12,7 @@ export const UserForm = () => {
     (values: any) => {
       setPassword(values.password);
     },
-    [setPassword]
+    [setPassword],
   );
   return (
     <Form onFinish={onFinish}>
@@ -21,18 +21,18 @@ export const UserForm = () => {
         hasFeedback={isLoading || successful}
         validateStatus={
           error
-            ? "error"
+            ? 'error'
             : isLoading
-            ? "validating"
+            ? 'validating'
             : successful
-            ? "success"
+            ? 'success'
             : undefined
         }
         rules={[
           {
             required: true,
             whitespace: true,
-            message: "Please insert a password",
+            message: 'Please insert a password',
           },
         ]}
       >

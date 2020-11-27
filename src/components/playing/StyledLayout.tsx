@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Layout } from "antd";
+import styled from 'styled-components';
+import { Layout } from 'antd';
 
 export const StyledContent = styled(Layout.Content)`
   -ms-overflow-style: none;

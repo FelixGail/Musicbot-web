@@ -1,4 +1,4 @@
-import React, { ReactNode, Fragment } from "react";
+import React, { ReactNode, Fragment } from 'react';
 
 export interface ConditionalProps {
   children: ReactNode;

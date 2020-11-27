@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router";
-import { Button } from "antd";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { Button } from 'antd';
 
 const LinkButton = (props: any) => {
   const {

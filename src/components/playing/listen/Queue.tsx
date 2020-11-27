@@ -5,31 +5,31 @@ import React, {
   FunctionComponent,
   Fragment,
   useEffect,
-} from "react";
-import { useResource } from "react-request-hook";
-import ScreenNavigation from "../../util/ScreenNavigation";
-import { SongEntry, Permission } from "../../../core/types";
-import { ConfigurationContext } from "../../../core/context/Configuration";
-import Conditional from "../../util/Conditional";
-import { DeleteOutlined } from "@ant-design/icons";
-import { useHistory, useLocation } from "react-router";
-import { ContextModalElement } from "../../util/ContextModal";
-import { useSearchSongModalElements } from "../../util/DefaultContextModal";
-import Permissional from "../../util/Permissional";
-import { FullscreenContext } from "../../../core/context/FullscreenContext";
-import PlayerStateContext from "../../../core/context/PlayerStateContext";
-import { useSwipeable } from "react-swipeable";
-import { ContentWrapper } from "../snippets/ContentWrapper";
-import SwipeDiv from "../../util/SwipeDiv";
+} from 'react';
+import { useResource } from 'react-request-hook';
+import ScreenNavigation from '../../util/ScreenNavigation';
+import { SongEntry, Permission } from '../../../core/types';
+import { ConfigurationContext } from '../../../core/context/Configuration';
+import Conditional from '../../util/Conditional';
+import { DeleteOutlined } from '@ant-design/icons';
+import { useHistory, useLocation } from 'react-router';
+import { ContextModalElement } from '../../util/ContextModal';
+import { useSearchSongModalElements } from '../../util/DefaultContextModal';
+import Permissional from '../../util/Permissional';
+import { FullscreenContext } from '../../../core/context/FullscreenContext';
+import PlayerStateContext from '../../../core/context/PlayerStateContext';
+import { useSwipeable } from 'react-swipeable';
+import { ContentWrapper } from '../snippets/ContentWrapper';
+import SwipeDiv from '../../util/SwipeDiv';
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
-} from "react-beautiful-dnd";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import useHasPermission from "../../../core/hooks/hasPermissionHook";
-import { SongList } from "../../util/list/songlist/SongList";
+} from 'react-beautiful-dnd';
+import Operations, { getHookRequest } from '../../../core/rest/operations';
+import useHasPermission from '../../../core/hooks/hasPermissionHook';
+import { SongList } from '../../util/list/songlist/SongList';
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
@@ -66,14 +66,14 @@ const Queue: FunctionComponent = () => {
       history.push(`${location.pathname}/${index}`);
       return false;
     },
-    [history, location.pathname]
+    [history, location.pathname],
   );
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
       const { source, destination } = result;
       if (
-        result.reason === "DROP" &&
+        result.reason === 'DROP' &&
         destination &&
         source.index !== destination.index
       ) {
@@ -82,7 +82,7 @@ const Queue: FunctionComponent = () => {
         setQueue(reorder(queue, source.index, destination.index));
       }
     },
-    [move, queue, setQueue]
+    [move, queue, setQueue],
   );
 
   const hasRemovePermission = useHasPermission(Permission.SKIP);
@@ -94,7 +94,7 @@ const Queue: FunctionComponent = () => {
         condition={
           hasRemovePermission || item.userName === configuration.username
         }
-        alt={<div style={{ paddingLeft: "7px", paddingRight: "7px" }}></div>}
+        alt={<div style={{ paddingLeft: '7px', paddingRight: '7px' }}></div>}
       >
         <DeleteOutlined
           onClick={(event) => {
@@ -104,7 +104,7 @@ const Queue: FunctionComponent = () => {
         />
       </Conditional>
     ),
-    [configuration.username, dequeue, hasRemovePermission]
+    [configuration.username, dequeue, hasRemovePermission],
   );
   const additionalArray = useMemo(() => [additional], [additional]);
 
@@ -136,14 +136,14 @@ const Queue: FunctionComponent = () => {
   }, [move, hasRemovePermission, configuration.username, dequeue]);
   const combinedElements = useMemo(
     () => contextElements.concat(searchElements),
-    [searchElements, contextElements]
+    [searchElements, contextElements],
   );
 
   const wrapper = useCallback(
     (
       item: SongEntry,
       index: number,
-      inner: (entry: SongEntry, index: number) => JSX.Element
+      inner: (entry: SongEntry, index: number) => JSX.Element,
     ) => {
       return (
         <Draggable
@@ -164,7 +164,7 @@ const Queue: FunctionComponent = () => {
         </Draggable>
       );
     },
-    [hasMovePermission]
+    [hasMovePermission],
   );
 
   const jsx = useMemo(
@@ -184,7 +184,7 @@ const Queue: FunctionComponent = () => {
                         onClick={click}
                         additional={additionalArray}
                         contextModal={{
-                          route: "*/queue",
+                          route: '*/queue',
                           elements: combinedElements,
                         }}
                         wrapper={wrapper}
@@ -210,7 +210,7 @@ const Queue: FunctionComponent = () => {
       swipeHandler,
       wrapper,
       onDragEnd,
-    ]
+    ],
   );
 
   return jsx;

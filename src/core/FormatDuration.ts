@@ -1,11 +1,11 @@
-import { Duration } from "moment";
+import { Duration } from 'moment';
 
-function formatDuration(duration: Duration): String {
+function formatDuration(duration: Duration): string {
   const seconds = duration.asSeconds();
   if (seconds < 60) {
     return `< 1 minute`;
   } else if (seconds < 90) {
-    return "1 minute";
+    return '1 minute';
   } else if (seconds < 3600) {
     return `${duration.asMinutes().toPrecision(1)} minutes`;
   } else if (seconds < 5400) {

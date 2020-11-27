@@ -4,30 +4,30 @@ import React, {
   useMemo,
   useCallback,
   useEffect,
-} from "react";
+} from 'react';
 import {
   ForwardOutlined,
   PauseCircleTwoTone,
   PlayCircleTwoTone,
-} from "@ant-design/icons";
-import { Card, Layout, Progress } from "antd";
-import { Link, useLocation } from "react-router-dom";
-import { useResource } from "react-request-hook";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import { ConfigurationContext } from "../../../core/context/Configuration";
+} from '@ant-design/icons';
+import { Card, Layout, Progress } from 'antd';
+import { Link, useLocation } from 'react-router-dom';
+import { useResource } from 'react-request-hook';
+import Operations, { getHookRequest } from '../../../core/rest/operations';
+import { ConfigurationContext } from '../../../core/context/Configuration';
 import {
   Permission,
   Action,
   PlayerStatus,
   ErrorState,
-} from "../../../core/types";
-import moment from "moment";
-import NavigationCard from "../footer/FooterCard";
-import styled from "styled-components";
-import Permissional from "../../util/Permissional";
-import { CardProps } from "antd/lib/card";
-import { CarouselSlick } from "../footer/CarouselSlick";
-import PlayerStateContext from "../../../core/context/PlayerStateContext";
+} from '../../../core/types';
+import moment from 'moment';
+import NavigationCard from '../footer/FooterCard';
+import styled from 'styled-components';
+import Permissional from '../../util/Permissional';
+import { CardProps } from 'antd/lib/card';
+import { CarouselSlick } from '../footer/CarouselSlick';
+import PlayerStateContext from '../../../core/context/PlayerStateContext';
 
 const Actions = styled.div`
   height: 55px;
@@ -69,7 +69,7 @@ interface StyledCardProps {
 const StyledCard = styled(
   ({ showActions: showactions, ...props }: StyledCardProps & CardProps) => (
     <Card {...props} />
-  )
+  ),
 )<StyledCardProps>`
   .ant-card-body {
     padding-bottom: ${`${(props: StyledCardProps) =>
@@ -92,10 +92,10 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   showActions,
 }) => {
   const { state, setPlayerState: setPlayerStateLocally } = useContext(
-    PlayerStateContext
+    PlayerStateContext,
   );
   const [{ data }, setPlayerState] = useResource(
-    getHookRequest(Operations.setPlayerState)
+    getHookRequest(Operations.setPlayerState),
   );
   const { configuration } = useContext(ConfigurationContext);
   const location = useLocation();
@@ -105,9 +105,9 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   }, [setPlayerStateLocally, data]);
 
   const slickOffset = useMemo(() => {
-    return location.pathname.includes("queue")
+    return location.pathname.includes('queue')
       ? 16
-      : location.pathname.includes("history")
+      : location.pathname.includes('history')
       ? 0
       : 8;
   }, [location]);
@@ -117,12 +117,12 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
     const song = songEntry && songEntry.song;
     return {
       song: song,
-      title: (song && song.title) || "",
-      description: (song && song.description) || "",
+      title: (song && song.title) || '',
+      description: (song && song.description) || '',
       duration: moment
-        .duration((song && song.duration) || 0, "s")
-        .format("mm:ss"),
-      enqueuedBy: (songEntry && songEntry.userName) || "Suggested",
+        .duration((song && song.duration) || 0, 's')
+        .format('mm:ss'),
+      enqueuedBy: (songEntry && songEntry.userName) || 'Suggested',
     };
   }, [state]);
 
@@ -131,7 +131,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       setPlayerState(action);
       setPlayerStateLocally({ ...state, state: action });
     },
-    [setPlayerState, setPlayerStateLocally, state]
+    [setPlayerState, setPlayerStateLocally, state],
   );
 
   const actions = useMemo(() => {
@@ -166,7 +166,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       `${songInfo.description.substr(0, 35)} - ${songInfo.enqueuedBy} - ${
         songInfo.duration
       }`,
-    [songInfo]
+    [songInfo],
   );
   const jsx = useMemo(
     () => (
@@ -201,7 +201,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
       showActions,
       slickOffset,
       state,
-    ]
+    ],
   );
   return jsx;
 };

@@ -1,7 +1,7 @@
-import { Song, NamedPlugin } from "../types";
-import { db } from "./AppDB";
-import { IConfiguration } from "../context/Configuration";
-import { urlFromSong } from "../../components/playing/snippets/AlbumArt";
+import { Song, NamedPlugin } from '../types';
+import { db } from './AppDB';
+import { IConfiguration } from '../context/Configuration';
+import { urlFromSong } from '../../components/playing/snippets/AlbumArt';
 
 export const fromSong = (song: Song) => {
   const ls = new LikedSong(
@@ -11,7 +11,7 @@ export const fromSong = (song: Song) => {
     song.provider.id,
     song.duration,
     song.albumArtUrl,
-    song.albumArtPath
+    song.albumArtPath,
   );
   ls.setProvider(song.provider);
   return ls;
@@ -37,7 +37,7 @@ export class LikedSong implements Song {
     duration?: number,
     albumArtUrl?: string,
     albumArtPath?: string,
-    blob?: Blob
+    blob?: Blob,
   ) {
     this.id = id;
     this.providerId = providerId;
@@ -56,7 +56,7 @@ export class LikedSong implements Song {
 
   async loadNavigationProperties() {
     const provider = await db.provider
-      .where("id")
+      .where('id')
       .equals(this.providerId!)
       .first();
     if (provider) {
@@ -74,7 +74,7 @@ export class LikedSong implements Song {
     if (response.ok) {
       this.blob = await response.blob();
     }
-    return db.transaction("rw", db.songs, db.provider, async () => {
+    return db.transaction('rw', db.songs, db.provider, async () => {
       this.providerId = await db.provider.put(this.provider, this.id);
 
       await db.songs.put(
@@ -86,8 +86,8 @@ export class LikedSong implements Song {
           this.duration,
           this.albumArtUrl,
           this.albumArtPath,
-          this.blob
-        )
+          this.blob,
+        ),
       );
     });
   }

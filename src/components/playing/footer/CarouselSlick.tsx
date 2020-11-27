@@ -1,5 +1,5 @@
-import { Col } from "antd";
-import styled from "styled-components";
+import { Col } from 'antd';
+import styled from 'styled-components';
 
 export const CarouselSlick = styled(Col)`
   height: 5px;

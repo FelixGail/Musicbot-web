@@ -1,10 +1,10 @@
-import { useResource } from "react-request-hook";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import { useEffect } from "react";
-import React from "react";
-import { Tabs } from "antd";
-import { SuggesterPane } from "../snippets/SongPanes";
-import styled from "styled-components";
+import { useResource } from 'react-request-hook';
+import Operations, { getHookRequest } from '../../../core/rest/operations';
+import { useEffect } from 'react';
+import React from 'react';
+import { Tabs } from 'antd';
+import { SuggesterPane } from '../snippets/SongPanes';
+import styled from 'styled-components';
 
 const StyledTabs = styled(Tabs)`
   width: 100%;
@@ -12,7 +12,7 @@ const StyledTabs = styled(Tabs)`
 
 const Suggest = () => {
   const [suggesters, getSuggesters] = useResource(
-    getHookRequest(Operations.getSuggesters)
+    getHookRequest(Operations.getSuggesters),
   );
 
   useEffect(() => {

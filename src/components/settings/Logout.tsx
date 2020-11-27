@@ -1,6 +1,6 @@
-import React from "react";
-import { useUserLogout } from "../../core/hooks/user";
-import { StyledLogoutButton } from "./Styles";
+import React from 'react';
+import { useUserLogout } from '../../core/hooks/user';
+import { StyledLogoutButton } from './Styles';
 
 export const Logout = () => {
   const logout = useUserLogout();

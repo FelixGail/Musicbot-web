@@ -1,5 +1,5 @@
-import { SettingOutlined } from "@ant-design/icons";
-import styled from "styled-components";
+import { SettingOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
 
 export const SettingsButton = styled(SettingOutlined)`
   position: absolute;

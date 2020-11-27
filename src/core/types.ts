@@ -114,37 +114,37 @@ export interface Volume {
 }
 
 export enum UserType {
-  GUEST = "Guest",
-  FULL = "Full",
+  GUEST = 'Guest',
+  FULL = 'Full',
 }
 
 export enum AuthFormat {
-  TOKEN = "Token",
-  BASIC = "Basic",
+  TOKEN = 'Token',
+  BASIC = 'Basic',
 }
 
 export enum Action {
-  PLAY = "PLAY",
-  PAUSE = "PAUSE",
-  SKIP = "SKIP",
+  PLAY = 'PLAY',
+  PAUSE = 'PAUSE',
+  SKIP = 'SKIP',
 }
 
 export enum ErrorState {
-  ERROR = "ERROR",
+  ERROR = 'ERROR',
 }
 
 export type PlayerStatus = Action | ErrorState;
 
 export enum Permission {
-  SKIP = "SKIP",
-  DISLIKE = "DISLIKE",
-  MOVE = "MOVE",
-  PAUSE = "PAUSE",
-  ENQUEUE = "ENQUEUE",
-  ALTER_SUGGESTIONS = "ALTER_SUGGESTIONS",
-  CHANGE_VOLUME = "CHANGE_VOLUME",
-  EXIT = "EXIT",
-  ADMIN = "ADMIN",
+  SKIP = 'SKIP',
+  DISLIKE = 'DISLIKE',
+  MOVE = 'MOVE',
+  PAUSE = 'PAUSE',
+  ENQUEUE = 'ENQUEUE',
+  ALTER_SUGGESTIONS = 'ALTER_SUGGESTIONS',
+  CHANGE_VOLUME = 'CHANGE_VOLUME',
+  EXIT = 'EXIT',
+  ADMIN = 'ADMIN',
 }
 
 export interface Credentials {
@@ -163,7 +163,7 @@ export interface TokenWithRefresh extends Token {
 }
 
 export function hasRefreshToken(
-  token: Token | TokenWithRefresh
+  token: Token | TokenWithRefresh,
 ): token is TokenWithRefresh {
   if (token.refreshToken) {
     return true;

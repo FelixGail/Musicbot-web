@@ -1,17 +1,17 @@
-import { ListProps } from "antd/lib/list";
-import SongListItem from "./SongListItem";
-import { ContextModalElement } from "../../ContextModal";
-import React, { Fragment, useCallback, useContext, useMemo } from "react";
-import PlayerStateContext from "../../../../core/context/PlayerStateContext";
-import DefaultContextModal from "../../DefaultContextModal";
-import { Route } from "react-router-dom";
-import styled, { StyledComponent } from "styled-components";
-import { StyledList } from "../StyledList";
-import { List } from "antd/lib/form/Form";
-import { Song, SongEntry } from "../../../../core/types";
+import { ListProps } from 'antd/lib/list';
+import SongListItem from './SongListItem';
+import { ContextModalElement } from '../../ContextModal';
+import React, { Fragment, useCallback, useContext, useMemo } from 'react';
+import PlayerStateContext from '../../../../core/context/PlayerStateContext';
+import DefaultContextModal from '../../DefaultContextModal';
+import { Route } from 'react-router-dom';
+import styled, { StyledComponent } from 'styled-components';
+import { StyledList } from '../StyledList';
+import { List } from 'antd/lib/form/Form';
+import { Song, SongEntry } from '../../../../core/types';
 
 export type SongListAdditional<T extends Song | SongEntry> = ((
-  item: T
+  item: T,
 ) => JSX.Element | null)[];
 
 export interface SongListProps<T extends Song | SongEntry>
@@ -23,7 +23,7 @@ export interface SongListProps<T extends Song | SongEntry>
   wrapper?: (
     item: T,
     index: number,
-    children: (item: T, index: number) => JSX.Element
+    children: (item: T, index: number) => JSX.Element,
   ) => JSX.Element;
 }
 
@@ -35,7 +35,7 @@ export interface ListContextModal<T extends Song | SongEntry> {
 function defaultWrapper<T>(
   item: T,
   index: number,
-  children: (item: T, index: number) => JSX.Element
+  children: (item: T, index: number) => JSX.Element,
 ): JSX.Element {
   return children(item, index);
 }
@@ -140,7 +140,7 @@ export function SongList<T extends Song | SongEntry>({
         );
       });
     },
-    [onClick, queue, additional, wrapListItem]
+    [onClick, queue, additional, wrapListItem],
   );
 
   return (

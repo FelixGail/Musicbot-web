@@ -1,10 +1,10 @@
-import { Button, Drawer } from "antd";
-import React, { Fragment, useCallback, useContext, useState } from "react";
-import { ConfigurationContext } from "../../core/context/Configuration";
-import { hasRefreshToken, Permission } from "../../core/types";
-import { useUserRefresh } from "../../core/hooks/user";
-import Permissional from "../util/Permissional";
-import { SpaceBox, DangerButton } from "./Styles";
+import { Button, Drawer } from 'antd';
+import React, { Fragment, useCallback, useContext, useState } from 'react';
+import { ConfigurationContext } from '../../core/context/Configuration';
+import { hasRefreshToken, Permission } from '../../core/types';
+import { useUserRefresh } from '../../core/hooks/user';
+import Permissional from '../util/Permissional';
+import { SpaceBox, DangerButton } from './Styles';
 
 export const PermissionList = () => {
   const { configuration } = useContext(ConfigurationContext);
@@ -26,9 +26,9 @@ export const PermissionList = () => {
 
   return (
     <Fragment>
-      <div style={{ marginBottom: "24px" }}>
+      <div style={{ marginBottom: '24px' }}>
         [
-        {(configuration.permissions && configuration.permissions.join(", ")) ||
+        {(configuration.permissions && configuration.permissions.join(', ')) ||
           `You have not been granted any permissions`}
         ]
       </div>

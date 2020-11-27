@@ -1,6 +1,6 @@
-import { createContext } from "react";
-import Axios, { AxiosInstance } from "axios";
-import { Token, Permission, BotInstance } from "../types";
+import { createContext } from 'react';
+import Axios, { AxiosInstance } from 'axios';
+import { Token, Permission, BotInstance } from '../types';
 
 export interface IConfiguration {
   username?: string;
@@ -20,7 +20,7 @@ export const ConfigurationContext = createContext<IConfigurationContext>({
   configuration: {
     loggedIn: false,
     axios: Axios.create(),
-    registryUrl: "/registry",
+    registryUrl: '/registry',
   },
   setConfiguration: () => {},
 });

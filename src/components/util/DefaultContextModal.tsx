@@ -1,13 +1,13 @@
-import ContextModal, { ContextModalElement } from "./ContextModal";
-import React, { useMemo, useState, useEffect, useContext } from "react";
-import { useHistory, match } from "react-router";
-import { SongEntry, Song } from "../../core/types";
-import { itemToSong } from "./list/songlist/SongListItem";
-import { ModalProps } from "antd/lib/modal";
-import { Typography } from "antd";
-import { db } from "../../core/db/AppDB";
-import { fromSong } from "../../core/db/LikedSong";
-import { ConfigurationContext } from "../../core/context/Configuration";
+import ContextModal, { ContextModalElement } from './ContextModal';
+import React, { useMemo, useState, useEffect, useContext } from 'react';
+import { useHistory, match } from 'react-router';
+import { SongEntry, Song } from '../../core/types';
+import { itemToSong } from './list/songlist/SongListItem';
+import { ModalProps } from 'antd/lib/modal';
+import { Typography } from 'antd';
+import { db } from '../../core/db/AppDB';
+import { fromSong } from '../../core/db/LikedSong';
+import { ConfigurationContext } from '../../core/context/Configuration';
 
 export interface DefaultContextModalProps<T extends Song | SongEntry>
   extends ModalProps {
@@ -48,7 +48,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
       const isLikedSong = value !== undefined;
       const defaultElements: ContextModalElement<T>[] = [
         {
-          element: () => `${isLikedSong ? "Remove from" : "Add to"} my songs`,
+          element: () => `${isLikedSong ? 'Remove from' : 'Add to'} my songs`,
           onClick: () => {
             isLikedSong
               ? db.songs.delete(song.id)
@@ -57,8 +57,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
           close: true,
         },
         {
-          element: () => "Close",
-          onClick: () => {},
+          element: () => 'Close',
           close: true,
         },
       ];
@@ -69,7 +68,7 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
         return {
           element: element,
           onClick: (item: T) => {
-            onClick(item);
+            onClick && onClick(item);
             close && history.goBack();
           },
         };
@@ -116,14 +115,14 @@ export function useSearchSongModalElements<
         onClick: (item) => {
           history.push(
             `/add/search?${encodeURI(
-              itemToSong(item).description.substr(0, 50)
-            )}`
+              itemToSong(item).description.substr(0, 50),
+            )}`,
           );
         },
         close: false,
       },
     ],
-    [history]
+    [history],
   );
 }
 

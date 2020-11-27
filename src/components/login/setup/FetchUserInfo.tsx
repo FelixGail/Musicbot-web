@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from "react";
-import { useUserFetch } from "../../../core/hooks/user";
+import React, { useEffect, useContext } from 'react';
+import { useUserFetch } from '../../../core/hooks/user';
 import {
   ConnectionSetupContext,
   SetupStates,
-} from "../../../core/context/ConnectionSetupContext";
+} from '../../../core/context/ConnectionSetupContext';
 
 export const FetchUserInfo = () => {
   const { setNextState } = useContext(ConnectionSetupContext);

@@ -10,9 +10,9 @@ import {
   Volume,
   BotInstance,
   TokenWithRefresh,
-} from "../types";
-import { request, Arguments } from "react-request-hook";
-import { AxiosRequestConfig } from "axios";
+} from '../types';
+import { request, Arguments } from 'react-request-hook';
+import { AxiosRequestConfig } from 'axios';
 
 export interface RequestConfig<T> extends AxiosRequestConfig {}
 
@@ -28,47 +28,47 @@ export function getHookRequest<
 
 const Operations = {
   getVersion: (): RequestConfig<VersionInfo> => ({
-    method: "GET",
-    url: "/version",
+    method: 'GET',
+    url: '/version',
   }),
   exit: (): RequestConfig<void> => ({
-    url: "/exit",
-    method: "POST",
+    url: '/exit',
+    method: 'POST',
   }),
   getICBINT: (): RequestConfig<string> => ({
-    method: "GET",
-    url: "/icbint",
+    method: 'GET',
+    url: '/icbint',
   }),
   registerUser: (username: string, userId: string): RequestConfig<Token> => ({
-    url: "/user",
-    method: "POST",
+    url: '/user',
+    method: 'POST',
     data: {
       name: username,
       userId: userId,
     },
   }),
   getMe: (): RequestConfig<UserInfo> => ({
-    url: "/user",
-    method: "GET",
+    url: '/user',
+    method: 'GET',
   }),
   setPassword: (password: string): RequestConfig<Token> => ({
-    url: "/user",
-    method: "PUT",
+    url: '/user',
+    method: 'PUT',
     data: {
       newPassword: password,
     },
   }),
   deleteUser: (): RequestConfig<void> => ({
-    url: "/user",
-    method: "DELETE",
+    url: '/user',
+    method: 'DELETE',
   }),
   loginUser: (
     username: string,
     password: string,
-    includeRefresh?: boolean
+    includeRefresh?: boolean,
   ): RequestConfig<Token> => ({
-    url: "/token",
-    method: "GET",
+    url: '/token',
+    method: 'GET',
     headers: { Authorization: `Basic ${btoa(`${username}:${password}`)}` },
     params: {
       includeRefresh: includeRefresh,
@@ -76,57 +76,57 @@ const Operations = {
   }),
   refreshUser: (
     token: TokenWithRefresh,
-    includeNewToken?: boolean
+    includeNewToken?: boolean,
   ): RequestConfig<Token> => ({
-    url: "/token",
-    method: "GET",
+    url: '/token',
+    method: 'GET',
     headers: { Authorization: `Bearer ${token.refreshToken}` },
     params: {
       includeRefresh: includeNewToken,
     },
   }),
   deleteToken: (): RequestConfig<void> => ({
-    url: "/token",
-    method: "DELETE",
+    url: '/token',
+    method: 'DELETE',
   }),
   getPlayerState: (): RequestConfig<PlayerState> => ({
-    url: "/player",
-    method: "GET",
+    url: '/player',
+    method: 'GET',
   }),
   setPlayerState: (action: Action): RequestConfig<PlayerState> => ({
-    url: "/player",
-    method: "PUT",
+    url: '/player',
+    method: 'PUT',
     data: {
       action: action,
     },
   }),
   getHistory: (): RequestConfig<SongEntry[]> => ({
-    url: "/player/queue/history",
-    method: "GET",
+    url: '/player/queue/history',
+    method: 'GET',
   }),
   getQueue: (): RequestConfig<SongEntry[]> => ({
-    url: "/player/queue",
-    method: "GET",
+    url: '/player/queue',
+    method: 'GET',
   }),
   enqueue: (song: Song): RequestConfig<SongEntry[]> => ({
-    url: "/player/queue",
-    method: "PUT",
+    url: '/player/queue',
+    method: 'PUT',
     params: {
       songId: song.id,
       providerId: song.provider.id,
     },
   }),
   dequeue: (song: Song): RequestConfig<SongEntry[]> => ({
-    url: "/player/queue",
-    method: "DELETE",
+    url: '/player/queue',
+    method: 'DELETE',
     params: {
       songId: song.id,
       providerId: song.provider.id,
     },
   }),
   moveEntry: (index: number, song: Song): RequestConfig<SongEntry[]> => ({
-    url: "/player/queue/order",
-    method: "PUT",
+    url: '/player/queue/order',
+    method: 'PUT',
     params: {
       index: index,
       songId: song.id,
@@ -134,21 +134,21 @@ const Operations = {
     },
   }),
   getProviders: (): RequestConfig<NamedPlugin[]> => ({
-    url: "/provider",
-    method: "GET",
+    url: '/provider',
+    method: 'GET',
   }),
   lookupSong: (songId: string, provider: NamedPlugin): RequestConfig<Song> => ({
     url: `/provider/${provider.id}/${songId}`,
-    method: "GET",
+    method: 'GET',
   }),
   search: (
     provider: NamedPlugin,
     query: string,
     limit?: number,
-    offset?: number
+    offset?: number,
   ): RequestConfig<Song[]> => ({
     url: `/provider/${provider.id}`,
-    method: "GET",
+    method: 'GET',
     params: {
       query: query,
       limit: limit,
@@ -156,15 +156,15 @@ const Operations = {
     },
   }),
   getSuggesters: (): RequestConfig<NamedPlugin[]> => ({
-    url: "/suggester",
-    method: "GET",
+    url: '/suggester',
+    method: 'GET',
   }),
   getSuggestions: (
     suggester: NamedPlugin,
-    max?: number
+    max?: number,
   ): RequestConfig<Song[]> => ({
     url: `/suggester/${suggester.id}`,
-    method: "GET",
+    method: 'GET',
     params: {
       max: max,
     },
@@ -172,29 +172,29 @@ const Operations = {
   removeSuggestion: (
     suggester: NamedPlugin,
     song: Song,
-    provider: NamedPlugin
+    provider: NamedPlugin,
   ): RequestConfig<void> => ({
     url: `/suggester/${suggester.id}`,
-    method: "DELETE",
+    method: 'DELETE',
     params: {
       songId: song.id,
       providerId: provider.id,
     },
   }),
   getVolume: (): RequestConfig<Volume> => ({
-    url: "/volume",
-    method: "GET",
+    url: '/volume',
+    method: 'GET',
   }),
   setVolume: (volume: number): RequestConfig<Volume> => ({
-    url: "/volume",
-    method: "PUT",
+    url: '/volume',
+    method: 'PUT',
     params: {
       value: volume,
     },
   }),
   getInstances: (registryUrl: string): RequestConfig<BotInstance[]> => ({
     url: registryUrl,
-    method: "GET",
+    method: 'GET',
   }),
 };
 

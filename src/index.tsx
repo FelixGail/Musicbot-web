@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./components/App";
-import * as serviceWorker from "./serviceWorker";
-import Axios from "axios";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './components/App';
+import * as serviceWorker from './serviceWorker';
+import Axios from 'axios';
 
-Axios.get("/config.json").then((res) =>
-  ReactDOM.render(<App config={res.data} />, document.getElementById("root"))
+Axios.get('/config.json').then((res) =>
+  ReactDOM.render(<App config={res.data} />, document.getElementById('root')),
 );
 
 // If you want your app to work offline and load faster, you can change

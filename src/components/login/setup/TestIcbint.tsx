@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { ConfigurationContext } from "../../../core/context/Configuration";
-import Operations, { getHookRequest } from "../../../core/rest/operations";
-import { useResource } from "react-request-hook";
+import React, { useContext, useEffect } from 'react';
+import { ConfigurationContext } from '../../../core/context/Configuration';
+import Operations, { getHookRequest } from '../../../core/rest/operations';
+import { useResource } from 'react-request-hook';
 import {
   ConnectionSetupContext,
   SetupStates,
-} from "../../../core/context/ConnectionSetupContext";
+} from '../../../core/context/ConnectionSetupContext';
 
 export const TestIcbint = () => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const [{ data, error, isLoading }, getICBINT] = useResource(
-    getHookRequest(Operations.getICBINT)
+    getHookRequest(Operations.getICBINT),
   );
   const { setConfiguration } = useContext(ConfigurationContext);
   useEffect(() => {

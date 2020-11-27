@@ -4,25 +4,25 @@ import React, {
   useCallback,
   useState,
   Fragment,
-} from "react";
-import { List, Empty, Input } from "antd";
-import { ConfigurationContext } from "../../../core/context/Configuration";
-import Operations from "../../../core/rest/operations";
-import { BotInstance } from "../../../core/types";
-import { duration } from "moment";
-import { ClockCircleOutlined } from "@ant-design/icons";
-import formatDuration from "../../util/FormatDuration";
-import { StyledList, StyledListItem } from "../../util/list/StyledList";
-import styled, { StyledComponent } from "styled-components";
-import { ReactSVG } from "react-svg";
-import logo from "../../../resources/img/kiu_striked.svg";
+} from 'react';
+import { List, Empty, Input } from 'antd';
+import { ConfigurationContext } from '../../../core/context/Configuration';
+import Operations from '../../../core/rest/operations';
+import { BotInstance } from '../../../core/types';
+import { duration } from 'moment';
+import { ClockCircleOutlined } from '@ant-design/icons';
+import formatDuration from '../../../core/FormatDuration';
+import { StyledList, StyledListItem } from '../../util/list/StyledList';
+import styled, { StyledComponent } from 'styled-components';
+import { ReactSVG } from 'react-svg';
+import logo from '../../../resources/img/kiu_striked.svg';
 import {
   ConnectionSetupContext,
   SetupStates,
-} from "../../../core/context/ConnectionSetupContext";
-import { isInstanceAvailable, fromString } from "../../../core/instance";
-import { ListProps } from "antd/lib/list";
-import { useResourceReload } from "../../../core/hooks/resourceReloadHook";
+} from '../../../core/context/ConnectionSetupContext';
+import { isInstanceAvailable, fromString } from '../../../core/instance';
+import { ListProps } from 'antd/lib/list';
+import { useResourceReload } from '../../../core/hooks/resourceReloadHook';
 
 const StyledInstanceListItem = styled(StyledListItem)`
   padding-left: 10px;
@@ -43,7 +43,12 @@ const StyledInstanceListItem = styled(StyledListItem)`
 
 const StyledInstanceList = styled(StyledList)`
   padding-top: 30px;
-` as StyledComponent<typeof List, ListProps<BotInstance>, any, never>;
+` as StyledComponent<
+  typeof List,
+  ListProps<BotInstance>,
+  Record<string, unknown>,
+  never
+>;
 
 const InstanceEmpty = styled(Empty)`
   .ant-empty-image {
@@ -69,25 +74,25 @@ const StyledSVG = styled(ReactSVG)`
   }
 `;
 
-export const FetchInstances = () => {
+export const FetchInstances = (): JSX.Element => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const { configuration, setConfiguration } = useContext(ConfigurationContext);
   const [availableInstances, setAvailableInstances] = useState<BotInstance[]>(
-    []
+    [],
   );
 
   useEffect(() => {
     if (configuration.axios.defaults.baseURL?.length !== 0) {
-      configuration.axios.defaults.baseURL = "";
+      configuration.axios.defaults.baseURL = '';
     }
-  }, [configuration.axios.defaults.baseURL]);
+  }, [configuration.axios.defaults]);
 
   const [instances] = useResourceReload(
     Operations.getInstances,
     [],
     10000,
     true,
-    configuration.registryUrl
+    configuration.registryUrl,
   );
 
   const elementCallback = useCallback(
@@ -96,7 +101,7 @@ export const FetchInstances = () => {
       setConfiguration({ instance: instance });
       setNextState(SetupStates.PINGING);
     },
-    [setNextState, setConfiguration, configuration.axios.defaults.baseURL]
+    [setNextState, setConfiguration, configuration.axios.defaults],
   );
 
   useEffect(() => {
@@ -105,8 +110,8 @@ export const FetchInstances = () => {
         setAvailableInstances(
           arr.reduce<BotInstance[]>(
             (c, b, i) => (b ? c.concat(instances[i]) : c),
-            []
-          )
+            [],
+          ),
         );
       });
     }
@@ -119,7 +124,7 @@ export const FetchInstances = () => {
         key={index}
         extra={
           <div>
-            <ClockCircleOutlined />{" "}
+            <ClockCircleOutlined />{' '}
             {formatDuration(duration(Date.now() - item.updated))} ago
           </div>
         }
@@ -127,7 +132,7 @@ export const FetchInstances = () => {
         <List.Item.Meta title={item.name} />
       </StyledInstanceListItem>
     ),
-    [elementCallback]
+    [elementCallback],
   );
 
   return (

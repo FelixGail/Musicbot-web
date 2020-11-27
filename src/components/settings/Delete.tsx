@@ -1,6 +1,6 @@
-import React from "react";
-import { useUserDelete } from "../../core/hooks/user";
-import { DangerButton } from "./Styles";
+import React from 'react';
+import { useUserDelete } from '../../core/hooks/user';
+import { DangerButton } from './Styles';
 
 export const Delete = () => {
   const deleteUser = useUserDelete();

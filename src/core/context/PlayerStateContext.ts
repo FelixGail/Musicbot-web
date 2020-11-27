@@ -1,5 +1,5 @@
-import { PlayerState, SongEntry } from "../types";
-import { createContext } from "react";
+import { PlayerState, SongEntry } from '../types';
+import { createContext } from 'react';
 
 export interface CombinedPlayerState {
   state?: PlayerState;
