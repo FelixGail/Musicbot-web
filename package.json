@@ -22,7 +22,6 @@
 		"customize-cra": "^1.0.0",
 		"deep-equal": "^2.0.3",
 		"dexie": "^3.0.2",
-		"http-proxy-middleware": "^1.0.6",
 		"moment-duration-format": "^2.3.2",
 		"react": "^16.14.0",
 		"react-app-rewired": "^2.1.6",
