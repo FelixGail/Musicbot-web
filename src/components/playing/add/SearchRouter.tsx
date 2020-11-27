@@ -41,7 +41,7 @@ const BackTopDiv = styled.div`
 
 const StyledBackTop = styled(BackTop)`
   bottom: 55px;
-  left: 5px;
+  right: 5px;
 `;
 
 const SearchRouter = () => {
