@@ -11,7 +11,7 @@ import { BackgroundAlbumArt } from '../snippets/AlbumArt';
 import SwipeDiv from '../../util/SwipeDiv';
 import { SettingsButton } from '../snippets/SettingsButton';
 
-const Current = (props: { song?: Song }) => {
+const Current = (props: { song: Song }): JSX.Element => {
   const location = useLocation();
   const { toggle, isFullscreen } = useContext(FullscreenContext);
   const history = useHistory();
@@ -28,7 +28,7 @@ const Current = (props: { song?: Song }) => {
     () => (
       <Fragment>
         <SwipeDiv {...swipeHandler}>
-          <BackgroundAlbumArt song={props.song!} config={configuration} />
+          <BackgroundAlbumArt song={props.song} config={configuration} />
           <ScreenNavigation left={left} right={right} center={toggle} />
           {!isFullscreen && (
             <Link to="/settings">

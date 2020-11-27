@@ -32,9 +32,9 @@ function useSaveToken(): (token: Token) => void {
         token: { ...configurationRef.current.token, ...token },
       });
       configurationRef.current.axios.defaults.headers.Authorization = `Bearer ${token.accessToken}`;
-      if (token.refreshToken) {
+      if (token.refreshToken && configurationRef.current.instance) {
         localStorage.setItem(
-          configurationRef.current.instance!.domain,
+          configurationRef.current.instance.domain,
           token.refreshToken,
         );
       }

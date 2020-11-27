@@ -6,7 +6,7 @@ export interface ConditionalProps {
   condition: boolean;
 }
 
-const Conditional = (props: ConditionalProps) => {
+const Conditional = (props: ConditionalProps): JSX.Element => {
   return (
     <Fragment>{props.condition ? props.children : props.alt}</Fragment> || null
   );

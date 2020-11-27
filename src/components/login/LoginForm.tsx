@@ -24,7 +24,7 @@ const FormProps = {
   },
 };
 
-export const LoginForm = () => {
+export const LoginForm = (): JSX.Element => {
   const [expectPassword, setExpectPassword] = useState<boolean>(false);
   const [loginResult, login] = useUserLogin();
   const [registerResult, register] = useUserRegister();
@@ -45,6 +45,7 @@ export const LoginForm = () => {
   }, [configuration.instance, redirect, history]);
 
   const onFinish = useCallback(
+    // eslint-disable-next-line
     (values: any) => {
       if (expectPassword) {
         login(values['username'], values['password']);

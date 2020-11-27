@@ -11,7 +11,7 @@ import { db } from '../../../../core/db/AppDB';
 import { fromSong } from '../../../../core/db/LikedSong';
 import { ConfigurationContext } from '../../../../core/context/Configuration';
 
-const SongItemAction = (props: { song: Song }) => {
+const SongItemAction = (props: { song: Song }): JSX.Element => {
   const [isLiked, setLiked] = useState<boolean>(false);
   const { configuration } = useContext(ConfigurationContext);
   useEffect(() => {

@@ -6,7 +6,7 @@ import { useUserRefresh } from '../../core/hooks/user';
 import Permissional from '../util/Permissional';
 import { SpaceBox, DangerButton } from './Styles';
 
-export const PermissionList = () => {
+export const PermissionList = (): JSX.Element => {
   const { configuration } = useContext(ConfigurationContext);
   const [, refreshUser] = useUserRefresh();
   const [drawerVisibility, setDrawerVisibility] = useState(false);

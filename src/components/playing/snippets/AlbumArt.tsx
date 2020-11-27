@@ -7,11 +7,7 @@ import React, { useContext, useMemo, useState, useCallback } from 'react';
 import unknown_cover from '../../../resources/img/unknown_cover.svg';
 import styled from 'styled-components';
 
-export const urlFromSong = (
-  config: IConfiguration,
-  song?: Song,
-  includeUnknown = true,
-) =>
+export const urlFromSong = (config: IConfiguration, song?: Song): string =>
   song && song.albumArtPath
     ? `${config.axios.defaults.baseURL}${song.albumArtPath}`
     : song && song.albumArtUrl
@@ -39,7 +35,7 @@ export const AlbumArt = ({
 }: { song?: Song } & React.DetailedHTMLProps<
   React.ImgHTMLAttributes<HTMLImageElement>,
   HTMLImageElement
->) => {
+>): JSX.Element => {
   const { configuration } = useContext(ConfigurationContext);
   const [state, setState] = useState({
     errored: false,

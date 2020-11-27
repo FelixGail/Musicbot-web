@@ -5,10 +5,11 @@ import { useUserSetPassword } from '../../core/hooks/user';
 import { SpaceBox } from './Styles';
 import { Delete } from './Delete';
 
-export const UserForm = () => {
+export const UserForm = (): JSX.Element => {
   const [{ isLoading, successful, error }, setPassword] = useUserSetPassword();
 
   const onFinish = useCallback(
+    // eslint-disable-next-line
     (values: any) => {
       setPassword(values.password);
     },

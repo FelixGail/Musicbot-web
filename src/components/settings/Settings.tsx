@@ -8,7 +8,7 @@ import { StyledSpace, StyledDivider, SpaceBox } from './Styles';
 import { UserForm } from './UserForm';
 import { VolumeSlider } from './VolumeSlider';
 
-export const Settings = () => {
+export const Settings = (): JSX.Element => {
   return (
     <StyledLayout>
       <StyledContent>

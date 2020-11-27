@@ -32,8 +32,6 @@ function useResourceWithPermission<
 >(
   fn: TRequest,
   permission: Permission,
-  and?: (username: string, ...params: FunctionParam) => boolean,
-  or?: (username: string, ...params: FunctionParam) => boolean,
   defaultParams?: Arguments<TRequest>,
 ): PermissionResourceResult<TRequest, FunctionParam> {
   const [{ data, isLoading, error, cancel }, call] = useResource(
@@ -44,17 +42,13 @@ function useResourceWithPermission<
 
   const wrapper = useCallback(
     (functionValues: FunctionParam, ...values: Arguments<TRequest>) => {
-      if (
-        (configuration.permissions &&
-          configuration.permissions.includes(permission) &&
-          (!and || and(configuration.username!, ...functionValues))) ||
-        (or && or(configuration.username!, ...functionValues))
-      ) {
+      if (configuration.permissions &&
+          configuration.permissions.includes(permission)){
         return call(...values);
       }
       return false;
     },
-    [configuration, call, and, or, permission],
+    [configuration, call, permission],
   );
 
   return [{ data, isLoading, error, cancel }, wrapper];

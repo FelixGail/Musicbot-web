@@ -17,5 +17,5 @@ export enum SetupStates {
 }
 
 export const ConnectionSetupContext = createContext<ConnectProp>({
-  setNextState: () => {},
+  setNextState: () => console.error('ConnectionSetupContext has not been initialized correctly'),
 });

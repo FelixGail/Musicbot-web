@@ -6,7 +6,7 @@ import {
   SetupStates,
 } from '../../../core/context/ConnectionSetupContext';
 
-export const RegisterNoICBINT = () => {
+export const RegisterNoICBINT = (): JSX.Element => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const [{ successful, isLoading, error }, register] = useUserRegister();
 

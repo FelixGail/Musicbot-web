@@ -15,7 +15,7 @@ import {
   ConnectionSetupContext,
 } from '../../../core/context/ConnectionSetupContext';
 
-export const SetupConnection = () => {
+export const SetupConnection = (): JSX.Element => {
   const [state, setState] = useState(SetupStates.FETCH_INSTANCES);
   const loginContext = useContext(LoginContext);
   const location = useLocation();

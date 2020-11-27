@@ -30,7 +30,7 @@ interface Config {
   registry: string;
 }
 
-const App = (props: { config: Config }) => {
+const App = (props: { config: Config }): JSX.Element => {
   const axios = useMemo(
     () =>
       Axios.create({

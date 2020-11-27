@@ -14,7 +14,7 @@ import { ContentWrapper } from '../snippets/ContentWrapper';
 import SwipeDiv from '../../util/SwipeDiv';
 import { itemToSong } from '../../util/list/songlist/SongListItem';
 
-const History = () => {
+const History = (): JSX.Element => {
   const { history } = useContext(PlayerStateContext);
   const [, enqueue] = useResource(getHookRequest(Operations.enqueue));
   const hasEnqueuePermission = useHasPermission(Permission.ENQUEUE);

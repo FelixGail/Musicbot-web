@@ -6,6 +6,6 @@ export interface ILoginContext {
 }
 
 export const LoginContext = createContext<ILoginContext>({
-  setError: () => {},
+  setError: () => console.error('LoginContext has not been initialized correctly'),
   redirect: '/',
 });

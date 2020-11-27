@@ -9,7 +9,10 @@ export interface PermissionalProps {
   permission: Permission;
 }
 
-const Permissional = ({ permission, ...props }: PermissionalProps) => {
+const Permissional = ({
+  permission,
+  ...props
+}: PermissionalProps): JSX.Element => {
   const condition = useHasPermission(permission);
 
   return <Conditional condition={condition} {...props} />;

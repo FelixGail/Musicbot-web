@@ -3,7 +3,7 @@ import { db } from './AppDB';
 import { IConfiguration } from '../context/Configuration';
 import { urlFromSong } from '../../components/playing/snippets/AlbumArt';
 
-export const fromSong = (song: Song) => {
+export const fromSong = (song: Song): LikedSong => {
   const ls = new LikedSong(
     song.id,
     song.title,
@@ -49,15 +49,15 @@ export class LikedSong implements Song {
     this.blob = blob;
   }
 
-  setProvider(provider: NamedPlugin) {
+  setProvider(provider: NamedPlugin): void {
     this.providerId = provider.id;
     this.provider = provider;
   }
 
-  async loadNavigationProperties() {
+  async loadNavigationProperties(): Promise<void> {
     const provider = await db.provider
       .where('id')
-      .equals(this.providerId!)
+      .equals(this.providerId || "")
       .first();
     if (provider) {
       this.provider = provider;
@@ -69,7 +69,7 @@ export class LikedSong implements Song {
     }
   }
 
-  async save(configuration: IConfiguration) {
+  async save(configuration: IConfiguration): Promise<void> {
     const response = await fetch(urlFromSong(configuration, this));
     if (response.ok) {
       this.blob = await response.blob();

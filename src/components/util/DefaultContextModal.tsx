@@ -20,7 +20,7 @@ function DefaultContextModal<T extends Song | SongEntry>({
   data,
   match,
   ...props
-}: DefaultContextModalProps<T>) {
+}: DefaultContextModalProps<T>): JSX.Element | null {
   const element = match && +match.params.element;
   const isValid = match && element >= 0 && data.length > element;
 
@@ -33,10 +33,8 @@ function InnerDefaultContextModal<T extends Song | SongEntry>({
   data,
   elements,
   id,
-  maskClosable,
-  centered,
   ...props
-}: DefaultContextModalProps<T> & { id: number }) {
+}: DefaultContextModalProps<T> & { id: number }): JSX.Element {
   const item = useMemo(() => data[id], [data, id]);
   const song = useMemo(() => itemToSong(item), [item]);
   const { configuration } = useContext(ConfigurationContext);

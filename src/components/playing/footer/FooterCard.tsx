@@ -15,7 +15,7 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const NavigationCard = () => (
+const NavigationCard = (): JSX.Element => (
   <StyledCard
     actions={[
       <Link to="/listen">

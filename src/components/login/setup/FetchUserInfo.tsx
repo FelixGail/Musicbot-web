@@ -5,7 +5,7 @@ import {
   SetupStates,
 } from '../../../core/context/ConnectionSetupContext';
 
-export const FetchUserInfo = () => {
+export const FetchUserInfo = (): JSX.Element => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const [{ successful, isLoading, error }, fetch] = useUserFetch();
   useEffect(() => {

@@ -66,11 +66,9 @@ interface StyledCardProps {
   readonly showActions: boolean;
 }
 
-const StyledCard = styled(
-  ({ showActions: showactions, ...props }: StyledCardProps & CardProps) => (
-    <Card {...props} />
-  ),
-)<StyledCardProps>`
+const StyledCard = styled((
+  { showActions, ...props }: StyledCardProps & CardProps, // eslint-disable-line
+) => <Card {...props} />)<StyledCardProps>`
   .ant-card-body {
     padding-bottom: ${`${(props: StyledCardProps) =>
       props.showActions ? 5 : 24}px`};
@@ -90,7 +88,7 @@ export interface ListenFooterProps {
 
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   showActions,
-}) => {
+}): JSX.Element => {
   const { state, setPlayerState: setPlayerStateLocally } = useContext(
     PlayerStateContext,
   );
@@ -155,7 +153,7 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
         </Actions>
       );
     }
-  }, [state, configuration.permissions, setPlayerState]);
+  }, [state, configuration.permissions, setPlayerStateWrapper]);
 
   const searchLink = useMemo(() => `/add/search?${encodeURI(songInfo.title)}`, [
     songInfo.title,
@@ -212,7 +210,7 @@ export const PlayPause = ({
 }: {
   status: PlayerStatus;
   changePlayerState: (action: Action) => void;
-}) => {
+}): JSX.Element => {
   const clickPause = useCallback(() => changePlayerState(Action.PAUSE), [
     changePlayerState,
   ]);

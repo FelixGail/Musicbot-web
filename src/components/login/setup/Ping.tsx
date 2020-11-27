@@ -6,7 +6,7 @@ import {
   SetupStates,
 } from '../../../core/context/ConnectionSetupContext';
 
-export const Ping = () => {
+export const Ping = (): JSX.Element => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const [{ data, error }, getVersion] = useResource(
     getHookRequest(Operations.getVersion),

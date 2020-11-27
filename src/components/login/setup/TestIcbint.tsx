@@ -7,7 +7,7 @@ import {
   SetupStates,
 } from '../../../core/context/ConnectionSetupContext';
 
-export const TestIcbint = () => {
+export const TestIcbint = (): JSX.Element => {
   const { setNextState } = useContext(ConnectionSetupContext);
   const [{ data, error, isLoading }, getICBINT] = useResource(
     getHookRequest(Operations.getICBINT),

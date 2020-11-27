@@ -42,7 +42,7 @@ function SongListItem<T extends Song | SongEntry>({
   additional,
   className,
   ...props
-}: SongListItemProps<T>) {
+}: SongListItemProps<T>): JSX.Element {
   const [alteredClassName, setClassName] = useState<string | undefined>(
     className,
   );

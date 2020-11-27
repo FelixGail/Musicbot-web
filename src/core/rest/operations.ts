@@ -11,10 +11,12 @@ import {
   BotInstance,
   TokenWithRefresh,
 } from '../types';
-import { request, Arguments } from 'react-request-hook';
+import { request, Arguments, Resource } from 'react-request-hook';
 import { AxiosRequestConfig } from 'axios';
 
-export interface RequestConfig<T> extends AxiosRequestConfig {}
+export interface RequestConfig<T> extends AxiosRequestConfig { // eslint-disable-line
+  url: string
+}
 
 type HookReturn<T> = T extends (...args: any[]) => RequestConfig<infer S>
   ? S
@@ -22,7 +24,7 @@ type HookReturn<T> = T extends (...args: any[]) => RequestConfig<infer S>
 
 export function getHookRequest<
   S extends (...args: any[]) => RequestConfig<any>
->(config: S) {
+>(config: S): (...args: Arguments<S>) => Resource<HookReturn<S>> {
   return (...args: Arguments<S>) => request<HookReturn<S>>(config(...args));
 }
 

@@ -1,8 +1,8 @@
 export class ServiceError extends Error {
   code: number;
-  data: any;
+  data: unknown;
 
-  constructor(code: number, data: any) {
+  constructor(code: number, data: unknown) {
     super();
     this.code = code;
     this.data = data;
@@ -15,7 +15,7 @@ export interface PlayerState {
   progress?: number;
 }
 
-export function playerStateEquals(a?: PlayerState, b?: PlayerState) {
+export function playerStateEquals(a?: PlayerState, b?: PlayerState): boolean {
   if (a === b) return true;
   if (a && b) {
     return (
@@ -49,7 +49,7 @@ export interface NamedPlugin {
   name: string;
 }
 
-export function namedPluginEquals(a?: NamedPlugin, b?: NamedPlugin) {
+export function namedPluginEquals(a?: NamedPlugin, b?: NamedPlugin): boolean {
   if (a === b) return true;
   if (a && b) {
     return a.id === b.id;
@@ -68,7 +68,7 @@ export interface Song {
   savedArt?: string;
 }
 
-export function songEquals(a?: Song, b?: Song) {
+export function songEquals(a?: Song, b?: Song): boolean {
   return (
     a === b ||
     (a && b && a.id === b.id && namedPluginEquals(a.provider, b.provider)) ||
@@ -81,7 +81,7 @@ export interface SongEntry {
   userName: string;
 }
 
-export function songEntryEquals(a?: SongEntry, b?: SongEntry) {
+export function songEntryEquals(a?: SongEntry, b?: SongEntry): boolean {
   if (a === b) return true;
   if (a && b) {
     return a.userName === b.userName && songEquals(a.song, b.song);

@@ -7,7 +7,7 @@ import PlayerStateContext from '../../core/context/PlayerStateContext';
 import { useMemo } from 'react';
 import { useResourceReload } from '../../core/hooks/resourceReloadHook';
 
-export const PlayRouter = () => {
+export const PlayRouter = (): JSX.Element => {
   const [playerState, setPlayerState] = useResourceReload(
     Operations.getPlayerState,
     undefined,

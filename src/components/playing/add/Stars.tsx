@@ -7,7 +7,7 @@ import useResourceWithPermission from '../../../core/hooks/permissionWrapperHook
 import { db } from '../../../core/db/AppDB';
 import { LikedSong } from '../../../core/db/LikedSong';
 
-const Stars = () => {
+const Stars = (): JSX.Element => {
   const [songs, setSongs] = useState<LikedSong[]>([]);
 
   useEffect(() => {

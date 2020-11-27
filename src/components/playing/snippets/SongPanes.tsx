@@ -12,7 +12,7 @@ const SongPane = ({
   ...props
 }: {
   songs?: Song[];
-} & ListProps<Song>) => {
+} & ListProps<Song>): JSX.Element => {
   const [, enqueue] = useResourceWithPermission(
     Operations.enqueue,
     Permission.ENQUEUE,
@@ -31,7 +31,7 @@ export const ProviderPane = ({
 }: {
   provider: NamedPlugin;
   query: string;
-} & ListProps<Song>) => {
+} & ListProps<Song>): JSX.Element => {
   const [songs, search] = useResource(getHookRequest(Operations.search));
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const ProviderPane = ({
 export const SuggesterPane = ({
   suggester,
   ...props
-}: { suggester: NamedPlugin } & ListProps<Song>) => {
+}: { suggester: NamedPlugin } & ListProps<Song>): JSX.Element => {
   const [songs, getSuggestions] = useResource(
     getHookRequest(Operations.getSuggestions),
   );

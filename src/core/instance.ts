@@ -2,7 +2,7 @@ import { BotInstance, VersionInfo } from './types';
 import Axios from 'axios';
 import Operations from './rest/operations';
 
-export async function isInstanceAvailable(instance: BotInstance) {
+export async function isInstanceAvailable(instance: BotInstance): Promise<boolean> {
   return Axios.get<VersionInfo>(
     `https://${instance.domain}:${instance.port}/version`,
     {
@@ -20,9 +20,9 @@ export async function isInstanceAvailable(instance: BotInstance) {
 
 const re = /^(https?:\/\/)?([^\s:]+)(:([1-9][0-9]*))?$/;
 export function fromString(
-  value: String,
-  name: string = 'manual',
-  defaultPort: number = 42945,
+  value: string,
+  name = 'manual',
+  defaultPort = 42945,
 ): BotInstance | null {
   const match = value.match(re);
   if (match !== null) {

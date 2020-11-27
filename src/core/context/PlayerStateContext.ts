@@ -14,9 +14,9 @@ const PlayerStateContext = createContext<CombinedPlayerState>({
   state: undefined,
   queue: [],
   history: [],
-  setPlayerState: () => {},
-  setHistory: () => {},
-  setQueue: () => {},
+  setPlayerState: () => console.error('PlayerStateContext has not been initialized correctly'),
+  setHistory: () => console.error('PlayerStateContext has not been initialized correctly'),
+  setQueue: () => console.error('PlayerStateContext has not been initialized correctly'),
 });
 
 export default PlayerStateContext;

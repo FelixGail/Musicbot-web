@@ -20,7 +20,7 @@ import { StyledLayout, StyledContent } from '../StyledLayout';
 import { NavigationArrow } from '../snippets/NavigationArrow';
 import { Flex } from '../../util/Flex';
 
-export const ListenRouter = () => {
+export const ListenRouter = (): JSX.Element => {
   const { state: playerState } = useContext(PlayerStateContext);
   const [height, setHeight] = useState<number>(window.innerHeight);
   const [showFullscreen, toggleFullscreen] = useToggle(false);
@@ -31,7 +31,7 @@ export const ListenRouter = () => {
 
   const renderCurrent = useCallback(
     () =>
-      playerState && (
+      playerState?.songEntry && (
         <Current song={playerState.songEntry && playerState.songEntry.song} />
       ),
     [playerState],

@@ -7,7 +7,7 @@ import {
   SetupStates,
 } from '../../../core/context/ConnectionSetupContext';
 
-export const LoginNoICBINT = () => {
+export const LoginNoICBINT = (): JSX.Element => {
   const { setNextState } = useContext(ConnectionSetupContext);
 
   const [{ successful, error, isLoading }, login] = useUserRefresh();

@@ -59,7 +59,7 @@ export function ContextModal<T>({
   elements,
   item,
   ...props
-}: ContextModalProps<T>) {
+}: ContextModalProps<T>): JSX.Element {
   const wrapChildren = useCallback(
     ({ element, onClick }: ContextModalElement<T>, index: number) => {
       return (

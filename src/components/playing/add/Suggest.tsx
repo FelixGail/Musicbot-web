@@ -10,7 +10,7 @@ const StyledTabs = styled(Tabs)`
   width: 100%;
 `;
 
-const Suggest = () => {
+const Suggest = (): JSX.Element | null => {
   const [suggesters, getSuggesters] = useResource(
     getHookRequest(Operations.getSuggesters),
   );
@@ -25,7 +25,7 @@ const Suggest = () => {
 
   return (
     <StyledTabs>
-      {suggesters.data.map((suggester, _) => (
+      {suggesters.data.map((suggester) => (
         <Tabs.TabPane tab={suggester.name} key={suggester.id}>
           <SuggesterPane suggester={suggester} />
         </Tabs.TabPane>

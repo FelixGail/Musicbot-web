@@ -1,5 +1,5 @@
 import { Slider } from 'antd';
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import { useResource } from 'react-request-hook';
 import { useDebounce } from 'react-use';
 import { useResourceReload } from '../../core/hooks/resourceReloadHook';
@@ -8,7 +8,7 @@ import { Permission } from '../../core/types';
 import Permissional from '../util/Permissional';
 import { StyledDivider } from './Styles';
 
-export const VolumeSlider = () => {
+export const VolumeSlider = (): JSX.Element => {
   const [volume, setVolumeLocally] = useResourceReload(
     Operations.getVolume,
     { volume: 0, isSupported: false },
@@ -24,7 +24,7 @@ export const VolumeSlider = () => {
       setUndebouncedVolume(value);
       setVolumeLocally({ volume: value, isSupported: volume.isSupported });
     },
-    [setVolumeRemote, setVolumeLocally, volume],
+    [setUndebouncedVolume, setVolumeLocally, volume],
   );
 
   useDebounce(

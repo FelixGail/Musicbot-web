@@ -39,7 +39,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 }
 
-const Queue: FunctionComponent = () => {
+const Queue: FunctionComponent = (): JSX.Element => {
   const { queue, setQueue } = useContext(PlayerStateContext);
   const hasMovePermission = useHasPermission(Permission.MOVE);
   const [{ data }, move] = useResource(getHookRequest(Operations.moveEntry));
@@ -175,7 +175,7 @@ const Queue: FunctionComponent = () => {
           <ContentWrapper>
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="queue">
-                {(provided, snapshot) => {
+                {(provided) => {
                   return (
                     <div ref={provided.innerRef} {...provided.droppableProps}>
                       <SongList

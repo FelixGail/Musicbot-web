@@ -104,7 +104,7 @@ export function SongList<T extends Song | SongEntry>({
   contextModal,
   wrapper,
   ...props
-}: SongListProps<T>) {
+}: SongListProps<T>): JSX.Element {
   const { queue } = useContext(PlayerStateContext);
 
   const modalJSX = useMemo(() => {

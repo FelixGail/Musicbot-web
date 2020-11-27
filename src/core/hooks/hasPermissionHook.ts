@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react';
 import { ConfigurationContext } from '../context/Configuration';
 import { Permission } from '../types';
 
-function useHasPermission(permission: Permission) {
+function useHasPermission(permission: Permission): boolean {
   const { configuration } = useContext(ConfigurationContext);
   return useMemo(
     () =>

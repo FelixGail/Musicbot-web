@@ -22,5 +22,5 @@ export const ConfigurationContext = createContext<IConfigurationContext>({
     axios: Axios.create(),
     registryUrl: '/registry',
   },
-  setConfiguration: () => {},
+  setConfiguration: () => console.error('ConfigurationContext has not been initialized correctly'),
 });

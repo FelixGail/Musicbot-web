@@ -46,7 +46,7 @@ const StyledBackTop = styled(BackTop)`
   right: 5px;
 `;
 
-const SearchRouter = () => {
+const SearchRouter = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
   const goHome = useCallback(() => history.push('/'), [history]);

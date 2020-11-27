@@ -11,7 +11,11 @@ export interface ScreenNavigationProps {
   center?: ScreenNavigationAction;
 }
 
-const ScreenNavigation = ({ left, right, center }: ScreenNavigationProps) => {
+const ScreenNavigation = ({
+  left,
+  right,
+  center,
+}: ScreenNavigationProps): JSX.Element => {
   const jsx = useMemo(
     () => (
       <ScreenNavigationOuter>
@@ -46,14 +50,14 @@ const UnstyledScreenNavigationItem = ({
   action?: ScreenNavigationAction;
   className?: string;
   children?: React.ReactNode;
-}) => {
+}): JSX.Element => {
   if (isString(action)) {
     return <Link className={className} children={children} to={action} />;
   }
   return <div className={className} children={children} onClick={action} />;
 };
 
-const isString = (f: any): f is string => {
+const isString = (f: unknown): f is string => {
   return typeof f === 'string';
 };
 

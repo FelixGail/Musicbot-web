@@ -10,7 +10,9 @@ const ItemExtraDiv = styled.div`
   color: #e6e6e6;
 `;
 
-function SongItemExtra<T extends Song | SongEntry>(props: { item: T }) {
+function SongItemExtra<T extends Song | SongEntry>(props: {
+  item: T;
+}): JSX.Element {
   const inner = useMemo(() => {
     const song = itemToSong(props.item);
     const duration = moment.duration(song.duration, 's').format('h:mm:ss');

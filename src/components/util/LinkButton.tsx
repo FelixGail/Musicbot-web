@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { useHistory, withRouter } from 'react-router';
 import { Button } from 'antd';
 
 const LinkButton = (props: any) => {
   const {
-    history,
-    location,
-    match,
-    staticContext,
     to,
     onClick,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
     ...rest
   } = props;
+  const history = useHistory();
   return (
     <Button
       {...rest} // `children` is just another prop!
