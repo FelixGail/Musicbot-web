@@ -82,7 +82,7 @@ export const FetchInstances = () => {
     }
   }, [configuration.axios.defaults.baseURL]);
 
-  const instances = useResourceReload(
+  const [instances] = useResourceReload(
     Operations.getInstances,
     [],
     10000,

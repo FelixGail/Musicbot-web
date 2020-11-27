@@ -8,25 +8,42 @@ import { useMemo } from "react";
 import { useResourceReload } from "../../core/hooks/resourceReloadHook";
 
 export const PlayRouter = () => {
-  const playerState = useResourceReload(
+  const [playerState, setPlayerState] = useResourceReload(
     Operations.getPlayerState,
     undefined,
     1000,
     false
   );
-  const history = useResourceReload(Operations.getHistory, [], 1000, false);
-  const queue = useResourceReload(Operations.getQueue, [], 1000, false);
+  const [history, setHistory] = useResourceReload(
+    Operations.getHistory,
+    [],
+    1000,
+    false
+  );
+  const [queue, setQueue] = useResourceReload(
+    Operations.getQueue,
+    [],
+    1000,
+    false
+  );
 
   const jsx = useMemo(
     () => (
       <PlayerStateContext.Provider
-        value={{ state: playerState, history: history, queue: queue }}
+        value={{
+          state: playerState,
+          history,
+          queue,
+          setPlayerState,
+          setQueue,
+          setHistory,
+        }}
       >
         <Route path="*/listen" component={ListenRouter} />
         <Route path="*/add" component={SearchRouter} />
       </PlayerStateContext.Provider>
     ),
-    [playerState, history, queue]
+    [playerState, history, queue, setPlayerState, setHistory, setQueue]
   );
 
   return jsx;

@@ -5,7 +5,6 @@ import React, {
   FunctionComponent,
   Fragment,
   useEffect,
-  useState,
 } from "react";
 import { useResource } from "react-request-hook";
 import ScreenNavigation from "../../util/ScreenNavigation";
@@ -41,16 +40,13 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 }
 
 const Queue: FunctionComponent = () => {
-  const { queue } = useContext(PlayerStateContext);
-  const [savedQueue, saveQueue] = useState(queue);
-  const hasMovePermission = useHasPermission(Permission.MOVE)
-  const [{ error: moveError }, move] = useResource(
-    getHookRequest(Operations.moveEntry)
-  );
+  const { queue, setQueue } = useContext(PlayerStateContext);
+  const hasMovePermission = useHasPermission(Permission.MOVE);
+  const [{ data }, move] = useResource(getHookRequest(Operations.moveEntry));
 
   useEffect(() => {
-    saveQueue(queue);
-  }, [queue, saveQueue, moveError]);
+    if (data) setQueue(data);
+  }, [data, setQueue]);
 
   const history = useHistory();
   const location = useLocation();
@@ -81,12 +77,12 @@ const Queue: FunctionComponent = () => {
         destination &&
         source.index !== destination.index
       ) {
-        const entry = savedQueue[source.index];
+        const entry = queue[source.index];
         move(destination.index, entry.song);
-        saveQueue(reorder(savedQueue, source.index, destination.index));
+        setQueue(reorder(queue, source.index, destination.index));
       }
     },
-    [move, savedQueue, saveQueue]
+    [move, queue, setQueue]
   );
 
   const hasRemovePermission = useHasPermission(Permission.SKIP);
@@ -150,11 +146,11 @@ const Queue: FunctionComponent = () => {
       inner: (entry: SongEntry, index: number) => JSX.Element
     ) => {
       return (
-        <Draggable 
+        <Draggable
           draggableId={item.song.id}
           index={index}
           key={item.song.id}
-          isDragDisabled={!hasMovePermission}  
+          isDragDisabled={!hasMovePermission}
         >
           {(provided) => (
             <div
@@ -184,7 +180,7 @@ const Queue: FunctionComponent = () => {
                     <div ref={provided.innerRef} {...provided.droppableProps}>
                       <SongList
                         header="Queue"
-                        items={savedQueue}
+                        items={queue}
                         onClick={click}
                         additional={additionalArray}
                         contextModal={{
@@ -204,7 +200,7 @@ const Queue: FunctionComponent = () => {
       </Fragment>
     ),
     [
-      savedQueue,
+      queue,
       click,
       additionalArray,
       combinedElements,

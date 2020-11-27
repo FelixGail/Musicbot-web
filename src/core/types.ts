@@ -129,12 +129,11 @@ export enum Action {
   SKIP = "SKIP",
 }
 
-export enum PlayerStatus {
-  PLAY = "PLAY",
-  PAUSE = "PAUSE",
-  STOP = "STOP",
+export enum ErrorState {
   ERROR = "ERROR",
 }
+
+export type PlayerStatus = Action | ErrorState;
 
 export enum Permission {
   SKIP = "SKIP",

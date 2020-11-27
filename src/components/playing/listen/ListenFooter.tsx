@@ -3,6 +3,7 @@ import React, {
   useContext,
   useMemo,
   useCallback,
+  useEffect,
 } from "react";
 import {
   ForwardOutlined,
@@ -11,14 +12,14 @@ import {
 } from "@ant-design/icons";
 import { Card, Layout, Progress } from "antd";
 import { Link, useLocation } from "react-router-dom";
-import { useResource, RequestDispatcher, Resource } from "react-request-hook";
+import { useResource } from "react-request-hook";
 import Operations, { getHookRequest } from "../../../core/rest/operations";
 import { ConfigurationContext } from "../../../core/context/Configuration";
 import {
   Permission,
   Action,
   PlayerStatus,
-  PlayerState,
+  ErrorState,
 } from "../../../core/types";
 import moment from "moment";
 import NavigationCard from "../footer/FooterCard";
@@ -90,12 +91,18 @@ export interface ListenFooterProps {
 const ListenFooter: FunctionComponent<ListenFooterProps> = ({
   showActions,
 }) => {
-  const { state } = useContext(PlayerStateContext);
-  const [, setPlayerState] = useResource(
+  const { state, setPlayerState: setPlayerStateLocally } = useContext(
+    PlayerStateContext
+  );
+  const [{ data }, setPlayerState] = useResource(
     getHookRequest(Operations.setPlayerState)
   );
   const { configuration } = useContext(ConfigurationContext);
   const location = useLocation();
+
+  useEffect(() => {
+    if (data) setPlayerStateLocally(data);
+  }, [setPlayerStateLocally, data]);
 
   const slickOffset = useMemo(() => {
     return location.pathname.includes("queue")
@@ -119,6 +126,14 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
     };
   }, [state]);
 
+  const setPlayerStateWrapper = useCallback(
+    (action: Action) => {
+      setPlayerState(action);
+      setPlayerStateLocally({ ...state, state: action });
+    },
+    [setPlayerState, setPlayerStateLocally, state]
+  );
+
   const actions = useMemo(() => {
     if (configuration.permissions) {
       return (
@@ -127,14 +142,14 @@ const ListenFooter: FunctionComponent<ListenFooterProps> = ({
           <Permissional permission={Permission.PAUSE}>
             <ActionDiv size={50}>
               <PlayPause
-                status={state ? state.state : PlayerStatus.ERROR}
-                changePlayerState={setPlayerState}
+                status={state ? state.state : ErrorState.ERROR}
+                changePlayerState={setPlayerStateWrapper}
               />
             </ActionDiv>
           </Permissional>
           <ActionDiv size={30}>
             <Permissional permission={Permission.SKIP}>
-              <ForwardIcon onClick={() => setPlayerState(Action.SKIP)} />
+              <ForwardIcon onClick={() => setPlayerStateWrapper(Action.SKIP)} />
             </Permissional>
           </ActionDiv>
         </Actions>
@@ -196,9 +211,7 @@ export const PlayPause = ({
   changePlayerState,
 }: {
   status: PlayerStatus;
-  changePlayerState: RequestDispatcher<
-    (action: Action) => Resource<PlayerState>
-  >;
+  changePlayerState: (action: Action) => void;
 }) => {
   const clickPause = useCallback(() => changePlayerState(Action.PAUSE), [
     changePlayerState,
@@ -208,7 +221,7 @@ export const PlayPause = ({
   ]);
   return useMemo(() => {
     switch (status) {
-      case PlayerStatus.PLAY:
+      case Action.PLAY:
         return <PauseCircleTwoTone onClick={clickPause} />;
       default:
         return <PlayCircleTwoTone onClick={clickPlay} />;
