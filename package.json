@@ -7,7 +7,7 @@
 	"dependencies": {
 		"@ant-design/icons": "^4.3.0",
 		"@types/deep-equal": "^1.0.1",
-		"@types/jest": "^26.0.15",
+		"@types/jest": "^26.0.19",
 		"@types/moment-duration-format": "^2.2.2",
 		"@types/node": "^14.14.10",
 		"@types/react": "^17.0.0",
