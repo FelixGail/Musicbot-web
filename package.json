@@ -31,7 +31,7 @@
 		"react-request-hook": "^2.1.1",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "4.0.1",
-		"react-svg": "^11.1.4",
+		"react-svg": "^12.1.0",
 		"react-swipeable": "^6.0.1",
 		"react-use": "^15.3.4",
 		"styled-components": "^5.2.1",
